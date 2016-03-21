@@ -395,11 +395,11 @@ namespace WWA.WebUI.Controllers
         public IconObject(string src, string size)
         {
             this.src = src;
-            this.size = size;
+            this.sizes = size;
         }
 
         public string src { get; set; }
-        public string size { get; set; }
+        public string sizes { get; set; }
     }
 
     public class IconRootObject
