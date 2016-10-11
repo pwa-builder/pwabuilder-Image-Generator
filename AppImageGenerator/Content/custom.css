@@ -1,25 +1,35 @@
-﻿body {
-
+﻿.generator label {
+    width: 15%;
 }
 
-@-webkit-viewport {
-    width: device-width;
+.generator input:not([type=checkbox]), .generator .uploadControl {
+    width: 80%;
 }
 
-@-moz-viewport {
-    width: device-width;
+.generator .uploadControl {
+    float: right;
 }
 
-@-ms-viewport {
-    width: device-width;
+.generator .upload-file {
+    width: 70% !important;
+    min-width: 30%;
+    float: left !important;
+    margin-left: -2px;
 }
 
-@-o-viewport {
-    width: device-width;
+.generator .fileUpload.btn {
+    line-height: 1.5em !important;
 }
 
-@viewport {
-    width: device-width;
+.generator .background-color {
+    padding: 0px;
 }
 
+.generator .generator-section {
+    overflow-y: auto;
+}
 
+.generator .button-holder.download-archive {
+    margin-left: 0px;
+    margin-right: 0px;
+}
