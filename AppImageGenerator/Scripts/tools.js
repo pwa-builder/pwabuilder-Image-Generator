@@ -56,4 +56,13 @@
             $('#downloadButton').removeClass('isEnabled');
         }
     });
+
+    $('header.step-header').click(function () {
+        var stepBody = $(this).next();
+        if ($(this).next().is(":visible")) {
+            stepBody.hide();
+        } else {
+            stepBody.show();
+        }
+    })
 });    
