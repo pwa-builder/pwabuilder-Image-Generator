@@ -3,8 +3,17 @@
         return fullPath.replace(/^.*[\\\/]/, '');
     }
 
+    function showIndicator(show) {
+        if (show) {
+            $('#downloadButton i').removeClass('fa-download').addClass('fa-circle-o-notch fa-spin');
+        } else {
+            $('#downloadButton i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-download');
+        }
+    }
+
     function postToApi() {
         try {
+            showIndicator(true);
             var formdata = new FormData($('#imageFileInputForm')[0]);
             $.ajax({
                 url: '/api/image',
@@ -12,9 +21,11 @@
                 data: formdata,
                 accepts: "application/json",
                 success: function (req) {
+                    showIndicator(false);
                     $("body").append("<iframe src='" + req.Uri + "' style='display: none;' ></iframe>");
                 },
                 error: function (req, err) {
+                    showIndicator(false);
                     var resp = JSON.parse(req.responseText);
                     alert(resp.Message);
                 },
@@ -25,6 +36,7 @@
             });
 
         } catch (e) {
+            showIndicator(false);
             alert(e);
         }
     };
