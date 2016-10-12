@@ -1,0 +1,44 @@
+﻿[
+  {
+    "width": 512,
+    "height": 512,
+    "name": "android-launchericon-512-512",
+    "desc": "android-launchericon-512-512",
+    "folder": "android/"
+  },
+  {
+    "width": 192,
+    "height": 192,
+    "name": "android-launchericon-192-192",
+    "desc": "android-launchericon-192-192",
+    "folder": "android/"
+  },
+  {
+    "width": 144,
+    "height": 144,
+    "name": "android-launchericon-144-144",
+    "desc": "android-launchericon-144-144",
+    "folder": "android/"
+  },
+  {
+    "width": 96,
+    "height": 96,
+    "name": "android-launchericon-96-96",
+    "desc": "android-launchericon-96-96",
+    "folder": "android/"
+  },
+  {
+    "width": 72,
+    "height": 72,
+    "name": "android-launchericon-72-72",
+    "desc": "android-launchericon-72-72",
+    "folder": "android/"
+  },
+  {
+    "width": 48,
+    "height": 48,
+    "name": "android-launchericon-48-48",
+    "desc": "android-launchericon-48-48",
+    "folder": "android/"
+  }
+]

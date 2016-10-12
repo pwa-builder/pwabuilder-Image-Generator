@@ -1,0 +1,18 @@
+﻿[
+    { "width": 1024, "height": 1024, "name": "ios-appicon-1024-1024", "desc": "ios-appicon-1024-1024", "folder": "ios/" },
+    { "width": 180, "height": 180, "name": "ios-appicon-180-180", "desc": "ios-appicon-180-180", "folder": "ios/" },
+    { "width": 152, "height": 152, "name": "ios-appicon-152-152", "desc": "ios-appicon-152-152", "folder": "ios/" },
+    { "width": 120, "height": 120, "name": "ios-appicon-120-120", "desc": "ios-appicon-120-120", "folder": "ios/" },
+    { "width": 76, "height": 76, "name": "ios-appicon-76-76", "desc": "ios-appicon-76-76", "folder": "ios/" },
+
+    { "width": 750, "height": 1334, "name": "ios-launchimage-750-1334", "desc": "ios-launchimage-750-1334", "folder": "ios/" },
+    { "width": 1334, "height": 750, "name": "ios-launchimage-1334-750", "desc": "ios-launchimage-1334-750", "folder": "ios/" },
+    { "width": 1242, "height": 2208, "name": "ios-launchimage-1242-2208", "desc": "ios-launchimage-1242-2208", "folder": "ios/" },
+    { "width": 2208, "height": 1242, "name": "ios-launchimage-2208-1242", "desc": "ios-launchimage-2208-1242", "folder": "ios/" },
+    { "width": 640, "height": 960, "name": "ios-launchimage-640-960", "desc": "ios-launchimage-640-960", "folder": "ios/" },
+    { "width": 640, "height": 1136, "name": "ios-launchimage-640-1136", "desc": "ios-launchimage-640-1136", "folder": "ios/" },
+    { "width": 1536, "height": 2048, "name": "ios-launchimage-1536-2048", "desc": "ios-launchimage-1536-2048", "folder": "ios/" },
+    { "width": 2048, "height": 1536, "name": "ios-launchimage-2048-1536", "desc": "ios-launchimage-2048-1536", "folder": "ios/" },
+    { "width": 768, "height": 1024, "name": "ios-launchimage-768-1024", "desc": "ios-launchimage-768-1024", "folder": "ios/" },
+    { "width": 1024, "height": 768, "name": "ios-launchimage-1024-768", "desc": "ios-launchimage-1024-768", "folder": "ios/" }
+]

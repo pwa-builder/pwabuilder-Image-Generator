@@ -1,0 +1,12 @@
+﻿[
+  { "width": 512, "height": 512, "name": "firefox-marketplace-512-512", "desc": "firefox-marketplace-512-512", "folder": "firefox/" },
+  { "width": 128, "height": 128, "name": "firefox-marketplace-128-128", "desc": "firefox-marketplace-128-128", "folder": "firefox/" },
+
+  { "width": 256, "height": 256, "name": "firefox-general-256-256", "desc": "firefox-general-256-256", "folder": "firefox/" },
+  { "width": 128, "height": 128, "name": "firefox-general-128-128", "desc": "firefox-general-128-128", "folder": "firefox/" },
+  { "width": 90, "height": 90, "name": "firefox-general-90-90", "desc": "firefox-general-90-90", "folder": "firefox/" },
+  { "width": 64, "height": 64, "name": "firefox-general-64-64", "desc": "firefox-general-64-64", "folder": "firefox/" },
+  { "width": 48, "height": 48, "name": "firefox-general-48-48", "desc": "firefox-general-48-48", "folder": "firefox/" },
+  { "width": 32, "height": 32, "name": "firefox-general-32-32", "desc": "firefox-general-32-32", "folder": "firefox/" },
+  { "width": 16, "height": 16, "name": "firefox-general-16-16", "desc": "firefox-general-16-16", "folder": "firefox/" }
+]

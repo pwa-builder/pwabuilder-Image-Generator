@@ -139,29 +139,37 @@ namespace WWA.WebUI.Controllers
                     }
                 }
 
-                var platform = provider.FormData.GetValues("platform") != null ? provider.FormData.GetValues("platform")[0] : "ManifoldJS";
-                if (!string.IsNullOrEmpty(platform))
+                var platforms = provider.FormData.GetValues("platform");
+
+                if (platforms == null)
                 {
-                    model.Platform = platform;
+                    // Throw out as user has supplied no platforms..
+                    HttpResponseMessage httpResponseMessage =
+                        Request.CreateErrorResponse(HttpStatusCode.BadRequest, "No platform has been specified.");
+                    return httpResponseMessage;
                 }
 
+                model.Platforms = platforms;
 
-                //get the platform and profiles
-                IEnumerable<string> config = GetConfig(model.Platform);
-                if (config.Count() < 1)
-                {
-                    throw new HttpResponseException(HttpStatusCode.BadRequest);
-                }
                 List<Profile> profiles = null;
-                foreach (var cfg in config)
+
+                foreach (var platform in model.Platforms)
                 {
-                    if (profiles == null)
-                        profiles = JsonConvert.DeserializeObject<List<Profile>>(cfg);
-                    else
-                        profiles.AddRange(JsonConvert.DeserializeObject<List<Profile>>(cfg));
+                    //get the platform and profiles
+                    IEnumerable<string> config = GetConfig(platform);
+                    if (config.Count() < 1)
+                    {
+                        throw new HttpResponseException(HttpStatusCode.BadRequest);
+                    }
+
+                    foreach (var cfg in config)
+                    {
+                        if (profiles == null)
+                            profiles = JsonConvert.DeserializeObject<List<Profile>>(cfg);
+                        else
+                            profiles.AddRange(JsonConvert.DeserializeObject<List<Profile>>(cfg));
+                    }
                 }
-
-
 
                 using (var zip = new ZipFile())
                 {
@@ -171,7 +179,6 @@ namespace WWA.WebUI.Controllers
 
                         var stream = CreateImageStream(model, profile);
 
-                        //var stream = ResizeImage(model.InputImage, profile.Width, profile.Height, profile.Format, model.Padding, model.Background);
                         string fmt = string.IsNullOrEmpty(profile.Format) ? "png" : profile.Format;
                         zip.AddEntry(profile.Folder + profile.Name + "." + fmt, stream);
                         stream.Flush();
@@ -377,12 +384,12 @@ namespace WWA.WebUI.Controllers
         public string SvgFile { get; set; }
 
         public Image InputImage { get; set; }
+
         public double Padding { get; set; }
 
         public Color? Background { get; set; }
 
-        public string Platform { get; set; }
-
+        public string[] Platforms { get; set; }
     }
 
     public class ImageResponse
@@ -399,6 +406,7 @@ namespace WWA.WebUI.Controllers
         }
 
         public string src { get; set; }
+
         public string sizes { get; set; }
     }
 

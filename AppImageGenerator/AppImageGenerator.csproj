@@ -160,9 +160,7 @@
     <Content Include="Content\custom.css" />
     <Content Include="Content\manifoldjs-vendor.min.css" />
     <Content Include="favicon.ico" />
-    <Content Include="App_Data\windowsuwpImages.json" />
-    <Content Include="App_Data\windows81UniversalImages.json" />
-    <Content Include="App_Data\windowsPhone81UniversalImages.json" />
+    <Content Include="App_Data\windows10Images.json" />
     <Content Include="Content\fonts\BreeSerif\BreeSerif-Regular.eot" />
     <Content Include="Content\fonts\BreeSerif\BreeSerif-Regular.ttf" />
     <Content Include="Content\fonts\BreeSerif\BreeSerif-Regular.woff" />
@@ -231,6 +229,10 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="App_Data\androidImages.json" />
+    <Content Include="App_Data\iosImages.json" />
+    <Content Include="App_Data\chromeImages.json" />
+    <Content Include="App_Data\firefoxImages.json" />
     <None Include="Properties\PublishProfiles\AppImageGenerator - Web Deploy.pubxml" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
@@ -254,9 +256,7 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
-    <Content Include="App_Data\windows8Images.json" />
-    <Content Include="App_Data\windowsphone8Images.json" />
-    <Content Include="App_Data\manifoldJSImages.json" />
+    <Content Include="App_Data\windowsImages.json" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
