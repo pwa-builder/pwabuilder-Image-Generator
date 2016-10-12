@@ -1,5 +1,9 @@
 ﻿$(document).ready(function () {
-    function postToApi(platformId) {
+    function getFileName(fullPath) {
+        return fullPath.replace(/^.*[\\\/]/, '');
+    }
+
+    function postToApi() {
         try {
             var formdata = new FormData($('#imageFileInputForm')[0]);
             $.ajax({
@@ -24,16 +28,32 @@
             alert(e);
         }
     };
-    $('#downloadButton').click(function (e) {
-        postToApi('whatever');
+
+    $('#downloadButton').on("click", function (evt) {
+        evt.preventDefault();
+        postToApi();
+    });
+
+    $('#selectPlatforms').on("click", function (evt) {
+        evt.preventDefault();
+        var allChecked = true;
+        var platforms = $('input[name="platform"]');
+        platforms.each(function () {
+            allChecked = allChecked & this.checked;
+        });
+
+        platforms.prop('checked', !allChecked);
     });
     
     $('#fileInput').change(function(e) {
         //if new value is valid
         if (e.currentTarget.value) {
+            $('#fileName').val(getFileName(e.currentTarget.value))
             $('#downloadButton').prop('disabled', false);
+            $('#downloadButton').addClass('isEnabled');
         } else {
             $('#downloadButton').prop('disabled', true);
+            $('#downloadButton').removeClass('isEnabled');
         }
     });
 });    
