@@ -2,13 +2,18 @@
     width: 15%;
 }
 
-.generator input:not([type=checkbox]), .generator .uploadControl {
+.generator .inputControl, .generator .uploadControl {
     width: 80%;
+    float: right;
     padding: 0px;
+    margin: 0px;
 }
 
-.generator .uploadControl {
-    float: right;
+.generator input:not([type=checkbox]) {
+    padding: 0px;
+    float: none;
+    margin-left: -2px;
+    width: 100%;
 }
 
 .generator .upload-file {
