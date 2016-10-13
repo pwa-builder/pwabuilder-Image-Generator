@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Web;
+﻿using System.Configuration;
 using System.Web.Mvc;
 
 namespace WAT.WebUI.Controllers
@@ -15,9 +9,12 @@ namespace WAT.WebUI.Controllers
         // GET: /Home/
         public ActionResult Index()
         {
+            ViewBag.HomeLink = ConfigurationManager.AppSettings["homeLink"];
+            ViewBag.GenerateLink = ConfigurationManager.AppSettings["generateLink"];
+            ViewBag.DeployLink = ConfigurationManager.AppSettings["deployLink"];
+            ViewBag.LicenseLink = ConfigurationManager.AppSettings["licenseLink"];
+
             return View();
         }
-
 	}
-
 }
