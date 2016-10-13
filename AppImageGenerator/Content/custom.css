@@ -39,3 +39,7 @@
     margin-left: 0px;
     margin-right: 0px;
 }
+
+.generator p.instructions.withnotes {
+    margin-bottom: 2px;
+}
