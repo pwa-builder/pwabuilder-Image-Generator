@@ -4,6 +4,7 @@
 
 .generator input:not([type=checkbox]), .generator .uploadControl {
     width: 80%;
+    padding: 0px;
 }
 
 .generator .uploadControl {
