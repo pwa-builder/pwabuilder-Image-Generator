@@ -233,7 +233,6 @@
     <Content Include="App_Data\iosImages.json" />
     <Content Include="App_Data\chromeImages.json" />
     <Content Include="App_Data\firefoxImages.json" />
-    <None Include="Properties\PublishProfiles\AppImageGenerator - Web Deploy.pubxml" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\manifoldjs-vendor.min.js" />
@@ -258,6 +257,9 @@
     <Content Include="packages.config" />
     <Content Include="App_Data\windowsImages.json" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Properties\PublishProfiles\appimagegenerator-pre.pubxml" />
+    <None Include="Properties\PublishProfiles\appimagegenerator-prod.pubxml" />
+    <None Include="Properties\PublishProfiles\appimagegenerator-prod__staging.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
