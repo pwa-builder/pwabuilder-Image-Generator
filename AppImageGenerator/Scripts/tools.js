@@ -19,7 +19,10 @@
                 url: '/api/image',
                 type: 'POST',
                 data: formdata,
-                accepts: "application/json",
+                accepts: {
+                    json: "application/json"
+                },
+                dataType: "json",
                 success: function (req) {
                     showIndicator(false);
                     $("body").append("<iframe src='" + req.Uri + "' style='display: none;' ></iframe>");
