@@ -186,7 +186,7 @@ namespace WWA.WebUI.Controllers
                             zip.AddEntry(profile.Folder + profile.Name + "." + fmt, stream);
                             stream.Flush();
 
-                            iconObject.icons.Add(new IconObject(profile.Name + "." + fmt, profile.Width + "x" + profile.Height));
+                            iconObject.icons.Add(new IconObject(profile.Folder + profile.Name + "." + fmt, profile.Width + "x" + profile.Height));
                         }
 
                         var iconStr = JsonConvert.SerializeObject(iconObject, Formatting.Indented);
