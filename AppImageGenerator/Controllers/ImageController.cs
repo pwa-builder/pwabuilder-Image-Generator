@@ -125,8 +125,10 @@ namespace WWA.WebUI.Controllers
                         return httpResponseMessage;
                     }
 
-                    var colorStr = provider.FormData.GetValues("color") != null ? provider.FormData.GetValues("color")[0] : null;
-                    if (!string.IsNullOrEmpty(colorStr))
+                    var colorStr = provider.FormData.GetValues("color")?[0];
+                    var colorChanged = provider.FormData.GetValues("colorChanged")?[0] == "1";
+
+                    if (!string.IsNullOrEmpty(colorStr) && colorChanged)
                     {
                         try
                         {

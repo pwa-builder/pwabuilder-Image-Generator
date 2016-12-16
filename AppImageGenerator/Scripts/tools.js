@@ -59,8 +59,8 @@
 
         platforms.prop('checked', !allChecked);
     });
-    
-    $('#fileInput').change(function(e) {
+
+    $('#fileInput').change(function (e) {
         //if new value is valid
         if (e.currentTarget.value) {
             $('#fileName').val(getFileName(e.currentTarget.value))
@@ -72,12 +72,20 @@
         }
     });
 
-    $('header.step-header').click(function () {
-        var stepBody = $(this).next();
-        if ($(this).next().is(":visible")) {
-            stepBody.hide();
-        } else {
-            stepBody.show();
-        }
-    })
-});    
+    $('header.step-header')
+     .click(function () {
+         var stepBody = $(this).next();
+         if ($(this).next().is(":visible")) {
+             stepBody.hide();
+         } else {
+             stepBody.show();
+         }
+     });
+
+    $('input[type="color"]')
+    .change(function () {
+        $('#colorChanged').val(1);
+        $('#color').css("backgroundColor", $(this).val());
+    });
+
+});
