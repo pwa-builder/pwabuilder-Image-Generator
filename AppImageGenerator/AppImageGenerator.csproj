@@ -257,6 +257,7 @@
     <Content Include="packages.config" />
     <Content Include="App_Data\windowsImages.json" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="App_Data\manifoldjsImages.json" />
     <None Include="Properties\PublishProfiles\appimagegenerator-pre.pubxml" />
     <None Include="Properties\PublishProfiles\appimagegenerator-prod.pubxml" />
     <None Include="Properties\PublishProfiles\appimagegenerator-prod__staging.pubxml" />

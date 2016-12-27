@@ -1,0 +1,16 @@
+[
+  {
+    "width": 44,
+    "height": 44,
+    "name": "Square44x44Logo.scale-100",
+    "desc": "Square44x44Logo.scale-100",
+    "folder": "manifoldjs/"
+  },
+  {
+    "width": 150,
+    "height": 150,
+    "name": "Square150x150Logo.scale-100",
+    "desc": "Square150x150Logo.scale-100",
+    "folder": "manifoldjs/"
+  }
+]
