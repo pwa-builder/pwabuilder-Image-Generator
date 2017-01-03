@@ -12,5 +12,12 @@
     "name": "Square150x150Logo.scale-100",
     "desc": "Square150x150Logo.scale-100",
     "folder": "manifoldjs/"
+  },
+  {
+    "width": 50,
+    "height": 50,
+    "name": "StoreLogo",
+    "desc": "StoreLogo",
+    "folder": "manifoldjs/"
   }
 ]
