@@ -19,5 +19,12 @@
     "name": "StoreLogo.scale-100",
     "desc": "StoreLogo.scale-100",
     "folder": "manifoldjs/"
+  },
+  {
+    "width": 620,
+    "height": 300,
+    "name": "SplashScreen.scale-100",
+    "desc": "SplashScreen.scale-100",
+    "folder": "windows10/"
   }
 ]
