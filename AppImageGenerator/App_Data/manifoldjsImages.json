@@ -16,8 +16,8 @@
   {
     "width": 50,
     "height": 50,
-    "name": "StoreLogo",
-    "desc": "StoreLogo",
+    "name": "StoreLogo.scale-100",
+    "desc": "StoreLogo.scale-100",
     "folder": "manifoldjs/"
   }
 ]
