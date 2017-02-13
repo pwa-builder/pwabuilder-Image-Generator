@@ -119,111 +119,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\fonts\BreeSerif\BreeSerif-Regular.svg" />
-    <Content Include="Content\fonts\Inconsolata\Inconsolata-Bold.svg" />
-    <Content Include="Content\fonts\Inconsolata\Inconsolata-Regular.svg" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Bold.svg" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-BoldItalic.svg" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-ExtraBold.svg" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-ExtraBoldItalic.svg" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Italic.svg" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Light.svg" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-LightItalic.svg" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Regular.svg" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Semibold.svg" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-SemiboldItalic.svg" />
-    <Content Include="Content\fonts\RumSans\RumSans-Black.svg" />
-    <Content Include="Content\fonts\RumSans\RumSans-BlackSoft.svg" />
-    <Content Include="Content\fonts\RumSans\RumSans-Bold.svg" />
-    <Content Include="Content\fonts\RumSans\RumSans-BoldItalic.svg" />
-    <Content Include="Content\fonts\RumSans\RumSans-Light.svg" />
-    <Content Include="Content\fonts\RumSans\RumSans-LightItalic.svg" />
-    <Content Include="Content\fonts\RumSans\RumSans-Medium.svg" />
-    <Content Include="Content\fonts\RumSans\RumSans-MediumItalic.svg" />
-    <Content Include="Content\fonts\RumSans\RumSans-Semibold.svg" />
-    <Content Include="Content\fonts\RumSans\RumSans-SemiboldItalic.svg" />
-    <Content Include="Content\fonts\RumSans\RumSans-Thin.svg" />
-    <Content Include="Content\fonts\RumSans\RumSans-ThinItalic.svg" />
-    <Content Include="Content\images\checkmark.png" />
-    <Content Include="Content\images\logo_github.svg" />
-    <Content Include="Content\images\logo_npm.svg" />
-    <Content Include="Content\images\logo_stackoverflow.svg" />
-    <Content Include="Content\images\logo_twitter.svg" />
-    <Content Include="Content\images\manifoldjs_main_logo.svg" />
-    <Content Include="Content\images\manifoldjs_top_logo.svg" />
-    <Content Include="Content\images\manifoldjs_type.svg" />
-    <Content Include="Content\images\sitelogo_22tracks.png" />
-    <Content Include="Content\images\sitelogo_boostmedia.png" />
-    <Content Include="Content\images\sitelogo_nickelodeon.png" />
-    <Content Include="Content\images\sitelogo_yummly.png" />
     <Content Include="Content\manifoldjs-site.min.css" />
     <Content Include="Content\custom.css" />
     <Content Include="Content\manifoldjs-vendor.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="App_Data\windows10Images.json" />
-    <Content Include="Content\fonts\BreeSerif\BreeSerif-Regular.eot" />
-    <Content Include="Content\fonts\BreeSerif\BreeSerif-Regular.ttf" />
-    <Content Include="Content\fonts\BreeSerif\BreeSerif-Regular.woff" />
-    <Content Include="Content\fonts\Inconsolata\Inconsolata-Bold.eot" />
-    <Content Include="Content\fonts\Inconsolata\Inconsolata-Bold.ttf" />
-    <Content Include="Content\fonts\Inconsolata\Inconsolata-Bold.woff" />
-    <Content Include="Content\fonts\Inconsolata\Inconsolata-Regular.eot" />
-    <Content Include="Content\fonts\Inconsolata\Inconsolata-Regular.ttf" />
-    <Content Include="Content\fonts\Inconsolata\Inconsolata-Regular.woff" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Bold.eot" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Bold.ttf" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Bold.woff" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-BoldItalic.eot" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-BoldItalic.ttf" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-BoldItalic.woff" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-ExtraBold.eot" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-ExtraBold.ttf" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-ExtraBold.woff" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-ExtraBoldItalic.eot" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-ExtraBoldItalic.ttf" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-ExtraBoldItalic.woff" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Italic.eot" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Italic.ttf" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Italic.woff" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Light.eot" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Light.ttf" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Light.woff" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-LightItalic.eot" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-LightItalic.ttf" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-LightItalic.woff" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Regular.eot" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Regular.ttf" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Regular.woff" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Semibold.eot" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Semibold.ttf" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-Semibold.woff" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-SemiboldItalic.eot" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-SemiboldItalic.ttf" />
-    <Content Include="Content\fonts\OpenSans\OpenSans-SemiboldItalic.woff" />
-    <Content Include="Content\fonts\RumSans\RumSans-Black.eot" />
-    <Content Include="Content\fonts\RumSans\RumSans-Black.woff" />
-    <Content Include="Content\fonts\RumSans\RumSans-BlackSoft.eot" />
-    <Content Include="Content\fonts\RumSans\RumSans-BlackSoft.woff" />
-    <Content Include="Content\fonts\RumSans\RumSans-Bold.eot" />
-    <Content Include="Content\fonts\RumSans\RumSans-Bold.woff" />
-    <Content Include="Content\fonts\RumSans\RumSans-BoldItalic.eot" />
-    <Content Include="Content\fonts\RumSans\RumSans-BoldItalic.woff" />
-    <Content Include="Content\fonts\RumSans\RumSans-Light.eot" />
-    <Content Include="Content\fonts\RumSans\RumSans-Light.woff" />
-    <Content Include="Content\fonts\RumSans\RumSans-LightItalic.eot" />
-    <Content Include="Content\fonts\RumSans\RumSans-LightItalic.woff" />
-    <Content Include="Content\fonts\RumSans\RumSans-Medium.eot" />
-    <Content Include="Content\fonts\RumSans\RumSans-Medium.woff" />
-    <Content Include="Content\fonts\RumSans\RumSans-MediumItalic.eot" />
-    <Content Include="Content\fonts\RumSans\RumSans-MediumItalic.woff" />
-    <Content Include="Content\fonts\RumSans\RumSans-Semibold.eot" />
-    <Content Include="Content\fonts\RumSans\RumSans-Semibold.woff" />
-    <Content Include="Content\fonts\RumSans\RumSans-SemiboldItalic.eot" />
-    <Content Include="Content\fonts\RumSans\RumSans-SemiboldItalic.woff" />
-    <Content Include="Content\fonts\RumSans\RumSans-Thin.eot" />
-    <Content Include="Content\fonts\RumSans\RumSans-Thin.woff" />
-    <Content Include="Content\fonts\RumSans\RumSans-ThinItalic.eot" />
-    <Content Include="Content\fonts\RumSans\RumSans-ThinItalic.woff" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
@@ -268,7 +168,10 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\fonts\" />
+    <Folder Include="Content\images\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
