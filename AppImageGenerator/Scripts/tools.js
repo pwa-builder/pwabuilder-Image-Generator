@@ -5,9 +5,9 @@
 
     function showIndicator(show) {
         if (show) {
-            $('#downloadButton i').removeClass('fa-download').addClass('fa-circle-o-notch fa-spin');
+            $('#downloadButton i').addClass('fa-circle-o-notch fa-spin');
         } else {
-            $('#downloadButton i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-download');
+            $('#downloadButton i').removeClass('fa-circle-o-notch fa-spin');
         }
     }
 
