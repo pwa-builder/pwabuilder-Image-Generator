@@ -34,6 +34,11 @@
     text-align: center;
 }
 
+button:disabled {
+    cursor: not-allowed;
+    opacity: .8;
+}
+
 @media screen and (max-width: 1280px) {
     .pwa-generator-padded {
         padding: 0 8vw;

@@ -60,32 +60,27 @@
         platforms.prop('checked', !allChecked);
     });
 
-    $('#fileInput').change(function (e) {
+    $('#fileName').change(function (e) {
         //if new value is valid
         if (e.currentTarget.value) {
-            $('#fileName').val(getFileName(e.currentTarget.value))
+            $('#fileNameLabel').text(getFileName(e.currentTarget.value));
             $('#downloadButton').prop('disabled', false);
             $('#downloadButton').addClass('isEnabled');
         } else {
+            $('#fileNameLabel').text('Choose File');
             $('#downloadButton').prop('disabled', true);
             $('#downloadButton').removeClass('isEnabled');
         }
     });
 
-    $('header.step-header')
-     .click(function () {
-         var stepBody = $(this).next();
-         if ($(this).next().is(":visible")) {
-             stepBody.hide();
-         } else {
-             stepBody.show();
-         }
-     });
-
-    $('input[type="color"]')
-    .change(function () {
+    $('input[type="color"]').change(function () {
         $('#colorChanged').val(1);
-        $('#color').css("backgroundColor", $(this).val());
+        $('#color').val($(this).val());
+    });
+
+    $('#color').change(function () {
+        $('#colorChanged').val(1);
+        $('input[type="color"]').val($(this).val());
     });
 
 });
