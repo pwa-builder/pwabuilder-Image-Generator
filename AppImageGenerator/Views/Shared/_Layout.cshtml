@@ -3,9 +3,9 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manifold JS</title>
-    <meta content="@ViewBag.Description" name="Description" />
-    <meta content="@ViewBag.Keywords" name="Keywords" />
+    <title>PWABuilder</title>
+    <meta name="description" content="All the tools you need to build and deploy your Progressive Web Apps.">
+    <meta name="application-name" content="Progressive Web Apps Builder">
 
     <link href="~/Content/manifoldjs-vendor.min.css" rel="stylesheet" />
     <link href="~/Content/manifoldjs-site.min.css" rel="stylesheet" />
@@ -19,117 +19,111 @@
 
     <script src="//www.google-analytics.com/analytics.js" async=""></script>
     <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-      ga('create', 'UA-62394130-1', 'auto');
-      ga('send', 'pageview');
+        ga('create', 'UA-62394130-1', 'auto');
+        ga('send', 'pageview');
 
-      function _gaLt(event){
-        var el = event.srcElement || event.target;
+        function _gaLt(event) {
+            var el = event.srcElement || event.target;
 
-        /* Loop up the DOM tree through parent elements if clicked element is not a link (eg: an image inside a link) */
-        while(el && (typeof el.tagName == 'undefined' || el.tagName.toLowerCase() != 'a' || !el.href)){
-            el = el.parentNode;
-        }
-
-        if(el && el.href){
-            /* link */
-            var link = el.href;
-            if(link.indexOf(location.host) == -1 && !link.match(/^javascript\:/i)){ /* external link */
-                /* HitCallback function to either open link in either same or new window */
-                var hitBack = function(link, target){
-                    target ? window.open(link, target) : window.location.href = link;
-                };
-                /* Is target set and not _(self|parent|top)? */
-                var target = (el.target && !el.target.match(/^_(self|parent|top)$/i)) ? el.target : false;
-                /* send event with callback */
-                ga(
-                    "send", "event", "Outgoing Links", link,
-                    document.location.pathname + document.location.search,
-                    {"hitCallback": hitBack(link, target)}
-                );
-
-                /* Prevent standard click */
-                event.preventDefault ? event.preventDefault() : event.returnValue = !1;
+            /* Loop up the DOM tree through parent elements if clicked element is not a link (eg: an image inside a link) */
+            while (el && (typeof el.tagName == 'undefined' || el.tagName.toLowerCase() != 'a' || !el.href)) {
+                el = el.parentNode;
             }
 
-        }
-    }
+            if (el && el.href) {
+                /* link */
+                var link = el.href;
+                if (link.indexOf(location.host) == -1 && !link.match(/^javascript\:/i)) { /* external link */
+                    /* HitCallback function to either open link in either same or new window */
+                    var hitBack = function (link, target) {
+                        target ? window.open(link, target) : window.location.href = link;
+                    };
+                    /* Is target set and not _(self|parent|top)? */
+                    var target = (el.target && !el.target.match(/^_(self|parent|top)$/i)) ? el.target : false;
+                    /* send event with callback */
+                    ga(
+                        "send", "event", "Outgoing Links", link,
+                        document.location.pathname + document.location.search,
+                        { "hitCallback": hitBack(link, target) }
+                    );
 
-    /* Attach the event to all clicks in the document after page has loaded */
-    var w = window;
-    w.addEventListener ? w.addEventListener("load",function(){document.body.addEventListener("click",_gaLt,!1)},!1)
-     : w.attachEvent && w.attachEvent("onload",function(){document.body.attachEvent("onclick",_gaLt)});
+                    /* Prevent standard click */
+                    event.preventDefault ? event.preventDefault() : event.returnValue = !1;
+                }
+
+            }
+        }
+
+        /* Attach the event to all clicks in the document after page has loaded */
+        var w = window;
+        w.addEventListener ? w.addEventListener("load", function () { document.body.addEventListener("click", _gaLt, !1) }, !1)
+         : w.attachEvent && w.attachEvent("onload", function () { document.body.attachEvent("onclick", _gaLt) });
 
     </script>
 
     <div class="application no-header">
-        <header class="l-full-width" id="header">
-            <div class="l-max-width">
-                <a href="@ViewBag.HomeLink"><img class="nav_logo" src="/Content/images/manifoldjs_top_logo.svg"></a>
-                <nav>
-                    <ul>
-                        <li><a class="event" href="@ViewBag.GenerateLink" data-eventname="generator-cta-header">Generate</a></li>
-                        <li><a href="@ViewBag.DeployLink">Deploy</a></li>
-                        <li><a href="https://github.com/manifoldjs/manifoldJS/wiki" target="_blank">Documentation</a></li>
-                        <li><a class="active" href="/">App Image Generator</a></li>
-                        <li><a href="https://github.com/manifoldjs" target="_blank">Github</a></li>
-                    </ul>
-                </nav>
+        <header class="pwa-header pure-g">
+            <div class="pwa-header-left pure-u pure-u-md-1-5">
+                <a href="@ViewBag.HomeLink">
+                    <img class="pwa-header-logo" src="~/Content/images/logo.png" alt="PWA Builder logo">
+                </a>
             </div>
+            <nav class="pwa-header-right pure-u pure-u-md-4-5">
+                <ul class="pwa-header-menu">
+                    <li class="pwa-header-item">
+                        <a class="pwa-header-link" href="@ViewBag.GenerateLink">PWA Builder</a>
+                    </li>
+                    <li class="pwa-header-item">
+                        <a class="pwa-header-link" href="https://github.com/manifoldjs/manifoldJS/wiki" target="_blank">Documentation</a>
+                    </li>
+                    <li class="pwa-header-item">
+                        <a class="pwa-header-link active" href="/">App Image Generator</a>
+                    </li>
+                    <li class="pwa-header-item">
+                        <a class="pwa-header-link" href="https://github.com/manifoldjs" target="_blank">Github</a>
+                    </li>
+                </ul>
+            </nav>
         </header>
 
         <article class="l-app-style l-full-width" id="main">
             @RenderBody()
         </article>
 
-        <footer class="l-full-width" id="footer">
-            <div class="l-max-width">
-                <div class="pure-g">
-                    <div class="pure-u-1 pure-u-md-1-5">
-                        <ul>
-                            <li><a href="@ViewBag.GenerateLink">Generate</a></li>
-                            <li><a href="@ViewBag.DeployLink">Deploy</a></li>
-                            <li><a href="https://github.com/manifoldjs/manifoldJS/wiki" target="_blank">Documentation</a></li>
-                        </ul>
-                    </div>
-                    <div class="pure-u-1 pure-u-md-2-5">
-                        <ul>
-                            <li><a class="active" href="/">App Image Generator</a></li>
-                            <li><a href="https://github.com/manifoldjs" target="_blank">Github</a></li>
-                        </ul>
-                    </div>
-                    <div class="pure-u-1 pure-u-md-2-5">
-                        <div class="social">
-                            <a href="https://twitter.com/boyofgreen" target="_blank"><img class="logo_twitter" src="/Content/images/logo_twitter.svg"></a>
-                            <a href="https://github.com/manifoldjs" target="_blank"><img class="logo_github" src="/Content/images/logo_github.svg"></a>
-                            <a href="https://www.npmjs.com/package/manifoldjs" target="_blank"><img class="logo_npm" src="/Content/images/logo_npm.svg"></a>
-                            <a href="http://stackoverflow.com/questions/tagged/manifoldjs" target="_blank"><img class="logo_stackoverflow" src="/Content/images/logo_stackoverflow.svg"></a>
-                        </div>
-                    </div>
-                    <div class="pure-u-1 pure-u-md-1-1 copyright">
-                        © 2016 ManifoldJS. All rights reserved. <span class="divider">|</span> <a href="@ViewBag.LicenseLink">License</a>
-                    </div>
-                </div>
-                <div class="pure-g simple-content">
-                    <div class="pure-u-1 pure-u-md-1-2 copyright">
-                        © 2016 ManifoldJS. All rights reserved. <span class="divider">|</span> <a href="@ViewBag.LicenseLink">License</a>
-                    </div>
-                    <div class="pure-u-1 pure-u-md-1-2">
-                        <div class="social">
-                            <a href="https://twitter.com/boyofgreen" target="_blank"><img class="logo_twitter" src="/Content/images/logo_twitter.svg"></a>
-                            <a href="https://github.com/manifoldjs" target="_blank"><img class="logo_github" src="/Content/images/logo_github.svg"></a>
-                            <a href="https://www.npmjs.com/package/manifoldjs" target="_blank"><img class="logo_npm" src="/Content/images/logo_npm.svg"></a>
-                            <a href="http://stackoverflow.com/questions/tagged/manifoldjs" target="_blank"><img class="logo_stackoverflow" src="/Content/images/logo_stackoverflow.svg"></a>
-                        </div>
-                    </div>
-                </div>
+        <footer class="pwa-footer pure-g">
+            <div class="pure-u-1-2 pure-u-md-1-5">
+                <a class="pwa-footer-action pwa-footer-action--block" href="@ViewBag.GenerateLink">Generate</a>
+                <a class="pwa-footer-action pwa-footer-action--block" href="https://github.com/manifoldjs/manifoldJS/wiki" target="_blank">Documentation</a>
+            </div>
+            <div class="pure-u-1-2 pure-u-md-1-5">
+                <a class="pwa-footer-action pwa-footer-action--block" href="/">App Image Generator</a>
+                <a class="pwa-footer-action pwa-footer-action--block" href="https://github.com/manifoldjs" target="_blank">Github</a>
+            </div>
+            <div class="pwa-footer-social pure-u-1 pure-u-md-3-5">
+                <a class="pwa-footer-logo_action" href="https://twitter.com/boyofgreen" target="_blank">
+                    <img class="pwa-footer-logo" src="~/Content/images/logo_twitter.svg">
+                </a>
+                <a class="pwa-footer-logo_action" href="https://github.com/manifoldjs" target="_blank">
+                    <img class="pwa-footer-logo" src="~/Content/images/logo_github.svg">
+                </a>
+                <a class="pwa-footer-logo_action" href="https://www.npmjs.com/package/manifoldjs" target="_blank">
+                    <img class="pwa-footer-logo pwa-footer-logo--big" src="~/Content/images/logo_npm.svg">
+                </a>
+                <a class="pwa-footer-logo_action" href="http://stackoverflow.com/questions/tagged/manifoldjs" target="_blank">
+                    <img class="pwa-footer-logo pwa-footer-logo--small" src="~/Content/images/logo_stackoverflow.svg">
+                </a>
+            </div>
+            <div class="pure-u-1 pwa-footer-copy">
+                &copy; @DateTime.Today.Year ManifoldJS. All rights reserved. <span class="divider">|</span> <a class="pwa-footer-action" href="@ViewBag.LicenseLink">License</a>
             </div>
         </footer>
-
     </div>
 
     <!--JS-->
