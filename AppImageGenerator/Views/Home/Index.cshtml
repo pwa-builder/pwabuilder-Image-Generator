@@ -37,10 +37,23 @@
 
                     <div class="pwa-generator-field">
                         <label class="pwa-generator-label">Background Color</label>
-                        <input class="pwa-generator-input pwa-generator-input--tiny" type="color">
-                        <input class="pwa-generator-input pwa-generator-input--small pwa-generator-input--hassmall" placeholder="#000000" name="color" id="color" type="text">
-                        <input type="hidden" name="colorChanged" id="colorChanged" value="0">
-                        <small class="pwa-generator-small">Choose a color for the background (leave blank to default to the pixel at the top left)</small>
+                        <div class="pwa-generator-options">
+                            <label class="pwa-generator-label">
+                                <input type="radio" name="colorOption" class="colorOption" checked="checked" value="0" />
+                                Transparent
+                            </label>
+                            <label class="pwa-generator-label">
+                                <input type="radio" name="colorOption" class="colorOption" value="1" />
+                                Custom color
+                            </label>
+                                
+                            <div class="colorpickers">
+                                <input class="pwa-generator-input pwa-generator-input--tiny input-color" type="color">
+                                <input class="pwa-generator-input pwa-generator-input--small pwa-generator-input--hassmall" placeholder="#000000" name="color" id="color" type="text">
+                                <input type="hidden" name="colorChanged" id="colorChanged" value="0">
+                                <small class="pwa-generator-small">Choose a color for the background (leave blank to default to the pixel at the top left)</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="pwa-generator-form pure-u-1 pure-u-md-1-2">
