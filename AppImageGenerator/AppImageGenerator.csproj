@@ -119,6 +119,14 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\hero.mp4" />
+    <Content Include="Content\images\hero_poster.png" />
+    <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\logo_github.svg" />
+    <Content Include="Content\images\logo_npm.svg" />
+    <Content Include="Content\images\logo_small.png" />
+    <Content Include="Content\images\logo_stackoverflow.svg" />
+    <Content Include="Content\images\logo_twitter.svg" />
     <Content Include="Content\manifoldjs-site.min.css" />
     <Content Include="Content\custom.css" />
     <Content Include="Content\manifoldjs-vendor.min.css" />
@@ -158,6 +166,31 @@
     <Content Include="App_Data\windowsImages.json" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="App_Data\manifoldjsImages.json" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Bold.eot" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Bold.otf" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Bold.ttf" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Bold.woff" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Bold.woff2" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Light.eot" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Light.otf" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Light.ttf" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Light.woff" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Light.woff2" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Regular.eot" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Regular.otf" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Regular.ttf" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Regular.woff" />
+    <Content Include="Content\fonts\FiraSans\FiraSans-Regular.woff2" />
+    <Content Include="Content\fonts\Bitter\Bitter-Bold.eot" />
+    <Content Include="Content\fonts\Bitter\Bitter-Bold.otf" />
+    <Content Include="Content\fonts\Bitter\Bitter-Bold.ttf" />
+    <Content Include="Content\fonts\Bitter\Bitter-Bold.woff" />
+    <Content Include="Content\fonts\Bitter\Bitter-Bold.woff2" />
+    <Content Include="Content\fonts\Bitter\Bitter-Regular.eot" />
+    <Content Include="Content\fonts\Bitter\Bitter-Regular.otf" />
+    <Content Include="Content\fonts\Bitter\Bitter-Regular.ttf" />
+    <Content Include="Content\fonts\Bitter\Bitter-Regular.woff" />
+    <Content Include="Content\fonts\Bitter\Bitter-Regular.woff2" />
     <None Include="Properties\PublishProfiles\appimagegenerator-pre.pubxml" />
     <None Include="Properties\PublishProfiles\appimagegenerator-prod.pubxml" />
     <None Include="Properties\PublishProfiles\appimagegenerator-prod__staging.pubxml" />
@@ -168,10 +201,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\fonts\" />
-    <Folder Include="Content\images\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

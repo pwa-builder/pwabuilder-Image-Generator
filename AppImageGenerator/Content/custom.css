@@ -30,13 +30,17 @@
 }
 
 .u-center {
-    margin: 6rem 0;
+    margin: 3rem 0;
     text-align: center;
 }
 
 button:disabled {
     cursor: not-allowed;
     opacity: .8;
+}
+
+.colorpickers {
+    display: none;
 }
 
 @media screen and (max-width: 1280px) {
