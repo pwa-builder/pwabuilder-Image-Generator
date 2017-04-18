@@ -165,7 +165,7 @@
     <Content Include="packages.config" />
     <Content Include="App_Data\windowsImages.json" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="App_Data\manifoldjsImages.json" />
+    <Content Include="App_Data\pwabuilderImages.json" />
     <Content Include="Content\fonts\FiraSans\FiraSans-Bold.eot" />
     <Content Include="Content\fonts\FiraSans\FiraSans-Bold.otf" />
     <Content Include="Content\fonts\FiraSans\FiraSans-Bold.ttf" />
