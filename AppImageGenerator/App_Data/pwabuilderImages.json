@@ -4,49 +4,49 @@
     "height": 48,
     "name": "LockScreenLogo.scale-200.png",
     "desc": "LockScreenLogo.scale-200.png",
-    "folder": "manifoldjs/"
+    "folder": "windows10/"
   },
   {
     "width": 1240,
     "height": 600,
     "name": "SplashScreen.scale-200.png",
     "desc": "SplashScreen.scale-200.png",
-    "folder": "manifoldjs/"
+    "folder": "windows10/"
   },
   {
     "width": 300,
     "height": 300,
     "name": "Square150x150Logo.scale-200.png",
     "desc": "Square150x150Logo.scale-200.png",
-    "folder": "manifoldjs/"
+    "folder": "windows10/"
   },
   {
     "width": 88,
     "height": 88,
     "name": "Square44x44Logo.scale-200.png",
     "desc": "Square44x44Logo.scale-200.png",
-    "folder": "manifoldjs/"
+    "folder": "windows10/"
   },
   {
     "width": 24,
     "height": 24,
     "name": "Square44x44Logo.targetsize-24_altform-unplated.png",
     "desc": "Square44x44Logo.targetsize-24_altform-unplated.png",
-    "folder": "manifoldjs/"
+    "folder": "windows10/"
   },
   {
     "width": 50,
     "height": 50,
     "name": "StoreLogo.png",
     "desc": "StoreLogo.png",
-    "folder": "manifoldjs/"
+    "folder": "windows10/"
   },
   {
     "width": 620,
     "height": 300,
     "name": "Wide310x150Logo.scale-200.png",
     "desc": "Wide310x150Logo.scale-200.png",
-    "folder": "manifoldjs/"
+    "folder": "windows10/"
   },
   {
     "width": 192,
