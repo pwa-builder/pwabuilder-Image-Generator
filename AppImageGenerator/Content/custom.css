@@ -1,45 +1,62 @@
-﻿.generator label {
-    width: 15%;
+﻿.pwa-generator-small {
+    display: block;
+    margin-bottom: 1rem;
+    max-width: 90%;
 }
 
-.generator .inputControl, .generator .uploadControl {
-    width: 80%;
-    float: right;
-    padding: 0px;
-    margin: 0px;
+.pwa-generator-input--hassmall {
+    margin-bottom: .5rem;
 }
 
-.generator input:not([type=checkbox]) {
-    padding: 0px;
-    float: none;
-    margin-left: -2px;
-    width: 100%;
+.pwa-generator-subtitle--last {
+    color: #868686;
+    font-size: 1.05rem;
 }
 
-.generator .upload-file {
-    width: 70% !important;
-    min-width: 30%;
-    float: left !important;
-    margin-left: -2px;
+.pwa-generator-subtitle--last p {
+    margin: 0;
 }
 
-.generator .fileUpload.btn {
-    line-height: 1.5em !important;
+.pwa-generator-padded {
+    padding: 0 12vw;
 }
 
-.generator .background-color {
-    padding: 0px;
+.pwa-generator-label--check {
+    margin: 1rem 0;
 }
 
-.generator .generator-section {
-    overflow-y: auto;
+.pwa-button--simple {
+    margin-top: 1rem;
 }
 
-.generator .button-holder.download-archive {
-    margin-left: 0px;
-    margin-right: 0px;
+.u-center {
+    margin: 3rem 0;
+    text-align: center;
 }
 
-.generator p.instructions.withnotes {
-    margin-bottom: 2px;
+button:disabled {
+    cursor: not-allowed;
+    opacity: .8;
+}
+
+.colorpickers {
+    display: none;
+}
+
+@media screen and (max-width: 1280px) {
+    .pwa-generator-padded {
+        padding: 0 8vw;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .pwa-generator-padded {
+        padding: 0 2vw;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .pwa-generator-padded {
+        padding: 0 1vw;
+    }
 }
