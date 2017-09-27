@@ -28,13 +28,6 @@
     "folder": "windows10/"
   },
   {
-    "width": 24,
-    "height": 24,
-    "name": "Square44x44Logo.targetsize-24_altform-unplated.png",
-    "desc": "Square44x44Logo.targetsize-24_altform-unplated.png",
-    "folder": "windows10/"
-  },
-  {
     "width": 50,
     "height": 50,
     "name": "StoreLogo.png",
@@ -63,31 +56,10 @@
     "folder": "android/"
   },
   {
-    "width": 96,
-    "height": 96,
-    "name": "android-launchericon-96-96",
-    "desc": "android-launchericon-96-96",
-    "folder": "android/"
-  },
-  {
     "width": 72,
     "height": 72,
     "name": "android-launchericon-72-72",
     "desc": "android-launchericon-72-72",
-    "folder": "android/"
-  },
-  {
-    "width": 48,
-    "height": 48,
-    "name": "android-launchericon-48-48",
-    "desc": "android-launchericon-48-48",
-    "folder": "android/"
-  },
-  {
-    "width": 36,
-    "height": 36,
-    "name": "android-launchericon-36-36",
-    "desc": "android-launchericon-36-36",
     "folder": "android/"
   },
   {
