@@ -1,12 +1,5 @@
 [
   {
-    "width": 48,
-    "height": 48,
-    "name": "LockScreenLogo.scale-200.png",
-    "desc": "LockScreenLogo.scale-200.png",
-    "folder": "windows10/"
-  },
-  {
     "width": 1240,
     "height": 600,
     "name": "SplashScreen.scale-200.png",
