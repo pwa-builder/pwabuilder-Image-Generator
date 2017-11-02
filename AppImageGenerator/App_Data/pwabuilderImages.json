@@ -1,5 +1,12 @@
 [
   {
+    "width": 48,
+    "height": 48,
+    "name": "LockScreenLogo.scale-200.png",
+    "desc": "LockScreenLogo.scale-200.png",
+    "folder": "windows10/"
+  },
+  {
     "width": 1240,
     "height": 600,
     "name": "SplashScreen.scale-200.png",
@@ -13,13 +20,6 @@
     "desc": "Square150x150Logo.scale-200.png",
     "folder": "windows10/"
   },
-    {
-    "width": 150,
-    "height": 150,
-    "name": "Square150x150Logo.scale-100.png",
-    "desc": "Square150x150Logo.scale-100.png",
-    "folder": "windows10/"
-  },
   {
     "width": 88,
     "height": 88,
@@ -28,10 +28,10 @@
     "folder": "windows10/"
   },
   {
-    "width": 44,
-    "height": 44,
-    "name": "Square44x44Logo.scale-100.png",
-    "desc": "Square44x44Logo.scale-100.png",
+    "width": 24,
+    "height": 24,
+    "name": "Square44x44Logo.targetsize-24_altform-unplated.png",
+    "desc": "Square44x44Logo.targetsize-24_altform-unplated.png",
     "folder": "windows10/"
   },
   {
@@ -63,10 +63,31 @@
     "folder": "android/"
   },
   {
+    "width": 96,
+    "height": 96,
+    "name": "android-launchericon-96-96",
+    "desc": "android-launchericon-96-96",
+    "folder": "android/"
+  },
+  {
     "width": 72,
     "height": 72,
     "name": "android-launchericon-72-72",
     "desc": "android-launchericon-72-72",
+    "folder": "android/"
+  },
+  {
+    "width": 48,
+    "height": 48,
+    "name": "android-launchericon-48-48",
+    "desc": "android-launchericon-48-48",
+    "folder": "android/"
+  },
+  {
+    "width": 36,
+    "height": 36,
+    "name": "android-launchericon-36-36",
+    "desc": "android-launchericon-36-36",
     "folder": "android/"
   },
   {
