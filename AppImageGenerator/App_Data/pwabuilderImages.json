@@ -21,6 +21,13 @@
     "folder": "windows10/"
   },
   {
+    "width": 150,
+    "height": 150,
+    "name": "Square150x150Logo.scale-100.png",
+    "desc": "Square150x150Logo.scale-100.png",
+    "folder": "windows10/"
+  },
+  {
     "width": 88,
     "height": 88,
     "name": "Square44x44Logo.scale-200.png",

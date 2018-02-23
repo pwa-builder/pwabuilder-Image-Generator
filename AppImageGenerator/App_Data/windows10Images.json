@@ -277,43 +277,6 @@
     "desc": "StoreLogo",
     "folder": "windows10/"
   },
-
-  {
-    "width": 96,
-    "height": 96,
-    "name": "BadgeLogo.scale-400",
-    "desc": "BadgeLogo.scale-400",
-    "folder": "windows10/"
-  },
-  {
-    "width": 48,
-    "height": 48,
-    "name": "BadgeLogo.scale-200",
-    "desc": "BadgeLogo.scale-200",
-    "folder": "windows10/"
-  },
-  {
-    "width": 36,
-    "height": 36,
-    "name": "BadgeLogo.scale-150",
-    "desc": "BadgeLogo.scale-150",
-    "folder": "windows10/"
-  },
-  {
-    "width": 30,
-    "height": 30,
-    "name": "BadgeLogo.scale-125",
-    "desc": "BadgeLogo.scale-125",
-    "folder": "windows10/"
-  },
-  {
-    "width": 24,
-    "height": 24,
-    "name": "BadgeLogo.scale-100",
-    "desc": "BadgeLogo.scale-100",
-    "folder": "windows10/"
-  },
-
   {
     "width": 2480,
     "height": 1200,
