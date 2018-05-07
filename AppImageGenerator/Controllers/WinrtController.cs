@@ -234,30 +234,39 @@ namespace RenoService.Controllers
                 var allParameters = true;
 
                 sb.Append("\r\n");
-                for (int i = 0; i < function.Parameters.Count; i++)
+
+                if (function.Parameters.Count > 0)
                 {
-                    var parm = function.Parameters[i];
-
-                    var actualValue = (item.parms[i].defaultData == "null"
-                        ? "null"
-                        : parm.Type == "string" ? ("\"" + item.parms[i].defaultData + "\"") : item.parms[i].defaultData);
-
-                    //TODO: literal values vs. others (like document.title);
-
-                    if (allParameters || (item.parms[i].defaultData != "" && item.parms[i].defaultData != "null"))
+                    for (int i = 0; i < function.Parameters.Count; i++)
                     {
-                        sb.Append("var " + parm.Name + " = " + actualValue + ";\r\n");
-                        line += preline + parm.Name + ", ";
-                        preline = "";
+                        var parm = function.Parameters[i];
+
+                        var actualValue = (item.parms[i].defaultData == "null"
+                            ? "null"
+                            : parm.Type == "string" ? ("\"" + item.parms[i].defaultData + "\"") : item.parms[i].defaultData);
+
+                        //TODO: literal values vs. others (like document.title);
+
+                        if (allParameters || (item.parms[i].defaultData != "" && item.parms[i].defaultData != "null"))
+                        {
+                            sb.Append("var " + parm.Name + " = " + actualValue + ";\r\n");
+                            line += preline + parm.Name + ", ";
+                            preline = "";
+                        }
+                        else
+                        {
+                            preline += actualValue + ", ";
+                        }
                     }
-                    else
-                    {
-                        preline += actualValue + ", ";
-                    }
+
+                    line = (function.Returns != null ? ("var " + function.Returns.Name + " = ") : "") + function.Method + "(" +
+                            line.Substring(0, line.Length - 2) + ");";
                 }
-                
-                line = (function.Returns != null ? ("var " + function.Returns.Name + " = ") : "") + function.Method + "(" +
-                       line.Substring(0, line.Length - 2) + ");";
+                else
+                {
+                    line = (function.Returns != null ? ("var " + function.Returns.Name + " = ") : "") + function.Method + "();";
+                }
+
 
                 sb.Append("\r\n" + line + "\r\n\r\n");
             }
