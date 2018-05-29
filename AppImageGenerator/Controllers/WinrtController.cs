@@ -2,6 +2,7 @@
 using SourceManager.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -23,7 +24,7 @@ namespace RenoService.Controllers
 
         private async Task<List<string>> SourceList()
         {
-            var url = "https://raw.githubusercontent.com/JimGaleForce/Windows-universal-js-samples/master/consumable-urls.txt";
+            var url = ConfigurationManager.AppSettings["consumableURL"];
             var source = await Web.Get(url);
             var list = source.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
             return list.ToList();
@@ -99,7 +100,7 @@ namespace RenoService.Controllers
                     }
 
                     doc.Add(item, cat, true);
-                    fn.Comments = doc.GetDocumentation();
+                    fn.Snippet = doc.GetDocumentation();
                     doc.Clear();
                 }
             }
@@ -224,7 +225,7 @@ namespace RenoService.Controllers
             var function = set.Source.Parsed.Functions.ToArray().FirstOrDefault(f => item.id.EndsWith("." + f.Name));
             if (function != null)
             {
-                sb.Append("/**" + function.Comments.Replace("\n", "\r\n") +
+                sb.Append("/**" + function.Snippet.Replace("\n", "\r\n") +
                     "\r\n * @see " + item.url + "\r\n" +
                     "*/\r\n");
 
@@ -233,30 +234,39 @@ namespace RenoService.Controllers
                 var allParameters = true;
 
                 sb.Append("\r\n");
-                for (int i = 0; i < function.Parameters.Count; i++)
+
+                if (function.Parameters.Count > 0)
                 {
-                    var parm = function.Parameters[i];
-
-                    var actualValue = (item.parms[i].defaultData == "null"
-                        ? "null"
-                        : parm.Type == "string" ? ("\"" + item.parms[i].defaultData + "\"") : item.parms[i].defaultData);
-
-                    //TODO: literal values vs. others (like document.title);
-
-                    if (allParameters || (item.parms[i].defaultData != "" && item.parms[i].defaultData != "null"))
+                    for (int i = 0; i < function.Parameters.Count; i++)
                     {
-                        sb.Append("var " + parm.Name + " = " + actualValue + ";\r\n");
-                        line += preline + parm.Name + ", ";
-                        preline = "";
+                        var parm = function.Parameters[i];
+
+                        var actualValue = (item.parms[i].defaultData == "null"
+                            ? "null"
+                            : parm.Type == "string" ? ("\"" + item.parms[i].defaultData + "\"") : item.parms[i].defaultData);
+
+                        //TODO: literal values vs. others (like document.title);
+
+                        if (allParameters || (item.parms[i].defaultData != "" && item.parms[i].defaultData != "null"))
+                        {
+                            sb.Append("var " + parm.Name + " = " + actualValue + ";\r\n");
+                            line += preline + parm.Name + ", ";
+                            preline = "";
+                        }
+                        else
+                        {
+                            preline += actualValue + ", ";
+                        }
                     }
-                    else
-                    {
-                        preline += actualValue + ", ";
-                    }
+
+                    line = (function.Returns != null ? ("var " + function.Returns.Name + " = ") : "") + function.Method + "(" +
+                            line.Substring(0, line.Length - 2) + ");";
+                }
+                else
+                {
+                    line = (function.Returns != null ? ("var " + function.Returns.Name + " = ") : "") + function.Method + "();";
                 }
 
-                line = (function.Returns != null ? ("var " + function.Returns.Name + " = ") : "") + function.Name + "(" +
-                       line.Substring(0, line.Length - 2) + ");";
 
                 sb.Append("\r\n" + line + "\r\n\r\n");
             }
