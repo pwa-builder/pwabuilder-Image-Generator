@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppImageGenerator", "AppIma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceManager", "SourceManager\SourceManager.csproj", "{2F6BAF0D-7FEF-4581-A84B-FE83EF3EC27D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocParser", "DocParser\DocParser.csproj", "{6200C709-73F2-4064-B639-CE8396F5B6F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2F6BAF0D-7FEF-4581-A84B-FE83EF3EC27D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F6BAF0D-7FEF-4581-A84B-FE83EF3EC27D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F6BAF0D-7FEF-4581-A84B-FE83EF3EC27D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6200C709-73F2-4064-B639-CE8396F5B6F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6200C709-73F2-4064-B639-CE8396F5B6F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6200C709-73F2-4064-B639-CE8396F5B6F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6200C709-73F2-4064-B639-CE8396F5B6F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

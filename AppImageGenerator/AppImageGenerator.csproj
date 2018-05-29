@@ -47,9 +47,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DocParser">
-      <HintPath>..\..\JSDocParser\DocParser\bin\Debug\DocParser.dll</HintPath>
-    </Reference>
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
@@ -211,6 +208,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DocParser\DocParser.csproj">
+      <Project>{6200c709-73f2-4064-b639-ce8396f5b6f6}</Project>
+      <Name>DocParser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SourceManager\SourceManager.csproj">
       <Project>{2f6baf0d-7fef-4581-a84b-fe83ef3ec27d}</Project>
       <Name>SourceManager</Name>
