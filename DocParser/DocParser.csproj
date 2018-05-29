@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2F6BAF0D-7FEF-4581-A84B-FE83EF3EC27D}</ProjectGuid>
+    <ProjectGuid>{6200C709-73F2-4064-B639-CE8396F5B6F6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SourceManager</RootNamespace>
-    <AssemblyName>SourceManager</AssemblyName>
+    <RootNamespace>DocParser</RootNamespace>
+    <AssemblyName>DocParser</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,15 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SourceManager.cs" />
-    <Compile Include="Helpers\Web.cs" />
+    <Compile Include="JSDocFunction.cs" />
+    <Compile Include="JSDocHelper.cs" />
+    <Compile Include="JSDocItems.cs" />
+    <Compile Include="JSDocNode.cs" />
+    <Compile Include="JSDocParam.cs" />
+    <Compile Include="JSDocParsed.cs" />
+    <Compile Include="JSDocParser.cs" />
+    <Compile Include="JSDocSplitSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DocParser\DocParser.csproj">
-      <Project>{6200c709-73f2-4064-b639-ce8396f5b6f6}</Project>
-      <Name>DocParser</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
