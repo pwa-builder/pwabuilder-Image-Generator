@@ -179,16 +179,26 @@ namespace WWA.WebUI.Controllers
                     using (var zip = new ZipFile())
                     {
                         var iconObject = new IconRootObject();
-                        foreach (var profile in profiles)
+
+                        try
                         {
+                            foreach (var profile in profiles)
+                            {
 
-                            var stream = CreateImageStream(model, profile);
+                                var stream = CreateImageStream(model, profile);
 
-                            string fmt = string.IsNullOrEmpty(profile.Format) ? "png" : profile.Format;
-                            zip.AddEntry(profile.Folder + profile.Name + "." + fmt, stream);
-                            stream.Flush();
+                                string fmt = string.IsNullOrEmpty(profile.Format) ? "png" : profile.Format;
+                                zip.AddEntry(profile.Folder + profile.Name + "." + fmt, stream);
+                                stream.Flush();
 
-                            iconObject.icons.Add(new IconObject(profile.Folder + profile.Name + "." + fmt, profile.Width + "x" + profile.Height));
+                                iconObject.icons.Add(new IconObject(profile.Folder + profile.Name + "." + fmt, profile.Width + "x" + profile.Height));
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            HttpResponseMessage httpResponseMessage =
+                                Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "There was an error generating the images.", ex);
+                            return httpResponseMessage;
                         }
 
                         var iconStr = JsonConvert.SerializeObject(iconObject, Formatting.Indented);
