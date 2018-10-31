@@ -259,12 +259,12 @@ namespace RenoService.Controllers
                         }
                     }
 
-                    line = (function.Returns != null ? ("var " + function.Returns.Name + " = ") : "") + function.Method + "(" +
+                    line = (function.Returns != null ? ("var " + function.Returns.Type.ToLower() + " = ") : "") + function.Method + "(" +
                             line.Substring(0, line.Length - 2) + ");";
                 }
                 else
                 {
-                    line = (function.Returns != null ? ("var " + function.Returns.Name + " = ") : "") + function.Method + "();";
+                    line = (function.Returns != null ? ("var " + function.Returns.Type.ToLower() + " = ") : "") + function.Method + "();";
                 }
 
 

@@ -62,6 +62,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="TestFiles\descOverrideSummary.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestFiles\fileSummaryOnly.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

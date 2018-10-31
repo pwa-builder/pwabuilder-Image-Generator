@@ -52,5 +52,43 @@ namespace DocParser.UnitTests
             Assert.IsNotNull(function.Returns);
             Assert.AreEqual("Promise with new mode value (1=CompactOverlay | 0=Default).", function.Returns.Description, "Return didn't parse.");
         }
+
+        [TestMethod]
+        public void TestDescriptionOverride()
+        {
+            JSDocParser parser = new JSDocParser();
+
+            var parse = parser.Parse("TestFiles\\descOverrideSummary.js", true);
+
+            Assert.IsNotNull(parse);
+
+            Assert.IsNull(parse.File);
+            Assert.IsNotNull(parse.Functions);
+
+            Assert.AreEqual(1, parse.Functions.Count, "Expected Function Overview");
+
+            var function = parse.Functions.First();
+
+            Assert.AreEqual("This overrides the description.", function.Description, "Description wasn't overwritten.");        
+        }
+
+        [TestMethod]
+        public void TestSummary()
+        {
+            JSDocParser parser = new JSDocParser();
+
+            var parse = parser.Parse("TestFiles\\descOverrideSummary.js", true);
+
+            Assert.IsNotNull(parse);
+
+            Assert.IsNull(parse.File);
+            Assert.IsNotNull(parse.Functions);
+
+            Assert.AreEqual(1, parse.Functions.Count, "Expected Function Overview");
+
+            var function = parse.Functions.First();
+
+            Assert.AreEqual("This is a short summary.", function.Summary, "Summary wasn't parsed.");
+        }
     }
 }
