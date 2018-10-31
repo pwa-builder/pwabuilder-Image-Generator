@@ -19,7 +19,7 @@ namespace DocParser
     public class JSDocFunction : JSDocNode
     {
         public List<JSDocParam> Parameters { get; set; } = new List<JSDocParam>();
-        public JSDocParam Returns { get; set; }
+        public JSDocReturns Returns { get; set; }
 
         internal override void Parse(JSDocItems items)
         {
@@ -58,7 +58,7 @@ namespace DocParser
                     case "returns":
                     case "return":
                         {
-                            this.Returns = JSDocParam.Parse(item.Value);
+                            this.Returns = JSDocReturns.Parse(item.Value);
 
                             break;
                         }

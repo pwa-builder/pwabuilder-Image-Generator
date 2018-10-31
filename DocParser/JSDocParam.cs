@@ -11,6 +11,9 @@
 
 namespace DocParser
 {
+    /// <summary>
+    /// Parses http://usejsdoc.org/tags-param.html
+    /// </summary>
     public class JSDocParam
     {
         public string Name { get; set; }
@@ -28,15 +31,18 @@ namespace DocParser
                 result.Type = types[0];
             }
 
+            // TODO: Need to support '-' as separator
             var paramDefault = JSDocHelper.Split(text, "[", "]");
             if (paramDefault.Length > 0)
             {
+                // Support for optional parameter
                 result.Name = JSDocHelper.Before(paramDefault[0], "=").Trim();
                 result.Default = JSDocHelper.After(paramDefault[0], "=").Trim();
                 result.Description = JSDocHelper.After(text, "]").Trim();
             }
             else
             {
+                // Normal parameter
                 var nameDescription = JSDocHelper.After(text, "}").Trim();
                 if (nameDescription.Length > 0)
                 {

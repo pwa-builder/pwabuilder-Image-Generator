@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceManager", "SourceMana
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocParser", "DocParser\DocParser.csproj", "{6200C709-73F2-4064-B639-CE8396F5B6F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocParser.UnitTests", "DocParser.UnitTests\DocParser.UnitTests.csproj", "{08D63294-C4C8-4EDF-92E1-026E2FB71B4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6200C709-73F2-4064-B639-CE8396F5B6F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6200C709-73F2-4064-B639-CE8396F5B6F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6200C709-73F2-4064-B639-CE8396F5B6F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08D63294-C4C8-4EDF-92E1-026E2FB71B4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08D63294-C4C8-4EDF-92E1-026E2FB71B4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08D63294-C4C8-4EDF-92E1-026E2FB71B4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08D63294-C4C8-4EDF-92E1-026E2FB71B4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

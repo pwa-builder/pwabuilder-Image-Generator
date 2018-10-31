@@ -47,6 +47,7 @@
     <Compile Include="JSDocParam.cs" />
     <Compile Include="JSDocParsed.cs" />
     <Compile Include="JSDocParser.cs" />
+    <Compile Include="JSDocReturns.cs" />
     <Compile Include="JSDocSplitSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
