@@ -1,5 +1,5 @@
--# App Image Generator
-A web tool that generates images for various app platforms. Including Windows and ManifoldJS.
+# App Image Generator
+A web tool that generates images for various app platforms. Including Windows and PWABuilder.
 
 See a version of the website at [http://appimagegenerator-prod.azurewebsites.net/](http://appimagegenerator-prod.azurewebsites.net/).
 
