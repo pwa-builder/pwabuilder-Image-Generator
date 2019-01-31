@@ -6,3 +6,4 @@ See a version of the website at [http://appimagegenerator-prod.azurewebsites.net
 Written in C# and ASP.net 4.5.2.
 
 Origionally written by [Peter Daukintis](https://github.com/peted70)
+
