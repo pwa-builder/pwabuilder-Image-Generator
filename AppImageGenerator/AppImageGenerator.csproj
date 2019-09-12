@@ -142,6 +142,7 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="App_Data\androidImages.json" />
+       <Content Include="App_Data\w3cImages.json" />
     <Content Include="App_Data\iosImages.json" />
     <Content Include="App_Data\chromeImages.json" />
     <Content Include="App_Data\firefoxImages.json" />
