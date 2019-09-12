@@ -1,0 +1,37 @@
+[
+    {
+      "width": 512,
+      "height": 512,
+      "name": "w3c-launchericon-512-512",
+      "desc": "w3c-launchericon-512-512",
+      "folder": "w3c/"
+    },
+    {
+      "width": 256,
+      "height": 256,
+      "name": "w3c-launchericon-256-256",
+      "desc": "w3c-launchericon-256-256",
+      "folder": "w3c/"
+    },
+    {
+      "width": 128,
+      "height": 128,
+      "name": "w3c-launchericon-128-128",
+      "desc": "w3c-launchericon-128-128",
+      "folder": "w3c/"
+    },
+    {
+      "width": 64,
+      "height": 64,
+      "name": "w3c-launchericon-64-64",
+      "desc": "w3c-launchericon-64-64",
+      "folder": "w3c/"
+    },
+    {
+      "width": 48,
+      "height": 48,
+      "name": "w3c-launchericon-48-48",
+      "desc": "w3c-launchericon-48-48",
+      "folder": "w3c/"
+    }
+  ]
