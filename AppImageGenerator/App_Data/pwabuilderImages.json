@@ -1,5 +1,5 @@
 [
-    {
+  {
     "width": 44,
     "height": 44,
     "name": "Square44x44Logo.scale-100.png",
@@ -138,5 +138,19 @@
     "name": "ios-appicon-76-76",
     "desc": "ios-appicon-76-76",
     "folder": "ios/"
+  },
+  {
+    "width": 32,
+    "height": 32,
+    "name": "outline.png",
+    "desc": "outline.png",
+    "folder": "teams/"
+  },
+  {
+    "width": 192,
+    "height": 192,
+    "name": "color.png",
+    "desc": "color.png",
+    "folder": "teams/"
   }
 ]
