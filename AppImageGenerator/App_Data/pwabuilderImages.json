@@ -142,9 +142,11 @@
   {
     "width": 32,
     "height": 32,
-    "name": "outline.png",
-    "desc": "outline.png",
-    "folder": "teams/"
+    "name": "silhouette.svg",
+    "desc": "silhouette.svg",
+    "folder": "teams/",
+    "format": "svg",
+    "silhouette": true
   },
   {
     "width": 192,
