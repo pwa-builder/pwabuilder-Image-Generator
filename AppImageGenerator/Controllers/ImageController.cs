@@ -14,11 +14,13 @@ using System.Web;
 using System.Web.Http;
 using Ionic.Zip;
 using Newtonsoft.Json;
+using CsPotrace;
 using Svg;
 using Svg.Transforms;
 
 namespace WWA.WebUI.Controllers
 {
+    #region input classes
     public class Profile
     {
         [DataMember(Name = "width")]
@@ -38,10 +40,15 @@ namespace WWA.WebUI.Controllers
 
         [DataMember(Name = "format")]
         public string Format { get; set; }
+
+        [DataMember(Name = "silhouette")]
+        public bool Silhouette { get; set; }
     }
+    #endregion
 
     public class ImageController : ApiController
     {
+        #region GET api/image
         public HttpResponseMessage Get(string id)
         {
             HttpResponseMessage httpResponseMessage;
@@ -90,8 +97,10 @@ namespace WWA.WebUI.Controllers
             config.Add(ReadStringFromConfigFile(filePath));
             return config;
         }
+        #endregion
 
-        // POST api/image
+
+        #region POST api/image
         public async Task<HttpResponseMessage> Post()
         {
             string root = HttpContext.Current.Server.MapPath("~/App_Data");
@@ -224,6 +233,7 @@ namespace WWA.WebUI.Controllers
 
             return responseMessage;
         }
+        #endregion
 
         private string CreateFilePathFromId(Guid id)
         {
@@ -232,19 +242,24 @@ namespace WWA.WebUI.Controllers
             return zipFilePath;
         }
 
+        #region image conversion
         private static Stream CreateImageStream(IconModel model, Profile profile)
         {
-            if (model.SvgFile != null)
+            if (profile.Silhouette == true)
             {
-                return RenderSvgToStream(model.SvgFile, profile.Width, profile.Height, profile.Format, model.Padding, model.Background);
+                return RenderSilhouetteSvg(model, profile);
+            }
+            else if (model.SvgFile != null)
+            {
+                return RenderSvgToStream(model.SvgFile, profile.Width, profile.Height, profile.Format, profile.Silhouette, model.Padding, model.Background);
             }
             else
             {
-                return ResizeImage(model.InputImage, profile.Width, profile.Height, profile.Format, model.Padding, model.Background);
+                return ResizeImage(model.InputImage, profile.Width, profile.Height, profile.Format, profile.Silhouette, model.Padding, model.Background);
             }
         }
 
-        private static Stream RenderSvgToStream(string filename, int width, int height, string fmt, double paddingProp = 0.3, Color? bg = null)
+        private static Stream RenderSvgToStream(string filename, int width, int height, string fmt, bool silhouette, double paddingProp = 0.3, Color? bg = null)
         {
             var displaySize = new Size(width, height);
 
@@ -326,7 +341,7 @@ namespace WWA.WebUI.Controllers
             return memoryStream;
         }
 
-        private static Stream ResizeImage(Image image, int newWidth, int newHeight, string fmt, double paddingProp = 0.3, Color? bg = null)
+        private static Stream ResizeImage(Image image, int newWidth, int newHeight, string fmt, bool silhouette, double paddingProp = 0.3, Color? bg = null)
         {
             int adjustWidth;
             int adjustedHeight;
@@ -387,8 +402,127 @@ namespace WWA.WebUI.Controllers
 
             return memoryStream;
         }
-    }
 
+        /*
+            Things to think about:
+                - If silhouette, output svg?
+                - Image tracing is simple and can use both a raster or edit a svg.
+                - 
+         */
+        private static Stream RenderSilhouetteSvg(IconModel model, Profile profile)
+        {
+            string svgFile = (model.SvgFile != null) ? model.SvgFile : null;
+
+            // Prep the bit map by making background white and the rest of the colors black.
+
+            // 1. resize image
+            if (svgFile == null)
+            {
+                double paddingProp = model.Padding;
+                int adjustWidth;
+                int adjustedHeight;
+                int paddingW;
+                int paddingH;
+                if (paddingProp > 0)
+                {
+                    paddingW = (int)(paddingProp * profile.Width * 0.5);
+                    adjustWidth = profile.Width - paddingW;
+                    paddingH = (int)(paddingProp * profile.Height * 0.5);
+                    adjustedHeight = profile.Height - paddingH;
+                }
+                else
+                {
+                    paddingW = paddingH = 0;
+                    adjustWidth = profile.Width;
+                    adjustedHeight = profile.Height;
+                }
+
+                int width = model.InputImage.Size.Width;
+                int height = model.InputImage.Size.Height;
+
+                double ratioW = (double)adjustWidth / width;
+                double ratioH = (double)adjustedHeight / height;
+
+                double scaleFactor = ratioH > ratioW ? ratioW : ratioH;
+
+                var scaledHeight = (int)(height * scaleFactor);
+                var scaledWidth = (int)(width * scaleFactor);
+
+                double originX = ratioH > ratioW ? paddingW * 0.5 : profile.Width * 0.5 - scaledWidth * 0.5;
+                double originY = ratioH > ratioW ? profile.Height * 0.5 - scaledHeight * 0.5 : paddingH * 0.5;
+
+                Bitmap original = new Bitmap(model.InputImage);
+                Color toWhite = model.Background != null ? (Color)model.Background : original.GetPixel(0, 0);
+                Bitmap bitmap = new Bitmap(profile.Width, profile.Height, original.PixelFormat);
+
+                Graphics g = Graphics.FromImage(bitmap);
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                g.CompositingQuality = CompositingQuality.HighQuality;
+
+                g.Clear(toWhite);
+
+                var dstRect = new Rectangle((int)originX, (int)originY, scaledWidth, scaledHeight);
+
+                using (var ia = new ImageAttributes())
+                {
+                    using (var image = model.InputImage)
+                    {
+                        ia.SetWrapMode(WrapMode.TileFlipXY);
+                        g.DrawImage(image, dstRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, ia);
+                    }
+                }
+
+                // 2. convert to black and white
+                Color c;
+                for (int x = 0; x < bitmap.Width; x++)
+                {
+                    for (int y = 0; y < bitmap.Height; y++)
+                    {
+                        c = bitmap.GetPixel(x, y);
+
+                        if (c.Equals(toWhite))
+                        {
+                            bitmap.SetPixel(x, y, Color.White);
+                        } else
+                        {
+                            bitmap.SetPixel(x, y, Color.Black);
+                        }
+                    }
+                }
+
+                List<List<Curve>> traces = new List<List<Curve>>();
+                Potrace.Potrace_Trace(bitmap, traces);
+
+                //SVG
+                svgFile = Potrace.getSVG();
+
+                // The way it is set up the internal representations need to be manually cleared.
+                Potrace.Clear();
+
+            } else
+            {
+                // Convert colors to grayscale in the svg
+                
+
+
+            }
+
+
+            // SVG normalization step.
+            // subtractive flow (rm white)
+
+            var stream = new MemoryStream();
+
+
+            return stream;
+        }
+    }
+    #endregion
+
+
+    #region output classes
     public class IconModel: IDisposable
     {
         private bool disposed = false;
@@ -448,4 +582,5 @@ namespace WWA.WebUI.Controllers
     {
         public List<IconObject> icons { get; set; } = new List<IconObject>();
     }
+    #endregion
 }
