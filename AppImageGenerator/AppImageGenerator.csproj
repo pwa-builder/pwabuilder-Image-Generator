@@ -208,6 +208,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CsPotrace\CsPotrace.csproj">
+      <Project>{a1941c8f-4b5c-4610-84b5-a57cc66d31d5}</Project>
+      <Name>CsPotrace</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DocParser\DocParser.csproj">
       <Project>{6200c709-73f2-4064-b639-ce8396f5b6f6}</Project>
       <Name>DocParser</Name>
@@ -217,6 +221,7 @@
       <Name>SourceManager</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
