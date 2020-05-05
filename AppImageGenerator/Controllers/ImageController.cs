@@ -1,4 +1,5 @@
 ﻿using CsPotrace;
+using Fizzler;
 using Ionic.Zip;
 using Newtonsoft.Json;
 using Svg;
@@ -201,7 +202,7 @@ namespace WWA.WebUI.Controllers
                             iconObject.icons.Add(new IconObject(profile.Folder + profile.Name + "." + fmt, profile.Width + "x" + profile.Height));
                         }
 
-                        var iconStr = JsonConvert.SerializeObject(iconObject, Formatting.Indented);
+                        var iconStr = JsonConvert.SerializeObject(iconObject, Newtonsoft.Json.Formatting.Indented);
 
                         zip.AddEntry("icons.json", iconStr);
 
@@ -412,11 +413,11 @@ namespace WWA.WebUI.Controllers
          */
         private static Stream RenderSilhouetteSvg(IconModel model, Profile profile)
         {
+            XmlDocument document = new XmlDocument(); // In Memory representation of the SVG document, will be the output to the stream.
             string svgFile = (model.SvgFile != null) ? model.SvgFile : null;
             double paddingProp = (model.Padding == 0) ? model.Padding : 0.3;
             // Prep the bit map by making background white and the rest of the colors black.
 
-            // 1. resize image
             if (svgFile == null)
             {
                 
@@ -498,12 +499,18 @@ namespace WWA.WebUI.Controllers
 
                 //SVG
                 svgFile = Potrace.getSVG();
+                var reader = new StringReader(svgFile);
+                document.Load(reader);
 
                 // The way it is set up the internal representations need to be manually cleared.
                 Potrace.Clear();
 
             } else
             {
+
+
+
+
                 /*
                     1. Read the document as XML and make the edits in memory.
                     2. Once the edits are done, resize the image to a new file.
@@ -513,7 +520,6 @@ namespace WWA.WebUI.Controllers
                 int height = profile.Height;
                 Color bg = model.Background != null ? (Color)model.Background : Color.White;
 
-                XmlDocument document = new XmlDocument();
                 document.Load(svgFile);
 
                 // navigate to xml body
@@ -532,111 +538,21 @@ namespace WWA.WebUI.Controllers
                         graphicalElement.Attributes["fill"].Value = "#000000";
                     }
                 }
-
-
-
-
-
-                RectangleF svgSize = RectangleF.Empty;
-                try
-                {
-                    svgSize.Width = svgDoc.GetDimensions().Width;
-                    svgSize.Height = svgDoc.GetDimensions().Height;
-                }
-                catch (Exception ex)
-                { }
-
-                if (svgSize == RectangleF.Empty)
-                {
-                    svgSize = new RectangleF(0, 0, svgDoc.ViewBox.Width, svgDoc.ViewBox.Height);
-                }
-
-                if (svgSize.Width == 0)
-                {
-                    throw new Exception("SVG does not have size specified. Cannot work with it.");
-                }
-
-                var displayProportion = (displaySize.Height * 1.0f) / displaySize.Width;
-                var svgProportion = svgSize.Height / svgSize.Width;
-
-                float scalingFactor = 0f;
-                int padding = 0;
-
-                // if display is proportionally narrower than svg 
-                if (displayProportion > svgProportion)
-                {
-                    padding = (int)(paddingProp * width * 0.5);
-                    // we pick the width of display as max and compute the scaling against that. 
-                    scalingFactor = ((displaySize.Width - padding * 2) * 1.0f) / svgSize.Width;
-                }
-                else
-                {
-                    padding = (int)(paddingProp * height * 0.5);
-                    // we pick the height of display as max and compute the scaling against that. 
-                    scalingFactor = ((displaySize.Height - padding * 2) * 1.0f) / svgSize.Height;
-                }
-
-                if (scalingFactor < 0)
-                {
-                    throw new Exception("Viewing area is too small to render the image");
-                }
-
-                // When proportions of drawing do not match viewing area, it's nice to center the drawing within the viewing area. 
-                int centeringX = Convert.ToInt16((displaySize.Width - (padding + svgDoc.Width * scalingFactor)) / 2);
-                int centeringY = Convert.ToInt16((displaySize.Height - (padding + svgDoc.Height * scalingFactor)) / 2);
-
-                // Remove the "+ centering*" to avoid growing and padding the Bitmap with transparent fill. 
-                svgDoc.Transforms = new SvgTransformCollection();
-                svgDoc.Transforms.Add(new SvgTranslate(padding + centeringX, padding + centeringY));
-                svgDoc.Transforms.Add(new SvgScale(scalingFactor));
-
-                // This keeps the size of bitmap fixed to stated viewing area. Image is padded with transparent areas. 
-                svgDoc.Width = new SvgUnit(svgDoc.Width.Type, displaySize.Width);
-                svgDoc.Height = new SvgUnit(svgDoc.Height.Type, displaySize.Height);
-
-                var bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-                Graphics g = Graphics.FromImage(bitmap);
-                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                g.SmoothingMode = SmoothingMode.HighQuality;
-                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                g.CompositingQuality = CompositingQuality.HighQuality;
-
-                if (bg != null)
-                    g.Clear((Color)bg);
-
-                svgDoc.Draw(g);
-                svgDoc.Clone();
             }
 
 
             //TODO
             // SVG normalization step.
             // subtractive flow (rm white), replace the black with white
-            
-
+            // update: 05-05-2020 update the code below to use the XmlDocument in memory.
             var stream = new MemoryStream();
-
-            ImageFormat imgFmt = (fmt == "jpg") ? ImageFormat.Jpeg : ImageFormat.Png;
-            bitmap.Save(memoryStream, ImageFormat);
-
-            svgDoc.Write()
-
-
-            stream.BeginRead(svgFile);
-            memoryStream.Position = 0;
+            document.Save(stream);
 
             return stream;
         }
 
         #region SvgAsXml
-        static private HashSet<string> graphicalElements;
-        static private HashSet<string> containerElements;
-
-        private static bool isGraphicalElement(XmlNode node)
-        {
-            if (graphicalElements == null)
-            {
-                graphicalElements = new HashSet<string>(new string[] {
+        static private HashSet<string> graphicalElements = new HashSet<string>(new string[] {
                     "circle",
                     "ellipse",
                     "line",
@@ -646,16 +562,9 @@ namespace WWA.WebUI.Controllers
                     "rect",
                     "text",
                     "use"
-                });
-            }
-            return graphicalElements.Contains(node.Name);
-        }
+        });
 
-        private static bool isContainerElement(XmlNode node)
-        {
-            if (containerElements == null)
-            {
-                containerElements = new HashSet<string>(new string[] { 
+        static private HashSet<string> containerElements = new HashSet<string>(new string[] {
                     "defs",
                     "g",
                     "marker",
@@ -663,9 +572,15 @@ namespace WWA.WebUI.Controllers
                     "pattern",
                     "switch",
                     "symbol"
-                });
-            }
+        });
 
+        private static bool isGraphicalElement(XmlNode node)
+        {
+            return graphicalElements.Contains(node.Name);
+        }
+
+        private static bool isContainerElement(XmlNode node)
+        {
             return containerElements.Contains(node.Name);
         }
 
