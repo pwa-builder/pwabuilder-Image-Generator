@@ -1,4 +1,9 @@
-﻿using System;
+﻿using CsPotrace;
+using Ionic.Zip;
+using Newtonsoft.Json;
+using Svg;
+using Svg.Transforms;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -12,11 +17,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using Ionic.Zip;
-using Newtonsoft.Json;
-using CsPotrace;
-using Svg;
-using Svg.Transforms;
+using System.Xml;
 
 namespace WWA.WebUI.Controllers
 {
@@ -412,13 +413,15 @@ namespace WWA.WebUI.Controllers
         private static Stream RenderSilhouetteSvg(IconModel model, Profile profile)
         {
             string svgFile = (model.SvgFile != null) ? model.SvgFile : null;
-
+            double paddingProp = (model.Padding == 0) ? model.Padding : 0.3;
             // Prep the bit map by making background white and the rest of the colors black.
 
             // 1. resize image
             if (svgFile == null)
             {
-                double paddingProp = model.Padding;
+                
+                int width = model.InputImage.Size.Width;
+                int height = model.InputImage.Size.Height;
                 int adjustWidth;
                 int adjustedHeight;
                 int paddingW;
@@ -436,9 +439,6 @@ namespace WWA.WebUI.Controllers
                     adjustWidth = profile.Width;
                     adjustedHeight = profile.Height;
                 }
-
-                int width = model.InputImage.Size.Width;
-                int height = model.InputImage.Size.Height;
 
                 double ratioW = (double)adjustWidth / width;
                 double ratioH = (double)adjustedHeight / height;
@@ -482,7 +482,8 @@ namespace WWA.WebUI.Controllers
                     {
                         c = bitmap.GetPixel(x, y);
 
-                        if (c.Equals(toWhite))
+                        // assumption built in, where background needs to be white for potrace, white is kept white, not sure about light grays atm.
+                        if (c.Equals(toWhite) || c.Equals(Color.White))
                         {
                             bitmap.SetPixel(x, y, Color.White);
                         } else
@@ -503,21 +504,200 @@ namespace WWA.WebUI.Controllers
 
             } else
             {
-                // Convert colors to grayscale in the svg
-                
+                /*
+                    1. Read the document as XML and make the edits in memory.
+                    2. Once the edits are done, resize the image to a new file.
+                    3. Use that new image as the basis of the subtractive step, SVG output should be the same as above.
+                 */
+                int width = profile.Width;
+                int height = profile.Height;
+                Color bg = model.Background != null ? (Color)model.Background : Color.White;
+
+                XmlDocument document = new XmlDocument();
+                document.Load(svgFile);
+
+                // navigate to xml body
+                Queue<XmlNode> queue = traverseSvgNodes(ref document, (XmlNode node) => { return isGraphicalElement(node) || isContainerElement(node); });
+
+                // grab background element, change to white
+                foreach (XmlNode graphicalElement in queue)
+                {
+                    string fillColor = graphicalElement.Attributes["fill"].Value;
+
+                    if (fillColor.Equals(ColorTranslator.ToHtml(bg)) || fillColor.Equals(ColorTranslator.ToHtml(Color.White))) {
+                        graphicalElement.Attributes["fill"].Value = "#ffffff";
+                    }
+                    else
+                    {
+                        graphicalElement.Attributes["fill"].Value = "#000000";
+                    }
+                }
 
 
+
+
+
+                RectangleF svgSize = RectangleF.Empty;
+                try
+                {
+                    svgSize.Width = svgDoc.GetDimensions().Width;
+                    svgSize.Height = svgDoc.GetDimensions().Height;
+                }
+                catch (Exception ex)
+                { }
+
+                if (svgSize == RectangleF.Empty)
+                {
+                    svgSize = new RectangleF(0, 0, svgDoc.ViewBox.Width, svgDoc.ViewBox.Height);
+                }
+
+                if (svgSize.Width == 0)
+                {
+                    throw new Exception("SVG does not have size specified. Cannot work with it.");
+                }
+
+                var displayProportion = (displaySize.Height * 1.0f) / displaySize.Width;
+                var svgProportion = svgSize.Height / svgSize.Width;
+
+                float scalingFactor = 0f;
+                int padding = 0;
+
+                // if display is proportionally narrower than svg 
+                if (displayProportion > svgProportion)
+                {
+                    padding = (int)(paddingProp * width * 0.5);
+                    // we pick the width of display as max and compute the scaling against that. 
+                    scalingFactor = ((displaySize.Width - padding * 2) * 1.0f) / svgSize.Width;
+                }
+                else
+                {
+                    padding = (int)(paddingProp * height * 0.5);
+                    // we pick the height of display as max and compute the scaling against that. 
+                    scalingFactor = ((displaySize.Height - padding * 2) * 1.0f) / svgSize.Height;
+                }
+
+                if (scalingFactor < 0)
+                {
+                    throw new Exception("Viewing area is too small to render the image");
+                }
+
+                // When proportions of drawing do not match viewing area, it's nice to center the drawing within the viewing area. 
+                int centeringX = Convert.ToInt16((displaySize.Width - (padding + svgDoc.Width * scalingFactor)) / 2);
+                int centeringY = Convert.ToInt16((displaySize.Height - (padding + svgDoc.Height * scalingFactor)) / 2);
+
+                // Remove the "+ centering*" to avoid growing and padding the Bitmap with transparent fill. 
+                svgDoc.Transforms = new SvgTransformCollection();
+                svgDoc.Transforms.Add(new SvgTranslate(padding + centeringX, padding + centeringY));
+                svgDoc.Transforms.Add(new SvgScale(scalingFactor));
+
+                // This keeps the size of bitmap fixed to stated viewing area. Image is padded with transparent areas. 
+                svgDoc.Width = new SvgUnit(svgDoc.Width.Type, displaySize.Width);
+                svgDoc.Height = new SvgUnit(svgDoc.Height.Type, displaySize.Height);
+
+                var bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+                Graphics g = Graphics.FromImage(bitmap);
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                g.CompositingQuality = CompositingQuality.HighQuality;
+
+                if (bg != null)
+                    g.Clear((Color)bg);
+
+                svgDoc.Draw(g);
+                svgDoc.Clone();
             }
 
 
+            //TODO
             // SVG normalization step.
-            // subtractive flow (rm white)
+            // subtractive flow (rm white), replace the black with white
+            
 
             var stream = new MemoryStream();
 
+            ImageFormat imgFmt = (fmt == "jpg") ? ImageFormat.Jpeg : ImageFormat.Png;
+            bitmap.Save(memoryStream, ImageFormat);
+
+            svgDoc.Write()
+
+
+            stream.BeginRead(svgFile);
+            memoryStream.Position = 0;
 
             return stream;
         }
+
+        #region SvgAsXml
+        static private HashSet<string> graphicalElements;
+        static private HashSet<string> containerElements;
+
+        private static bool isGraphicalElement(XmlNode node)
+        {
+            if (graphicalElements == null)
+            {
+                graphicalElements = new HashSet<string>(new string[] {
+                    "circle",
+                    "ellipse",
+                    "line",
+                    "path",
+                    "polygon",
+                    "polyline",
+                    "rect",
+                    "text",
+                    "use"
+                });
+            }
+            return graphicalElements.Contains(node.Name);
+        }
+
+        private static bool isContainerElement(XmlNode node)
+        {
+            if (containerElements == null)
+            {
+                containerElements = new HashSet<string>(new string[] { 
+                    "defs",
+                    "g",
+                    "marker",
+                    "mask",
+                    "pattern",
+                    "switch",
+                    "symbol"
+                });
+            }
+
+            return containerElements.Contains(node.Name);
+        }
+
+        private static Queue<XmlNode> traverseSvgNodes(ref XmlDocument document, Func<XmlNode, bool> condition)
+        {
+            Queue<XmlNode> edits = new Queue<XmlNode>();
+
+            foreach (XmlNode svg in document.GetElementsByTagName("svg"))
+            {
+                traverseSvgNodesRecursive(ref edits, in svg, condition);
+            }
+
+            return edits;
+        }
+
+        private static void traverseSvgNodesRecursive(ref Queue<XmlNode> queue, in XmlNode node, Func<XmlNode, bool> condition)
+        {
+            if (condition(node))
+            {
+                queue.Enqueue(node);
+            }
+
+            if (node.HasChildNodes)
+            {
+                foreach (XmlNode childNode in node.ChildNodes)
+                {
+                    traverseSvgNodesRecursive(ref queue, childNode, condition);
+                }
+            }
+        }
+      
+        #endregion
     }
     #endregion
 
