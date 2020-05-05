@@ -406,23 +406,33 @@ namespace WWA.WebUI.Controllers
         }
 
         /*
-            Things to think about:
-                - If silhouette, output svg?
-                - Image tracing is simple and can use both a raster or edit a svg.
-                - 
+            Handles paths concerning if the image is a raster or an svg.
+            Part 1
+            Raster:
+            - Convert image to bitmap
+            - Bitmap then is sent into Potrace and the svg is a text file that has been outputted.
+            - 
+
+            SVG:
+            - 
+
+            Part 2
          */
         private static Stream RenderSilhouetteSvg(IconModel model, Profile profile)
         {
             XmlDocument document = new XmlDocument(); // In Memory representation of the SVG document, will be the output to the stream.
             string svgFile = (model.SvgFile != null) ? model.SvgFile : null;
             double paddingProp = (model.Padding == 0) ? model.Padding : 0.3;
+            int width = profile.Width;
+            int height = profile.Height;
             // Prep the bit map by making background white and the rest of the colors black.
 
+            // Part 1
             if (svgFile == null)
             {
                 
-                int width = model.InputImage.Size.Width;
-                int height = model.InputImage.Size.Height;
+                width = model.InputImage.Size.Width;
+                height = model.InputImage.Size.Height;
                 int adjustWidth;
                 int adjustedHeight;
                 int paddingW;
@@ -452,9 +462,11 @@ namespace WWA.WebUI.Controllers
                 double originX = ratioH > ratioW ? paddingW * 0.5 : profile.Width * 0.5 - scaledWidth * 0.5;
                 double originY = ratioH > ratioW ? profile.Height * 0.5 - scaledHeight * 0.5 : paddingH * 0.5;
 
+                // 1. Convert to bitmap
                 Bitmap original = new Bitmap(model.InputImage);
-                Color toWhite = model.Background != null ? (Color)model.Background : original.GetPixel(0, 0);
                 Bitmap bitmap = new Bitmap(profile.Width, profile.Height, original.PixelFormat);
+
+                Color toWhite = model.Background != null ? (Color)model.Background : original.GetPixel(0, 0);
 
                 Graphics g = Graphics.FromImage(bitmap);
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
@@ -475,7 +487,7 @@ namespace WWA.WebUI.Controllers
                     }
                 }
 
-                // 2. convert to black and white
+                // 2. Convert background color and white to white, all else to black
                 Color c;
                 for (int x = 0; x < bitmap.Width; x++)
                 {
@@ -494,7 +506,7 @@ namespace WWA.WebUI.Controllers
                     }
                 }
 
-                List<List<Curve>> traces = new List<List<Curve>>();
+                List<List<Curve>> traces = new List<List<Curve>>(); //ignore this output, intended for the GUI
                 Potrace.Potrace_Trace(bitmap, traces);
 
                 //SVG
@@ -502,27 +514,60 @@ namespace WWA.WebUI.Controllers
                 var reader = new StringReader(svgFile);
                 document.Load(reader);
 
-                // The way it is set up the internal representations need to be manually cleared.
+                // The way it CSPotrace is set up the internal representations need to be manually cleared.
                 Potrace.Clear();
 
             } else
             {
+                /*
+                    SVG Path
+                 */
+                // 1. Resize document nodes, these operations in the api state they edit the actual underlying document.
+                SvgDocument svgDoc = SvgDocument.Open(model.SvgFile);
+                float oldWidth = 0f;
+                float oldHeight = 0f;
 
+                try
+                {
+                    oldWidth = svgDoc.GetDimensions().Width;
+                    oldHeight = svgDoc.GetDimensions().Height;
+                } catch (Exception ex) { }
 
+                if (oldWidth == 0f)
+                {
+                    XmlNode firstRect = document.SelectSingleNode("rect");
+                    oldWidth = float.Parse(firstRect.Attributes["width"].Value);
+                    oldHeight = float.Parse(firstRect.Attributes["height"].Value);
 
+                    if (oldWidth == 0f)
+                    {
+                        throw new Exception("SVG does not have size specified. Cannot work with it.");
+                    }
+                }
+
+                float newRatio = (height * 1.0f) / width;
+                float oldRatio = oldHeight / oldWidth;
+                float scalingFactor = 1f;
+                int padding = 0;
+                if (newRatio > oldRatio)
+                {
+                    padding = (int)(paddingProp * oldWidth * 0.5);
+                    scalingFactor = ((width - padding * 2) * 1.0f) / oldWidth;
+                } else
+                {
+                    padding = (int)(paddingProp * oldHeight * 0.5);
+                    scalingFactor = ((height - padding * 2) * 1.0f) / oldHeight;
+                }
 
                 /*
-                    1. Read the document as XML and make the edits in memory.
-                    2. Once the edits are done, resize the image to a new file.
-                    3. Use that new image as the basis of the subtractive step, SVG output should be the same as above.
+                    1. Traverse XML and build queue of elements to convert to black and white.
                  */
-                int width = profile.Width;
-                int height = profile.Height;
-                Color bg = model.Background != null ? (Color)model.Background : Color.White;
+                // Read the SVG document as XML in memory
+                Color toWhite = model.Background != null ? (Color)model.Background : Color.White;
 
                 document.Load(svgFile);
 
-                // navigate to xml body
+                // DFS
                 Queue<XmlNode> queue = traverseSvgNodes(ref document, (XmlNode node) => { return isGraphicalElement(node) || isContainerElement(node); });
 
                 // grab background element, change to white
@@ -530,22 +575,37 @@ namespace WWA.WebUI.Controllers
                 {
                     string fillColor = graphicalElement.Attributes["fill"].Value;
 
-                    if (fillColor.Equals(ColorTranslator.ToHtml(bg)) || fillColor.Equals(ColorTranslator.ToHtml(Color.White))) {
-                        graphicalElement.Attributes["fill"].Value = "#ffffff";
+                    if (fillColor.Equals(ColorTranslator.ToHtml(toWhite)) || fillColor.Equals(ColorTranslator.ToHtml(Color.White))) {
+                        graphicalElement.Attributes["fill"].Value = "ffffff";
                     }
                     else
                     {
-                        graphicalElement.Attributes["fill"].Value = "#000000";
+                        graphicalElement.Attributes["fill"].Value = "000000";
                     }
                 }
             }
 
-
-            //TODO
-            // SVG normalization step.
-            // subtractive flow (rm white), replace the black with white
-            // update: 05-05-2020 update the code below to use the XmlDocument in memory.
+            /*
+                Part 2 - change background to transparent and the silhouette nodes to white.
+             */
+            //convert white nodes to transparent, convert black nodes to white (silhouette color).
             var stream = new MemoryStream();
+
+            Queue<XmlNode> toTransparent = traverseSvgNodes(ref document, 
+                (XmlNode node) => { return node.Attributes["fill"].Value == "ffffff" || node.Attributes["fill"].Value == "white"; });
+            Queue<XmlNode> silhouetteQueue = traverseSvgNodes(ref document, 
+                (XmlNode node) => { return node.Attributes["fill"].Value == "000000" || node.Attributes["fill"].Value == "black"; });
+
+            foreach (XmlNode node in toTransparent)
+            {
+                node.Attributes["fill"].Value = "transparent";
+            }
+
+            foreach (XmlNode node in silhouetteQueue)
+            {
+                node.Attributes["fill"].Value = "ffffff";
+            }
+
             document.Save(stream);
 
             return stream;
