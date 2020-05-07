@@ -108,6 +108,7 @@ namespace WWA.WebUI.Controllers
             string root = HttpContext.Current.Server.MapPath("~/App_Data");
             var provider = new MultipartFormDataStreamProvider(root);
             Guid zipId = Guid.NewGuid();
+            System.Diagnostics.Debug.WriteLine(zipId);
 
             try
             {
@@ -207,6 +208,7 @@ namespace WWA.WebUI.Controllers
                         zip.AddEntry("icons.json", iconStr);
 
                         string zipFilePath = CreateFilePathFromId(zipId);
+
                         zip.Save(zipFilePath);
                     }
                 }
@@ -513,10 +515,9 @@ namespace WWA.WebUI.Controllers
                 Potrace.Potrace_Trace(bitmap, traces);
 
                 //SVG
-                svgFile = Potrace.getSVG();
-                var reader = new StringReader(svgFile);
-                document.Load(reader);
-
+                string svgFileContent = Potrace.getSVG();
+                document.LoadXml(svgFileContent);
+            
                 // The way it CSPotrace is set up the internal representations need to be manually cleared.
                 Potrace.Clear();
 
@@ -525,7 +526,7 @@ namespace WWA.WebUI.Controllers
                 /*
                     SVG Path
                  */
-                // 1. Resize document nodes, these operations in the api state they edit the actual underlying document.
+                // 1. Resize document nodes send this output to stream into the XMLDocument.
                 SvgDocument svgDoc = SvgDocument.Open(model.SvgFile);
                 float oldWidth = 0f;
                 float oldHeight = 0f;
@@ -568,7 +569,7 @@ namespace WWA.WebUI.Controllers
                 // Read the SVG document as XML in memory
                 Color toWhite = model.Background != null ? (Color)model.Background : Color.White;
 
-                document.Load(svgFile);
+                document.LoadXml(svgDoc.GetXML());
 
                 // DFS
                 Queue<XmlNode> queue = traverseSvgNodes(ref document, (XmlNode node) => { return isGraphicalElement(node) || isContainerElement(node); });
