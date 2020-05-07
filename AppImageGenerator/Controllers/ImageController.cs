@@ -410,13 +410,16 @@ namespace WWA.WebUI.Controllers
             Part 1
             Raster:
             - Convert image to bitmap
+            - Bitmap is iterated by pixel, background becomes white, all else becomes black
             - Bitmap then is sent into Potrace and the svg is a text file that has been outputted.
-            - 
 
             SVG:
-            - 
+            - Background color turned white, all else turned black.
 
             Part 2
+            - white svg elements are set to transparent
+            - black svg elements are set to black
+
          */
         private static Stream RenderSilhouetteSvg(IconModel model, Profile profile)
         {
@@ -576,11 +579,11 @@ namespace WWA.WebUI.Controllers
                     string fillColor = graphicalElement.Attributes["fill"].Value;
 
                     if (fillColor.Equals(ColorTranslator.ToHtml(toWhite)) || fillColor.Equals(ColorTranslator.ToHtml(Color.White))) {
-                        graphicalElement.Attributes["fill"].Value = "ffffff";
+                        graphicalElement.Attributes["fill"].Value = "#ffffff";
                     }
                     else
                     {
-                        graphicalElement.Attributes["fill"].Value = "000000";
+                        graphicalElement.Attributes["fill"].Value = "#000000";
                     }
                 }
             }
@@ -592,9 +595,9 @@ namespace WWA.WebUI.Controllers
             var stream = new MemoryStream();
 
             Queue<XmlNode> toTransparent = traverseSvgNodes(ref document, 
-                (XmlNode node) => { return node.Attributes["fill"].Value == "ffffff" || node.Attributes["fill"].Value == "white"; });
+                (XmlNode node) => { return node.Attributes["fill"].Value == "#ffffff" || node.Attributes["fill"].Value == "white"; });
             Queue<XmlNode> silhouetteQueue = traverseSvgNodes(ref document, 
-                (XmlNode node) => { return node.Attributes["fill"].Value == "000000" || node.Attributes["fill"].Value == "black"; });
+                (XmlNode node) => { return node.Attributes["fill"].Value == "#000000" || node.Attributes["fill"].Value == "black"; });
 
             foreach (XmlNode node in toTransparent)
             {
@@ -603,7 +606,7 @@ namespace WWA.WebUI.Controllers
 
             foreach (XmlNode node in silhouetteQueue)
             {
-                node.Attributes["fill"].Value = "ffffff";
+                node.Attributes["fill"].Value = "#ffffff";
             }
 
             document.Save(stream);
