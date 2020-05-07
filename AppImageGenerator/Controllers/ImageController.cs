@@ -255,15 +255,15 @@ namespace WWA.WebUI.Controllers
             }
             else if (model.SvgFile != null)
             {
-                return RenderSvgToStream(model.SvgFile, profile.Width, profile.Height, profile.Format, profile.Silhouette, model.Padding, model.Background);
+                return RenderSvgToStream(model.SvgFile, profile.Width, profile.Height, profile.Format, model.Padding, model.Background);
             }
             else
             {
-                return ResizeImage(model.InputImage, profile.Width, profile.Height, profile.Format, profile.Silhouette, model.Padding, model.Background);
+                return ResizeImage(model.InputImage, profile.Width, profile.Height, profile.Format, model.Padding, model.Background);
             }
         }
 
-        private static Stream RenderSvgToStream(string filename, int width, int height, string fmt, bool silhouette, double paddingProp = 0.3, Color? bg = null)
+        private static Stream RenderSvgToStream(string filename, int width, int height, string fmt, double paddingProp = 0.3, Color? bg = null)
         {
             var displaySize = new Size(width, height);
 
@@ -345,7 +345,7 @@ namespace WWA.WebUI.Controllers
             return memoryStream;
         }
 
-        private static Stream ResizeImage(Image image, int newWidth, int newHeight, string fmt, bool silhouette, double paddingProp = 0.3, Color? bg = null)
+        private static Stream ResizeImage(Image image, int newWidth, int newHeight, string fmt, double paddingProp = 0.3, Color? bg = null)
         {
             int adjustWidth;
             int adjustedHeight;
@@ -596,9 +596,9 @@ namespace WWA.WebUI.Controllers
             var stream = new MemoryStream();
 
             Queue<XmlNode> toTransparent = traverseSvgNodes(ref document, 
-                (XmlNode node) => { return node.Attributes["fill"].Value == "#ffffff" || node.Attributes["fill"].Value == "white"; });
+                (XmlNode node) => { return node.Attributes["fill"] != null && (node.Attributes["fill"].Value == "#ffffff" || node.Attributes["fill"].Value == "white"); });
             Queue<XmlNode> silhouetteQueue = traverseSvgNodes(ref document, 
-                (XmlNode node) => { return node.Attributes["fill"].Value == "#000000" || node.Attributes["fill"].Value == "black"; });
+                (XmlNode node) => { return node.Attributes["fill"] != null && (node.Attributes["fill"].Value == "#000000" || node.Attributes["fill"].Value == "black"); });
 
             foreach (XmlNode node in toTransparent)
             {
