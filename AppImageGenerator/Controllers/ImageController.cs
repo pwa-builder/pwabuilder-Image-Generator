@@ -108,7 +108,6 @@ namespace WWA.WebUI.Controllers
             string root = HttpContext.Current.Server.MapPath("~/App_Data");
             var provider = new MultipartFormDataStreamProvider(root);
             Guid zipId = Guid.NewGuid();
-            System.Diagnostics.Debug.WriteLine(zipId);
 
             try
             {
