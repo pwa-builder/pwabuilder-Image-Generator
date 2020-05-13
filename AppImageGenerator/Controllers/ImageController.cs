@@ -255,7 +255,7 @@ namespace WWA.WebUI.Controllers
                 svgSize.Width = svgDoc.GetDimensions().Width;
                 svgSize.Height = svgDoc.GetDimensions().Height;
             }
-            catch (Exception ex)
+            catch (Exception)
             { }
 
             if (svgSize == RectangleF.Empty)
