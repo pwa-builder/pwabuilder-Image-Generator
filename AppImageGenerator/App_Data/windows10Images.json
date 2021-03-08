@@ -228,6 +228,13 @@
     "folder": "windows10/"
   },
   {
+    "width": 44,
+    "height": 44,
+    "name": "Square44x44Logo.targetsize-44_altform-unplated",
+    "desc": "Square44x44Logo.targetsize-44_altform-unplated",
+    "folder": "windows10/"
+  },
+  {
     "width": 32,
     "height": 32,
     "name": "Square44x44Logo.targetsize-32_altform-unplated",
