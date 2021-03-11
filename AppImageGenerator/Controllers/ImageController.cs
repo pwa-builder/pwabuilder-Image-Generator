@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -96,6 +97,7 @@ namespace WWA.WebUI.Controllers
         {
             string root = HttpContext.Current.Server.MapPath("~/App_Data");
             var provider = new MultipartFormDataStreamProvider(root);
+
             Guid zipId = Guid.NewGuid();
 
             try
@@ -103,19 +105,44 @@ namespace WWA.WebUI.Controllers
                 // Read the form data.
                 await Request.Content.ReadAsMultipartAsync(provider);
 
-                MultipartFileData multipartFileData = provider.FileData.First();
+                MultipartFileData multipartFileData = null;
+                if (provider.FileData.Count() > 0)
+                {
+                    multipartFileData = provider.FileData.First();
+                }
 
                 using (var model = new IconModel())
                 {
-                    var ct = multipartFileData.Headers.ContentType.MediaType;
-                    if (ct != null && ct.Contains("svg"))
+                    if (multipartFileData != null)
                     {
-                        model.SvgFile = multipartFileData.LocalFileName;
-                    }
+                        var ct = multipartFileData.Headers.ContentType.MediaType;
+                        if (ct != null && ct.Contains("svg"))
+                        {
+                            model.SvgFile = multipartFileData.LocalFileName;
+                        }
+                        else
+                        {
+                            model.InputImage = Image.FromFile(multipartFileData.LocalFileName);
+                        }
+                    } 
+                    else if (provider.FormData.AllKeys.Contains("fileName"))
+                    {
+                        string imgString = provider.FormData.Get("fileName");
+
+                        byte[] byteArray = Encoding.Default.GetBytes(imgString);
+
+                        MemoryStream stream = new MemoryStream(byteArray);
+                        //StreamWriter writer = new StreamWriter(stream);
+                        //writer.Write(imgString);
+                        //writer.Flush();
+
+                        model.InputImage = Image.FromStream(stream);
+                    } 
                     else
                     {
-                        model.InputImage = Image.FromFile(multipartFileData.LocalFileName);
+                        throw new Exception("Missing source image to generate images from.");
                     }
+
                     model.Padding = Convert.ToDouble(provider.FormData.GetValues("padding")[0]);
                     if (model.Padding < 0 || model.Padding > 1.0)
                     {
