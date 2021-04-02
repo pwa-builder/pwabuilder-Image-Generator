@@ -12,34 +12,15 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Results;
 using Ionic.Zip;
 using Newtonsoft.Json;
 using Svg;
 using Svg.Transforms;
+using WWA.WebUI.Models;
 
 namespace WWA.WebUI.Controllers
 {
-    public class Profile
-    {
-        [DataMember(Name = "width")]
-        public int Width { get; set; }
-
-        [DataMember(Name = "height")]
-        public int Height { get; set; }
-
-        [DataMember(Name = "name")]
-        public string Name { get; set; }
-
-        [DataMember(Name = "desc")]
-        public string Desc { get; set; }
-
-        [DataMember(Name = "folder")]
-        public string Folder { get; set; }
-
-        [DataMember(Name = "format")]
-        public string Format { get; set; }
-    }
-
     public class ImageController : ApiController
     {
         public HttpResponseMessage Get(string id)
@@ -73,6 +54,104 @@ namespace WWA.WebUI.Controllers
             return httpResponseMessage;
         }
 
+        /// <summary>
+        /// Generates a list of images from the specified base image.
+        /// Expected arguments:
+        /// - baseImage: the image as a multipart form POST. This is the image from which all other images will be generated. Should generally be 512x512 or larger, ideally in PNG format.
+        /// - platform: a list of values specifying the platform(s) for which the images are being generated, e.g. "windows10"
+        /// - padding: a value between 0 and 1 specifying the padding for the generated images.
+        /// - colorOption: a hex color value to use as the background color of the generated images.
+        /// - colorChanged: whether to use a background color. If false, transparent will be used as the background color.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> Post()
+        {
+            var root = HttpContext.Current.Server.MapPath("~/App_Data");
+            var provider = new MultipartFormDataStreamProvider(root);
+            var zipId = Guid.NewGuid();
+
+            try
+            {
+                // Read the arguments.
+                await Request.Content.ReadAsMultipartAsync(provider);
+                using (var args = ImageGenerationModel.FromFormData(provider.FormData, provider.FileData))
+                {
+                    // Punt if we have invalid arguments.
+                    if (!string.IsNullOrEmpty(args.ErrorMessage))
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, args.ErrorMessage);
+                    }
+
+                    var profiles = GetProfilesFromPlatforms(args.Platforms);
+                    using (var zip = new ZipFile())
+                    {
+                        var iconObject = new IconRootObject();
+                        foreach (var profile in profiles)
+                        {
+                            var stream = CreateImageStream(args, profile);
+
+                            string fmt = string.IsNullOrEmpty(profile.Format) ? "png" : profile.Format;
+                            zip.AddEntry(profile.Folder + profile.Name + "." + fmt, stream);
+                            stream.Flush();
+
+                            iconObject.icons.Add(new IconObject(profile.Folder + profile.Name + "." + fmt, profile.Width + "x" + profile.Height));
+                        }
+
+                        var iconStr = JsonConvert.SerializeObject(iconObject, Formatting.Indented);
+
+                        zip.AddEntry("icons.json", iconStr);
+
+                        string zipFilePath = CreateFilePathFromId(zipId);
+                        zip.Save(zipFilePath);
+                    }
+                }
+            }
+            catch (OutOfMemoryException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, ex);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+
+            // Send back a route to download the zip file.
+            var url = Url.Route("DefaultApi", new { controller = "image", id = zipId.ToString() });
+            var uri = new Uri(url, UriKind.Relative);
+            var responseMessage = Request.CreateResponse(HttpStatusCode.Created, new ImageResponse { Uri = uri });
+            responseMessage.Headers.Location = uri;
+            return responseMessage;
+        }
+
+        public async Task<HttpResponseMessage> Base64()
+        {
+            var root = HttpContext.Current.Server.MapPath("~/App_Data");
+            var provider = new MultipartFormDataStreamProvider(root);
+
+            // Grab the args.
+            await Request.Content.ReadAsMultipartAsync(provider);
+            using (var args = ImageGenerationModel.FromFormData(provider.FormData, provider.FileData))
+            {
+                if (!string.IsNullOrEmpty(args.ErrorMessage))
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, args.ErrorMessage);
+                }
+
+                var imgs = GetProfilesFromPlatforms(args.Platforms)
+                    .Select(profile => new WebManifestIcon
+                    {
+                        Purpose = "any",
+                        Sizes = $"{profile.Width}x{profile.Height}",
+                        Src = CreateBase64Image(args, profile),
+                        Type = string.IsNullOrEmpty(profile.Format) ? "image/png" : profile.Format
+                    });
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent(JsonConvert.SerializeObject(imgs))
+                };
+            }
+        }
+
         private static string ReadStringFromConfigFile(string filePath)
         {
             using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
@@ -91,138 +170,32 @@ namespace WWA.WebUI.Controllers
             return config;
         }
 
-        // POST api/image
-        public async Task<HttpResponseMessage> Post()
+        private IReadOnlyList<Profile> GetProfilesFromPlatforms(IEnumerable<string> platforms)
         {
-            string root = HttpContext.Current.Server.MapPath("~/App_Data");
-            var provider = new MultipartFormDataStreamProvider(root);
-            Guid zipId = Guid.NewGuid();
-
-            try
+            List<Profile> profiles = null;
+            foreach (var platform in platforms)
             {
-                // Read the form data.
-                await Request.Content.ReadAsMultipartAsync(provider);
-
-                MultipartFileData multipartFileData = provider.FileData.First();
-
-                using (var model = new IconModel())
+                // Get the platform and profiles
+                var config = GetConfig(platform);
+                if (config.Count() < 1)
                 {
-                    var ct = multipartFileData.Headers.ContentType.MediaType;
-                    if (ct != null && ct.Contains("svg"))
+                    throw new HttpResponseException(HttpStatusCode.BadRequest);
+                }
+
+                foreach (var cfg in config)
+                {
+                    if (profiles == null)
                     {
-                        model.SvgFile = multipartFileData.LocalFileName;
+                        profiles = JsonConvert.DeserializeObject<List<Profile>>(cfg);
                     }
                     else
                     {
-                        model.InputImage = Image.FromFile(multipartFileData.LocalFileName);
-                    }
-                    model.Padding = Convert.ToDouble(provider.FormData.GetValues("padding")[0]);
-                    if (model.Padding < 0 || model.Padding > 1.0)
-                    {
-                        // Throw out as user has supplied invalid hex string..
-                        HttpResponseMessage httpResponseMessage =
-                            Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Padding value invalid. Please input a number between 0 and 1");
-                        return httpResponseMessage;
-                    }
-
-                    var colorStr = provider.FormData.GetValues("color")?[0];
-                    var colorChanged = provider.FormData.GetValues("colorChanged")?[0] == "1";
-
-                    if (!string.IsNullOrEmpty(colorStr) && colorChanged)
-                    {
-                        try
-                        {
-                            var colorConverter = new ColorConverter();
-                            model.Background = (Color)colorConverter.ConvertFromString(colorStr);
-                        }
-                        catch (Exception ex)
-                        {
-                            // Throw out as user has supplied invalid hex string..
-                            HttpResponseMessage httpResponseMessage =
-                                Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Background Color value invalid. Please input a valid hex color.", ex);
-                            return httpResponseMessage;
-                        }
-                    }
-
-                    var platforms = provider.FormData.GetValues("platform");
-
-                    if (platforms == null)
-                    {
-                        // Throw out as user has supplied no platforms..
-                        HttpResponseMessage httpResponseMessage =
-                            Request.CreateErrorResponse(HttpStatusCode.BadRequest, "No platform has been specified.");
-                        return httpResponseMessage;
-                    }
-
-                    model.Platforms = platforms;
-
-                    List<Profile> profiles = null;
-
-                    foreach (var platform in model.Platforms)
-                    {
-                        // Get the platform and profiles
-                        IEnumerable<string> config = GetConfig(platform);
-                        if (config.Count() < 1)
-                        {
-                            throw new HttpResponseException(HttpStatusCode.BadRequest);
-                        }
-
-                        foreach (var cfg in config)
-                        {
-                            if (profiles == null)
-                                profiles = JsonConvert.DeserializeObject<List<Profile>>(cfg);
-                            else
-                                profiles.AddRange(JsonConvert.DeserializeObject<List<Profile>>(cfg));
-                        }
-                    }
-
-                    using (var zip = new ZipFile())
-                    {
-                        var iconObject = new IconRootObject();
-                        foreach (var profile in profiles)
-                        {
-
-                            var stream = CreateImageStream(model, profile);
-
-                            string fmt = string.IsNullOrEmpty(profile.Format) ? "png" : profile.Format;
-                            zip.AddEntry(profile.Folder + profile.Name + "." + fmt, stream);
-                            stream.Flush();
-
-                            iconObject.icons.Add(new IconObject(profile.Folder + profile.Name + "." + fmt, profile.Width + "x" + profile.Height));
-                        }
-
-                        var iconStr = JsonConvert.SerializeObject(iconObject, Formatting.Indented);
-
-                        zip.AddEntry("icons.json", iconStr);
-
-                        string zipFilePath = CreateFilePathFromId(zipId);
-                        zip.Save(zipFilePath);
+                        profiles.AddRange(JsonConvert.DeserializeObject<List<Profile>>(cfg));
                     }
                 }
-
-                // Delete source image file from local disk
-                File.Delete(multipartFileData.LocalFileName);
-            }
-            catch (OutOfMemoryException ex)
-            {
-                HttpResponseMessage httpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, ex);
-                return httpResponseMessage;
-            }
-            catch (Exception ex)
-            {
-                HttpResponseMessage httpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
-                return httpResponseMessage;
             }
 
-            string url = Url.Route("DefaultApi", new { controller = "image", id = zipId.ToString() });
-
-            var uri = new Uri(url, UriKind.Relative);
-            var responseMessage = Request.CreateResponse(HttpStatusCode.Created,
-                new ImageResponse { Uri = uri });
-
-            responseMessage.Headers.Location = uri;
-
-            return responseMessage;
+            return profiles;
         }
 
         private string CreateFilePathFromId(Guid id)
@@ -232,19 +205,29 @@ namespace WWA.WebUI.Controllers
             return zipFilePath;
         }
 
-        private static Stream CreateImageStream(IconModel model, Profile profile)
+        private static MemoryStream CreateImageStream(ImageGenerationModel model, Profile profile)
         {
-            if (model.SvgFile != null)
+            if (model.SvgFileName != null)
             {
-                return RenderSvgToStream(model.SvgFile, profile.Width, profile.Height, profile.Format, model.Padding, model.Background);
+                return RenderSvgToStream(model.SvgFileName, profile.Width, profile.Height, profile.Format, model.Padding, model.BackgroundColor);
             }
             else
             {
-                return ResizeImage(model.InputImage, profile.Width, profile.Height, profile.Format, model.Padding, model.Background);
+                return ResizeImage(model.BaseImage, profile.Width, profile.Height, profile.Format, model.Padding, model.BackgroundColor);
             }
         }
 
-        private static Stream RenderSvgToStream(string filename, int width, int height, string fmt, double paddingProp = 0.3, Color? bg = null)
+        private static string CreateBase64Image(ImageGenerationModel model, Profile profile)
+        {
+            var formatOrPng = string.IsNullOrEmpty(profile.Format) ? "image/png" : profile.Format;
+            using (var imgStream = CreateImageStream(model, profile))
+            {
+                var base64 = Convert.ToBase64String(imgStream.ToArray());
+                return $"data:{formatOrPng};base64,{base64}";
+            }
+        }
+
+        private static MemoryStream RenderSvgToStream(string filename, int width, int height, string fmt, double paddingProp = 0.3, Color? bg = null)
         {
             var displaySize = new Size(width, height);
 
@@ -326,7 +309,7 @@ namespace WWA.WebUI.Controllers
             return memoryStream;
         }
 
-        private static Stream ResizeImage(Image image, int newWidth, int newHeight, string fmt, double paddingProp = 0.3, Color? bg = null)
+        private static MemoryStream ResizeImage(Image image, int newWidth, int newHeight, string fmt, double paddingProp = 0.3, Color? bg = null)
         {
             int adjustWidth;
             int adjustedHeight;
@@ -386,43 +369,6 @@ namespace WWA.WebUI.Controllers
             memoryStream.Position = 0;
 
             return memoryStream;
-        }
-    }
-
-    public class IconModel: IDisposable
-    {
-        private bool disposed = false;
-
-        public string SvgFile { get; set; }
-
-        public Image InputImage { get; set; }
-
-        public double Padding { get; set; }
-
-        public Color? Background { get; set; }
-
-        public string[] Platforms { get; set; }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposed)
-                return;
-
-            if (disposing)
-            {
-                if (InputImage != null)
-                {
-                    InputImage.Dispose();
-                }
-            }
-
-            disposed = true;
         }
     }
 

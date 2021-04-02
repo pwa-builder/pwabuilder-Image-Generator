@@ -11,13 +11,22 @@ namespace WWA.WebUI
     {
         public static void Register(HttpConfiguration config)
         {
-			config.MapHttpAttributeRoutes();
+            config.MapHttpAttributeRoutes();
 
             var pwabuilderUrl = ConfigurationManager.AppSettings["pwabuilderUrl"];
 
             EnableCorsAttribute cors = new EnableCorsAttribute(pwabuilderUrl, "*", "GET,POST");
-
             config.EnableCors(cors);
+
+            config.Routes.MapHttpRoute(
+                name: "ImagePost",
+                routeTemplate: "api/image",
+                defaults: new { controller = "Image", action = "Post" });
+
+            config.Routes.MapHttpRoute(
+                name: "ImageBase64",
+                routeTemplate: "api/image/base64",
+                defaults: new { controller = "Image", action = "Base64" });
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
