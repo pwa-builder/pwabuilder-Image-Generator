@@ -259,6 +259,13 @@
     "folder": "windows10/"
   },
   {
+    "width": 20,
+    "height": 20,
+    "name": "Square44x44Logo.targetsize-20",
+    "desc": "Square44x44Logo.targetsize-20",
+    "folder": "windows10/"
+  },
+  {
     "width": 24,
     "height": 24,
     "name": "Square44x44Logo.targetsize-24",
@@ -266,10 +273,31 @@
     "folder": "windows10/"
   },
   {
+    "width": 30,
+    "height": 30,
+    "name": "Square44x44Logo.targetsize-30",
+    "desc": "Square44x44Logo.targetsize-30",
+    "folder": "windows10/"
+  },
+  {
     "width": 32,
     "height": 32,
     "name": "Square44x44Logo.targetsize-32",
     "desc": "Square44x44Logo.targetsize-32",
+    "folder": "windows10/"
+  },
+  {
+    "width": 36,
+    "height": 36,
+    "name": "Square44x44Logo.targetsize-36",
+    "desc": "Square44x44Logo.targetsize-36",
+    "folder": "windows10/"
+  },
+  {
+    "width": 40,
+    "height": 40,
+    "name": "Square44x44Logo.targetsize-40",
+    "desc": "Square44x44Logo.targetsize-40",
     "folder": "windows10/"
   },
   {
@@ -287,6 +315,13 @@
     "folder": "windows10/"
   },
   {
+    "width": 60,
+    "height": 60,
+    "name": "Square44x44Logo.targetsize-60",
+    "desc": "Square44x44Logo.targetsize-60",
+    "folder": "windows10/"
+  },
+  {
     "width": 64,
     "height": 64,
     "name": "Square44x44Logo.targetsize-64",
@@ -298,6 +333,20 @@
     "height": 72,
     "name": "Square44x44Logo.targetsize-72",
     "desc": "Square44x44Logo.targetsize-72",
+    "folder": "windows10/"
+  },
+  {
+    "width": 80,
+    "height": 80,
+    "name": "Square44x44Logo.targetsize-80",
+    "desc": "Square44x44Logo.targetsize-80",
+    "folder": "windows10/"
+  },
+  {
+    "width": 96,
+    "height": 96,
+    "name": "Square44x44Logo.targetsize-96",
+    "desc": "Square44x44Logo.targetsize-96",
     "folder": "windows10/"
   },
   {
@@ -316,6 +365,13 @@
     "folder": "windows10/"
   },
   {
+    "width": 20,
+    "height": 20,
+    "name": "Square44x44Logo.altform-unplated_targetsize-20",
+    "desc": "Square44x44Logo.altform-unplated_targetsize-20",
+    "folder": "windows10/"
+  },
+  {
     "width": 24,
     "height": 24,
     "name": "Square44x44Logo.altform-unplated_targetsize-24",
@@ -323,10 +379,31 @@
     "folder": "windows10/"
   },
   {
+    "width": 30,
+    "height": 30,
+    "name": "Square44x44Logo.altform-unplated_targetsize-30",
+    "desc": "Square44x44Logo.altform-unplated_targetsize-30",
+    "folder": "windows10/"
+  },
+  {
     "width": 32,
     "height": 32,
     "name": "Square44x44Logo.altform-unplated_targetsize-32",
     "desc": "Square44x44Logo.altform-unplated_targetsize-32",
+    "folder": "windows10/"
+  },
+  {
+    "width": 36,
+    "height": 36,
+    "name": "Square44x44Logo.altform-unplated_targetsize-36",
+    "desc": "Square44x44Logo.altform-unplated_targetsize-36",
+    "folder": "windows10/"
+  },
+  {
+    "width": 40,
+    "height": 40,
+    "name": "Square44x44Logo.altform-unplated_targetsize-40",
+    "desc": "Square44x44Logo.altform-unplated_targetsize-40",
     "folder": "windows10/"
   },
   {
@@ -344,6 +421,13 @@
     "folder": "windows10/"
   },
   {
+    "width": 60,
+    "height": 60,
+    "name": "Square44x44Logo.altform-unplated_targetsize-60",
+    "desc": "Square44x44Logo.altform-unplated_targetsize-60",
+    "folder": "windows10/"
+  },
+  {
     "width": 64,
     "height": 64,
     "name": "Square44x44Logo.altform-unplated_targetsize-64",
@@ -355,6 +439,20 @@
     "height": 72,
     "name": "Square44x44Logo.altform-unplated_targetsize-72",
     "desc": "Square44x44Logo.altform-unplated_targetsize-72",
+    "folder": "windows10/"
+  },
+  {
+    "width": 80,
+    "height": 80,
+    "name": "Square44x44Logo.altform-unplated_targetsize-80",
+    "desc": "Square44x44Logo.altform-unplated_targetsize-80",
+    "folder": "windows10/"
+  },
+  {
+    "width": 96,
+    "height": 96,
+    "name": "Square44x44Logo.altform-unplated_targetsize-96",
+    "desc": "Square44x44Logo.altform-unplated_targetsize-96",
     "folder": "windows10/"
   },
   {
@@ -373,6 +471,13 @@
     "folder": "windows10/"
   },
   {
+    "width": 20,
+    "height": 20,
+    "name": "Square44x44Logo.altform-lightunplated_targetsize-20",
+    "desc": "Square44x44Logo.altform-lightunplated_targetsize-20",
+    "folder": "windows10/"
+  },
+  {
     "width": 24,
     "height": 24,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-24",
@@ -380,10 +485,31 @@
     "folder": "windows10/"
   },
   {
+    "width": 30,
+    "height": 30,
+    "name": "Square44x44Logo.altform-lightunplated_targetsize-30",
+    "desc": "Square44x44Logo.altform-lightunplated_targetsize-30",
+    "folder": "windows10/"
+  },
+  {
     "width": 32,
     "height": 32,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-32",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-32",
+    "folder": "windows10/"
+  },
+  {
+    "width": 36,
+    "height": 36,
+    "name": "Square44x44Logo.altform-lightunplated_targetsize-36",
+    "desc": "Square44x44Logo.altform-lightunplated_targetsize-36",
+    "folder": "windows10/"
+  },
+  {
+    "width": 40,
+    "height": 40,
+    "name": "Square44x44Logo.altform-lightunplated_targetsize-40",
+    "desc": "Square44x44Logo.altform-lightunplated_targetsize-40",
     "folder": "windows10/"
   },
   {
@@ -401,6 +527,13 @@
     "folder": "windows10/"
   },
   {
+    "width": 60,
+    "height": 60,
+    "name": "Square44x44Logo.altform-lightunplated_targetsize-60",
+    "desc": "Square44x44Logo.altform-lightunplated_targetsize-60",
+    "folder": "windows10/"
+  },
+  {
     "width": 64,
     "height": 64,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-64",
@@ -412,6 +545,20 @@
     "height": 72,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-72",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-72",
+    "folder": "windows10/"
+  },
+  {
+    "width": 80,
+    "height": 80,
+    "name": "Square44x44Logo.altform-lightunplated_targetsize-80",
+    "desc": "Square44x44Logo.altform-lightunplated_targetsize-80",
+    "folder": "windows10/"
+  },
+  {
+    "width": 96,
+    "height": 96,
+    "name": "Square44x44Logo.altform-lightunplated_targetsize-96",
+    "desc": "Square44x44Logo.altform-lightunplated_targetsize-96",
     "folder": "windows10/"
   },
   {
