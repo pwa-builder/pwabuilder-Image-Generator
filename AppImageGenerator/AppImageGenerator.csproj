@@ -145,7 +145,7 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="App_Data\androidImages.json" />
-    <Content Include="App_Data\iosImages.json" />
+    <Content Include="App_Data\_old_iosImages.json" />
     <Content Include="App_Data\chromeImages.json" />
     <Content Include="App_Data\firefoxImages.json" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -203,6 +203,7 @@
     <Content Include="Content\fonts\Bitter\Bitter-Regular.woff" />
     <Content Include="Content\fonts\Bitter\Bitter-Regular.woff2" />
     <Content Include="App_Data\msteamsImages.json" />
+    <Content Include="App_Data\iosImages.json" />
     <None Include="Properties\PublishProfiles\appimagegenerator-pre.pubxml" />
     <None Include="Properties\PublishProfiles\appimagegenerator-prod.pubxml" />
     <None Include="Properties\PublishProfiles\appimagegenerator-prod__staging.pubxml" />
@@ -251,6 +252,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
+      <UserProperties app_3data_4iosimages_1json_1json__JsonSchema="https://bitbucket.org/atlassianlabs/atlascode/raw/main/resources/schemas/pipelines-schema.json" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
