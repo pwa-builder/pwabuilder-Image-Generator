@@ -15,7 +15,6 @@ namespace WWA.WebUI.Models
 
         public double Padding { get; set; }
         public Color? BackgroundColor { get; set; }
-        public bool ColorChanged { get; set; }
         public string[] Platforms { get; set; }
         public MultipartFileData BaseImageData { get; set; }
         public Image BaseImage { get; set; }
@@ -66,9 +65,8 @@ namespace WWA.WebUI.Models
 
             // Validate the color.
             var colorStr = form.GetValues("color")?.FirstOrDefault();
-            var colorChanged = form.GetValues("colorChanged")?.FirstOrDefault() == "1";
             Color? color = null;
-            if (!string.IsNullOrEmpty(colorStr) && colorChanged)
+            if (!string.IsNullOrEmpty(colorStr))
             {
                 try
                 {
@@ -90,7 +88,6 @@ namespace WWA.WebUI.Models
                 BaseImage = baseImage,
                 SvgFileName = svgFileName,
                 BackgroundColor = color,
-                ColorChanged = colorChanged,
                 Padding = padding,
                 Platforms = platforms
             };

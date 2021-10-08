@@ -60,8 +60,7 @@ namespace WWA.WebUI.Controllers
         /// - baseImage: the image as a multipart form POST. This is the image from which all other images will be generated. Should generally be 512x512 or larger, ideally in PNG format.
         /// - platform: a list of values specifying the platform(s) for which the images are being generated, e.g. "windows10"
         /// - padding: a value between 0 and 1 specifying the padding for the generated images.
-        /// - colorOption: a hex color value to use as the background color of the generated images.
-        /// - colorChanged: whether to use a background color. If false, transparent will be used as the background color.
+        /// - color: a hex color value to use as the background color of the generated images. If null, a best guess -- the color of pixel (0,0) -- will be used.
         /// </summary>
         /// <returns></returns>
         public async Task<HttpResponseMessage> Post()
