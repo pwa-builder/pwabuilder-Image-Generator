@@ -83,17 +83,17 @@ namespace WWA.WebUI.Controllers
                     }
 
                     var profiles = GetProfilesFromPlatforms(args.Platforms);
+                    var imageStreams = new List<Stream>(profiles.Count);
                     using (var zip = new ZipFile())
                     {
                         var iconObject = new IconRootObject();
                         foreach (var profile in profiles)
                         {
                             var stream = CreateImageStream(args, profile);
-
-                            string fmt = string.IsNullOrEmpty(profile.Format) ? "png" : profile.Format;
+                            imageStreams.Add(stream);
+                            var fmt = string.IsNullOrEmpty(profile.Format) ? "png" : profile.Format;
                             zip.AddEntry(profile.Folder + profile.Name + "." + fmt, stream);
                             stream.Flush();
-
                             iconObject.icons.Add(new IconObject(profile.Folder + profile.Name + "." + fmt, profile.Width + "x" + profile.Height));
                         }
 
@@ -103,6 +103,7 @@ namespace WWA.WebUI.Controllers
 
                         string zipFilePath = CreateFilePathFromId(zipId);
                         zip.Save(zipFilePath);
+                        imageStreams.ForEach(s => s.Dispose());
                     }
                 }
             }
@@ -207,13 +208,17 @@ namespace WWA.WebUI.Controllers
 
         private static MemoryStream CreateImageStream(ImageGenerationModel model, Profile profile)
         {
+            // We the individual image has padding specified, used that.
+            // Otherwise, use the general padding passed into the model.
+            var padding = profile.Padding ?? model.Padding;
+
             if (model.SvgFileName != null)
             {
-                return RenderSvgToStream(model.SvgFileName, profile.Width, profile.Height, profile.Format, model.Padding, model.BackgroundColor);
+                return RenderSvgToStream(model.SvgFileName, profile.Width, profile.Height, profile.Format, padding, model.BackgroundColor);
             }
             else
             {
-                return ResizeImage(model.BaseImage, profile.Width, profile.Height, profile.Format, profile.Padding ?? model.Padding, model.BackgroundColor);
+                return ResizeImage(model.BaseImage, profile.Width, profile.Height, profile.Format, padding, model.BackgroundColor);
             }
         }
 
