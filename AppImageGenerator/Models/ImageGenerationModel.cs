@@ -60,10 +60,8 @@ namespace WWA.WebUI.Models
             var hasPadding = double.TryParse(form.GetValues("padding").FirstOrDefault(), out var padding);
             if (!hasPadding || padding < 0 || padding > 1.0)
             {
-                return new ImageGenerationModel
-                {
-                    ErrorMessage = "Padding value invalid. Please input a number between 0 and 1"
-                };
+                // No padding? Default to 0.3
+                padding = 0.3;
             }
 
             // Validate the color.

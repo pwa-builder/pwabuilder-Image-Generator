@@ -213,7 +213,7 @@ namespace WWA.WebUI.Controllers
             }
             else
             {
-                return ResizeImage(model.BaseImage, profile.Width, profile.Height, profile.Format, model.Padding, model.BackgroundColor);
+                return ResizeImage(model.BaseImage, profile.Width, profile.Height, profile.Format, profile.Padding ?? model.Padding, model.BackgroundColor);
             }
         }
 

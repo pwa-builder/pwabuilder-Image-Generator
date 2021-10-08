@@ -25,5 +25,8 @@ namespace WWA.WebUI.Models
 
         [DataMember(Name = "format")]
         public string Format { get; set; }
+
+        [DataMember(Name = "padding")]
+        public double? Padding { get; set; }
     }
 }

@@ -204,6 +204,7 @@
     <Content Include="Content\fonts\Bitter\Bitter-Regular.woff2" />
     <Content Include="App_Data\msteamsImages.json" />
     <Content Include="App_Data\iosImages.json" />
+    <Content Include="App_Data\windows11Images.json" />
     <None Include="Properties\PublishProfiles\appimagegenerator-pre.pubxml" />
     <None Include="Properties\PublishProfiles\appimagegenerator-prod.pubxml" />
     <None Include="Properties\PublishProfiles\appimagegenerator-prod__staging.pubxml" />
