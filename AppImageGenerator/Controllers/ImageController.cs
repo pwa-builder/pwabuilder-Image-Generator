@@ -120,7 +120,27 @@ namespace WWA.WebUI.Controllers
             var uri = new Uri(url, UriKind.Relative);
             var responseMessage = Request.CreateResponse(HttpStatusCode.Created, new ImageResponse { Uri = uri });
             responseMessage.Headers.Location = uri;
+            responseMessage.Headers.Add("X-Zip-Id", zipId.ToString());
             return responseMessage;
+        }
+
+        // Same as Post, but additionally downloads the file
+        public async Task<HttpResponseMessage> Download()
+        {
+            var postResponse = await Post();
+            if (postResponse.StatusCode == HttpStatusCode.Created)
+            {
+                if (postResponse.Headers.TryGetValues("X-Zip-Id", out var vals))
+                {
+                    var zipId = vals.FirstOrDefault();
+                    if (zipId != null)
+                    {
+                        return Get(zipId);
+                    }
+                }
+            }
+
+            return postResponse;
         }
 
         public async Task<HttpResponseMessage> Base64()

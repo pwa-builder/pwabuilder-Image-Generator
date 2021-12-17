@@ -29,6 +29,11 @@ namespace WWA.WebUI
                 defaults: new { controller = "Image", action = "Base64" });
 
             config.Routes.MapHttpRoute(
+                name: "ImageDownload",
+                routeTemplate: "api/image/download",
+                defaults: new { controller = "Image", action = "Download" });
+
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
