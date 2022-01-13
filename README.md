@@ -1,3 +1,5 @@
+Please use our [main repository for any issues/bugs/features suggestion](https://github.com/pwa-builder/PWABuilder/issues/new/choose).
+
 # App Image Generator
 A web tool that generates images for various app platforms. Used by PWABuilder.com.
 
