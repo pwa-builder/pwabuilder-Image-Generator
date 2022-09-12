@@ -78,7 +78,9 @@ namespace WWA.WebUI.Controllers
                     // Punt if we have invalid arguments.
                     if (!string.IsNullOrEmpty(args.ErrorMessage))
                     {
-                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, args.ErrorMessage);
+                        var request = Request.CreateErrorResponse(HttpStatusCode.BadRequest, args.ErrorMessage);
+                        request.ReasonPhrase = args.ErrorMessage;
+                        return request;
                     }
 
                     var profiles = GetProfilesFromPlatforms(args.Platforms);
