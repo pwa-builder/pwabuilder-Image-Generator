@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
+using SixLabors.ImageSharp;
 
 namespace WWA.WebUI.Models
 {
@@ -42,7 +43,24 @@ namespace WWA.WebUI.Models
             }
             else
             {
-                baseImage = Image.FromFile(baseImageData.LocalFileName);
+                //baseImage = Image.FromFile(baseImageData.LocalFileName);
+
+                FileStream fs = null;
+                try
+                {
+                    fs = new FileStream(baseImageData.LocalFileName, FileMode.Open, FileAccess.Read);
+                    baseImage = Image.Load(fs);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                finally
+                {
+                    fs.Close();
+                }
+                
             }
 
             // Validate platforms.
@@ -65,13 +83,14 @@ namespace WWA.WebUI.Models
 
             // Validate the color.
             var colorStr = form.GetValues("color")?.FirstOrDefault();
-            Color? color = null;
+            var color = Color.FromRgba(0, 0, 0, 0);
+
             if (!string.IsNullOrEmpty(colorStr))
             {
                 try
                 {
-                    var colorConverter = new ColorConverter();
-                    color = (Color)colorConverter.ConvertFromString(colorStr);
+                    if (!Color.TryParse(colorStr, out color))
+                        Color.TryParseHex(colorStr, out color);
                 }
                 catch
                 {

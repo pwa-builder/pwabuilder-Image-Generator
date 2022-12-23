@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -15,9 +12,33 @@ using System.Web.Http;
 using System.Web.Http.Results;
 using Ionic.Zip;
 using Newtonsoft.Json;
+
 using Svg;
 using Svg.Transforms;
 using WWA.WebUI.Models;
+
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
+using SkiaSharp;
+using Svg.Skia;
+using SKSvg = Svg.Skia.SKSvg;
+
+using System.Windows;
+using Microsoft.SqlServer.Server;
+using System.Windows.Interop;
+using ShimSkiaSharp;
+using SKImage = SkiaSharp.SKImage;
+using SKSizeI = SkiaSharp.SKSizeI;
+using System.Runtime.InteropServices.ComTypes;
+using SixLabors.ImageSharp.Formats;
+using Size = SixLabors.ImageSharp.Size;
+using System.Text.RegularExpressions;
+using SixLabors.ImageSharp.Formats.Webp;
+using SixLabors.ImageSharp.Formats.Bmp;
+using SixLabors.ImageSharp.Formats.Tiff;
 
 namespace WWA.WebUI.Controllers
 {
@@ -227,19 +248,37 @@ namespace WWA.WebUI.Controllers
             return zipFilePath;
         }
 
+        private static IImageEncoder getEncoderFromType(string type)
+        {
+            if (new Regex(type).IsMatch("png"))
+                return new PngEncoder();
+            if (new Regex(type).IsMatch("jpeg") || new Regex(type).IsMatch("jpg"))
+                return new JpegEncoder();
+            if (new Regex(type).IsMatch("webp"))
+                return new WebpEncoder();
+            if (new Regex(type).IsMatch("bmp"))
+                return new BmpEncoder();
+            if (new Regex(type).IsMatch("tiff"))
+                return new TiffEncoder();
+
+            return new PngEncoder();
+        }
+
         private static MemoryStream CreateImageStream(ImageGenerationModel model, Profile profile)
         {
             // We the individual image has padding specified, used that.
             // Otherwise, use the general padding passed into the model.
             var padding = profile.Padding ?? model.Padding;
 
+            var imageEncoder = getEncoderFromType(profile.Format);
+
             if (model.SvgFileName != null)
             {
-                return RenderSvgToStream(model.SvgFileName, profile.Width, profile.Height, profile.Format, padding, model.BackgroundColor);
+                return RenderSvgToStream(model.SvgFileName, profile.Width, profile.Height, imageEncoder, padding, model.BackgroundColor);
             }
             else
             {
-                return ResizeImage(model.BaseImage, profile.Width, profile.Height, profile.Format, padding, model.BackgroundColor);
+                return ResizeImage(model.BaseImage, profile.Width, profile.Height, imageEncoder, padding, model.BackgroundColor);
             }
         }
 
@@ -253,89 +292,45 @@ namespace WWA.WebUI.Controllers
             }
         }
 
-        private static MemoryStream RenderSvgToStream(string filename, int width, int height, string fmt, double paddingProp = 0.3, Color? bg = null)
+
+        public static MemoryStream RenderSvgToStream(string filePath, int width, int height, IImageEncoder imageEncoder, double? padding, Color? backgroundColor = null)
         {
-            var displaySize = new Size(width, height);
-
-            SvgDocument svgDoc = SvgDocument.Open(filename);
-            RectangleF svgSize = RectangleF.Empty;
-            try
+            using (var svg = new SKSvg( ))
             {
-                svgSize.Width = svgDoc.GetDimensions().Width;
-                svgSize.Height = svgDoc.GetDimensions().Height;
+                if (svg.Load(filePath) != null)
+                {
+                    using (SKImage image = SKImage.FromPicture(svg.Picture, new SKSizeI((int)(Convert.ToDouble(width) - padding * 2), (int)(Convert.ToDouble(height) - padding * 2))))
+                    {
+                        var stream = new MemoryStream();
+
+                        // Save the image to the stream in the specified format
+                        using (SKData data = image.Encode(SKEncodedImageFormat.Png, 100))
+                        {
+                            data.SaveTo(stream);
+                        }
+
+                        // Reset the stream position to the beginning
+                        stream.Position = 0;
+
+                        Image image2 = Image.Load(stream);
+                        image2.Mutate(x => x.Pad(width, height));
+
+                        if (backgroundColor != null)
+                            image2.Mutate(x => x.BackgroundColor((Color)backgroundColor));
+
+                        stream.Position = 0;
+                        image2.Save(stream, imageEncoder);
+
+
+                        return stream;
+                    }
+                }
+                else
+                    return null;
             }
-            catch (Exception)
-            { }
-
-            if (svgSize == RectangleF.Empty)
-            {
-                svgSize = new RectangleF(0, 0, svgDoc.ViewBox.Width, svgDoc.ViewBox.Height);
-            }
-
-            if (svgSize.Width == 0)
-            {
-                throw new Exception("SVG does not have size specified. Cannot work with it.");
-            }
-
-            var displayProportion = (displaySize.Height * 1.0f) / displaySize.Width;
-            var svgProportion = svgSize.Height / svgSize.Width;
-
-            float scalingFactor = 0f;
-            int padding = 0; 
-
-            // if display is proportionally narrower than svg 
-            if (displayProportion > svgProportion)
-            {
-                padding = (int)(paddingProp * width * 0.5);
-                // we pick the width of display as max and compute the scaling against that. 
-                scalingFactor = ((displaySize.Width - padding * 2) * 1.0f) / svgSize.Width;
-            }
-            else
-            {
-                padding = (int)(paddingProp * height * 0.5);
-                // we pick the height of display as max and compute the scaling against that. 
-                scalingFactor = ((displaySize.Height - padding * 2) * 1.0f) / svgSize.Height;
-            }
-
-            if (scalingFactor < 0)
-            {
-                throw new Exception("Viewing area is too small to render the image");
-            }
-
-            // When proportions of drawing do not match viewing area, it's nice to center the drawing within the viewing area. 
-            int centeringX = Convert.ToInt16((displaySize.Width - (padding + svgDoc.Width * scalingFactor)) / 2);
-            int centeringY = Convert.ToInt16((displaySize.Height - (padding + svgDoc.Height * scalingFactor)) / 2);
-
-            // Remove the "+ centering*" to avoid growing and padding the Bitmap with transparent fill. 
-            svgDoc.Transforms = new SvgTransformCollection();
-            svgDoc.Transforms.Add(new SvgTranslate(padding + centeringX, padding + centeringY));
-            svgDoc.Transforms.Add(new SvgScale(scalingFactor));
-
-            // This keeps the size of bitmap fixed to stated viewing area. Image is padded with transparent areas. 
-            svgDoc.Width = new SvgUnit(svgDoc.Width.Type, displaySize.Width);
-            svgDoc.Height = new SvgUnit(svgDoc.Height.Type, displaySize.Height);
-
-            var bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-            Graphics g = Graphics.FromImage(bitmap);
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            g.CompositingQuality = CompositingQuality.HighQuality;
-
-            if (bg != null)
-                g.Clear((Color)bg);
-
-            svgDoc.Draw(g);
-
-            var memoryStream = new MemoryStream();
-            ImageFormat imgFmt = (fmt == "jpg") ? ImageFormat.Jpeg : ImageFormat.Png;
-            bitmap.Save(memoryStream, imgFmt);
-            memoryStream.Position = 0;
-
-            return memoryStream;
         }
 
-        private static MemoryStream ResizeImage(Image image, int newWidth, int newHeight, string fmt, double paddingProp = 0.3, Color? bg = null)
+        private static MemoryStream ResizeImage(Image image, int newWidth, int newHeight, IImageEncoder imageEncoder, double paddingProp = 0.3, Color? bg = null)
         {
             int adjustWidth;
             int adjustedHeight;
@@ -355,44 +350,19 @@ namespace WWA.WebUI.Controllers
                 adjustedHeight = newHeight;
             }
 
-            int width = image.Size.Width;
-            int height = image.Size.Height;
+            image.Mutate(x => x.Resize(adjustWidth, adjustedHeight, KnownResamplers.Lanczos3));
 
-            double ratioW = (double)adjustWidth / width;
-            double ratioH = (double)adjustedHeight / height;
-
-            double scaleFactor = ratioH > ratioW ? ratioW : ratioH;
-
-            var scaledHeight = (int)(height * scaleFactor);
-            var scaledWidth = (int)(width * scaleFactor);
-
-            double originX = ratioH > ratioW ? paddingW * 0.5 : newWidth * 0.5 - scaledWidth * 0.5;
-            double originY = ratioH > ratioW ? newHeight * 0.5 - scaledHeight * 0.5 : paddingH * 0.5;
-
-            var srcBmp = new Bitmap(image);
-            Color pixel = bg != null ? (Color)bg : srcBmp.GetPixel(0, 0);
-
-            var bitmap = new Bitmap(newWidth, newHeight, srcBmp.PixelFormat);
-            Graphics g = Graphics.FromImage(bitmap);
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            g.CompositingQuality = CompositingQuality.HighQuality;
-
-            g.Clear(pixel);
-
-            var dstRect = new Rectangle((int)originX, (int)originY, scaledWidth, scaledHeight);
-
-            using (var ia = new ImageAttributes())
-            {
-                ia.SetWrapMode(WrapMode.TileFlipXY);
-                g.DrawImage(image, dstRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, ia);
-            }
+            if (paddingProp > 0)
+                image.Mutate(x => x.Resize(
+                    new ResizeOptions
+                    {
+                        Size = new Size(newWidth, newHeight),
+                        Mode = ResizeMode.Pad
+                    }).BackgroundColor((Color)bg));
 
             var memoryStream = new MemoryStream();
-            ImageFormat imgFmt = (fmt == "jpg") ? ImageFormat.Jpeg : ImageFormat.Png;
-            bitmap.Save(memoryStream, imgFmt);
-            memoryStream.Position = 0;
+            image.Save(memoryStream, imageEncoder);
+     
 
             return memoryStream;
         }
