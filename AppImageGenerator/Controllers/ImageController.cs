@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Results;
-using Ionic.Zip;
 using Newtonsoft.Json;
 
 using Svg;
@@ -39,6 +38,7 @@ using System.Text.RegularExpressions;
 using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.Formats.Bmp;
 using SixLabors.ImageSharp.Formats.Tiff;
+using System.IO.Compression;
 
 namespace WWA.WebUI.Controllers
 {
@@ -106,7 +106,8 @@ namespace WWA.WebUI.Controllers
 
                     var profiles = GetProfilesFromPlatforms(args.Platforms);
                     var imageStreams = new List<Stream>(profiles.Count);
-                    using (var zip = new ZipFile())
+
+                    using (var zip = ZipFile.Open(CreateFilePathFromId(zipId), ZipArchiveMode.Create))
                     {
                         var iconObject = new IconRootObject();
                         foreach (var profile in profiles)
@@ -114,17 +115,23 @@ namespace WWA.WebUI.Controllers
                             var stream = CreateImageStream(args, profile);
                             imageStreams.Add(stream);
                             var fmt = string.IsNullOrEmpty(profile.Format) ? "png" : profile.Format;
-                            zip.AddEntry(profile.Folder + profile.Name + "." + fmt, stream);
+                            var iconEntry = zip.CreateEntry(profile.Name + "." + fmt, CompressionLevel.Fastest);
+                            var iconStream = iconEntry.Open();
+                            await stream.CopyToAsync(iconStream);
+                            iconStream.Close();
                             stream.Flush();
+        
                             iconObject.icons.Add(new IconObject(profile.Folder + profile.Name + "." + fmt, profile.Width + "x" + profile.Height));
                         }
 
                         var iconStr = JsonConvert.SerializeObject(iconObject, Formatting.Indented);
 
-                        zip.AddEntry("icons.json", iconStr);
+                        using (StreamWriter writer = new StreamWriter(zip.CreateEntry("icons.json", CompressionLevel.Optimal).Open()))
+                        {
+                            writer.Write(iconStr);
+                        }
 
                         string zipFilePath = CreateFilePathFromId(zipId);
-                        zip.Save(zipFilePath);
                         imageStreams.ForEach(s => s.Dispose());
                     }
                 }
@@ -250,16 +257,19 @@ namespace WWA.WebUI.Controllers
 
         private static IImageEncoder getEncoderFromType(string type)
         {
-            if (new Regex(type).IsMatch("png"))
-                return new PngEncoder();
-            if (new Regex(type).IsMatch("jpeg") || new Regex(type).IsMatch("jpg"))
-                return new JpegEncoder();
-            if (new Regex(type).IsMatch("webp"))
-                return new WebpEncoder();
-            if (new Regex(type).IsMatch("bmp"))
-                return new BmpEncoder();
-            if (new Regex(type).IsMatch("tiff"))
-                return new TiffEncoder();
+            if (!string.IsNullOrEmpty(type))
+            {
+                if (new Regex(type).IsMatch("png"))
+                    return new PngEncoder();
+                if (new Regex(type).IsMatch("jpeg") || new Regex(type).IsMatch("jpg"))
+                    return new JpegEncoder();
+                if (new Regex(type).IsMatch("webp"))
+                    return new WebpEncoder();
+                if (new Regex(type).IsMatch("bmp"))
+                    return new BmpEncoder();
+                if (new Regex(type).IsMatch("tiff"))
+                    return new TiffEncoder();
+            }
 
             return new PngEncoder();
         }
