@@ -1,5 +1,5 @@
 ﻿using System.Configuration;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WAT.WebUI.Controllers
 {

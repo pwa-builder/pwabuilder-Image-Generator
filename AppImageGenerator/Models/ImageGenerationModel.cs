@@ -4,6 +4,8 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using SixLabors.ImageSharp;
 
 namespace WWA.WebUI.Models
@@ -15,12 +17,12 @@ namespace WWA.WebUI.Models
         public double Padding { get; set; }
         public Color? BackgroundColor { get; set; }
         public string[] Platforms { get; set; }
-        public MultipartFileData BaseImageData { get; set; }
+        public IFormFile BaseImageData { get; set; }
         public Image BaseImage { get; set; }
         public string ErrorMessage { get; set; }
         public string SvgFileName { get; set; }
 
-        public static ImageGenerationModel FromFormData(NameValueCollection form, Collection<MultipartFileData> files)
+        public static ImageGenerationModel FromFormData(IFormCollection form, IFormFileCollection files)
         {
             // Validate base image data.
             var baseImageData = files.FirstOrDefault();
@@ -35,9 +37,9 @@ namespace WWA.WebUI.Models
             // Get the image, or SVG file name if it's an SVG image.
             var svgFileName = default(string);
             var baseImage = default(Image);
-            if (baseImageData.Headers.ContentType?.MediaType?.Contains("svg") == true)
+            if (baseImageData.Headers.ContentType.Contains("svg") == true)
             {
-                svgFileName = baseImageData.LocalFileName;
+                svgFileName = baseImageData.FileName;
             }
             else
             {
@@ -46,7 +48,7 @@ namespace WWA.WebUI.Models
                 FileStream fs = null;
                 try
                 {
-                    fs = new FileStream(baseImageData.LocalFileName, FileMode.Open, FileAccess.Read);
+                    fs = new FileStream(baseImageData.FileName, FileMode.Open, FileAccess.Read);
                     baseImage = Image.Load(fs);
                 }
                 catch (Exception)
@@ -62,8 +64,10 @@ namespace WWA.WebUI.Models
             }
 
             // Validate platforms.
-            var platforms = form.GetValues("platform");
-            if (platforms == null)
+            StringValues platforms;
+            form.TryGetValue("platform", out platforms);
+
+            if (platforms.Count > 0)
             {
                 return new ImageGenerationModel
                 {
@@ -72,7 +76,12 @@ namespace WWA.WebUI.Models
             }
 
             // Validate the padding.
-            var hasPadding = double.TryParse(form.GetValues("padding").FirstOrDefault(), out var padding);
+            StringValues paddings;
+            form.TryGetValue("padding", out paddings);
+            var hasPadding = paddings.Count > 0 ? true : false;
+
+            double.TryParse(paddings.First(), out var padding);
+
             if (!hasPadding || padding < 0 || padding > 1.0)
             {
                 // No padding? Default to 0.3
@@ -80,7 +89,10 @@ namespace WWA.WebUI.Models
             }
 
             // Validate the color.
-            var colorStr = form.GetValues("color")?.FirstOrDefault();
+            StringValues colorStrings;
+            form.TryGetValue("color", out colorStrings);
+
+            var colorStr = colorStrings.First();
             var color = Color.FromRgba(0, 0, 0, 0);
 
             if (!string.IsNullOrEmpty(colorStr))
@@ -130,9 +142,9 @@ namespace WWA.WebUI.Models
                     this.BaseImage.Dispose();
                 }
 
-                if (this.BaseImageData != null && !string.IsNullOrEmpty(this.BaseImageData.LocalFileName))
+                if (this.BaseImageData != null && !string.IsNullOrEmpty(this.BaseImageData.FileName))
                 {
-                    System.IO.File.Delete(this.BaseImageData.LocalFileName);
+                    System.IO.File.Delete(this.BaseImageData.FileName);
                 }
             }
 

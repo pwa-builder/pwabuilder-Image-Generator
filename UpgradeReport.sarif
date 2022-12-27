@@ -1,0 +1,2189 @@
+﻿{
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Convert project file to SDK style",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.ProjectFormat.TryConvertProjectConverterStep",
+              "fullDescription": {
+                "text": "Project file converted successfully! The project may require additional changes to build successfully against the new .NET target."
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.ProjectFormat.TryConvertProjectConverterStep",
+          "message": {
+            "text": "Complete: Project file converted successfully! The project may require additional changes to build successfully against the new .NET target."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove reference 'System.ServiceModel'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.Reference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove reference 'System.ServiceModel'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.Reference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove reference 'System.ServiceModel'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove reference 'System.Configuration'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.Reference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove reference 'System.Configuration'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.Reference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove reference 'System.Configuration'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Add package 'System.ServiceModel.Primitives'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Add package 'System.ServiceModel.Primitives'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Add package 'System.ServiceModel.Primitives'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Add package 'System.ServiceModel.Http'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Add package 'System.ServiceModel.Http'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Add package 'System.ServiceModel.Http'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Add package 'System.ServiceModel.Duplex'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Add package 'System.ServiceModel.Duplex'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Add package 'System.ServiceModel.Duplex'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Add package 'System.ServiceModel.NetTcp'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Add package 'System.ServiceModel.NetTcp'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Add package 'System.ServiceModel.NetTcp'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Add package 'System.ServiceModel.Security'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Add package 'System.ServiceModel.Security'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Add package 'System.ServiceModel.Security'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Add package 'System.ServiceModel.Federation'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Add package 'System.ServiceModel.Federation'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Add package 'System.ServiceModel.Federation'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Add package 'System.Configuration.ConfigurationManager'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Add package 'System.Configuration.ConfigurationManager'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Add package 'System.Configuration.ConfigurationManager'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Add package 'Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Add package 'Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Add package 'Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'ExCSS'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'ExCSS'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'ExCSS'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'HarfBuzzSharp'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'HarfBuzzSharp'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'HarfBuzzSharp'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'HarfBuzzSharp.NativeAssets.macOS'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'HarfBuzzSharp.NativeAssets.macOS'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'HarfBuzzSharp.NativeAssets.macOS'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'HarfBuzzSharp.NativeAssets.Win32'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'HarfBuzzSharp.NativeAssets.Win32'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'HarfBuzzSharp.NativeAssets.Win32'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'Microsoft.AspNet.Cors'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'Microsoft.AspNet.Cors'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'Microsoft.AspNet.Cors'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'ShimSkiaSharp'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'ShimSkiaSharp'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'ShimSkiaSharp'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'SkiaSharp'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'SkiaSharp'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'SkiaSharp'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'SkiaSharp.NativeAssets.macOS'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'SkiaSharp.NativeAssets.macOS'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'SkiaSharp.NativeAssets.macOS'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'SkiaSharp.NativeAssets.Win32'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'SkiaSharp.NativeAssets.Win32'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'SkiaSharp.NativeAssets.Win32'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'Svg.Custom'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'Svg.Custom'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'Svg.Custom'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'Svg.Model'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'Svg.Model'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'Svg.Model'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'System.Buffers'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'System.Buffers'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'System.Buffers'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'System.Memory'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'System.Memory'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'System.Memory'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'System.Numerics.Vectors'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'System.Numerics.Vectors'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'System.Numerics.Vectors'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'System.ObjectModel'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'System.ObjectModel'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'System.ObjectModel'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'System.Runtime.CompilerServices.Unsafe'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'System.Runtime.CompilerServices.Unsafe'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'System.Runtime.CompilerServices.Unsafe'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'System.ValueTuple'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'System.ValueTuple'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'System.ValueTuple'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'System.ServiceModel.Primitives'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'System.ServiceModel.Primitives'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'System.ServiceModel.Primitives'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'System.ServiceModel.Http'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'System.ServiceModel.Http'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'System.ServiceModel.Http'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Remove package 'System.ServiceModel.Security'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Remove package 'System.ServiceModel.Security'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Remove package 'System.ServiceModel.Security'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Update TFM",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.ProjectFormat.SetTFMStep",
+              "fullDescription": {
+                "text": "Updated TFM to net7.0"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.ProjectFormat.SetTFMStep",
+          "message": {
+            "text": "Complete: Updated TFM to net7.0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Add package 'Microsoft.AspNetCore.Mvc.NewtonsoftJson'",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+              "fullDescription": {
+                "text": "Add package 'Microsoft.AspNetCore.Mvc.NewtonsoftJson'"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Packages.PackageUpdaterStep+PackageManipulationStep`1[[Microsoft.DotNet.UpgradeAssistant.NuGetReference, Microsoft.DotNet.UpgradeAssistant.Abstractions, Version=0.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35]]",
+          "message": {
+            "text": "Complete: Add package 'Microsoft.AspNetCore.Mvc.NewtonsoftJson'"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/AppImageGenerator.csproj"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Add template files",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Templates.TemplateInserterStep",
+              "fullDescription": {
+                "text": "Added template file Program.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Templates.TemplateInserterStep",
+          "message": {
+            "text": "Complete: Added template file Program.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/Program.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Add template files",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Templates.TemplateInserterStep",
+              "fullDescription": {
+                "text": "Added template file Startup.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Templates.TemplateInserterStep",
+          "message": {
+            "text": "Complete: Added template file Startup.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/Startup.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Add template files",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Templates.TemplateInserterStep",
+              "fullDescription": {
+                "text": "Added template file appsettings.json"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Templates.TemplateInserterStep",
+          "message": {
+            "text": "Complete: Added template file appsettings.json"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/appsettings.json"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Add template files",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "Microsoft.DotNet.UpgradeAssistant.Steps.Templates.TemplateInserterStep",
+              "fullDescription": {
+                "text": "Added template file appsettings.Development.json"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Microsoft.DotNet.UpgradeAssistant.Steps.Templates.TemplateInserterStep",
+          "message": {
+            "text": "Complete: Added template file appsettings.Development.json"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/appsettings.Development.json"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\App_Start\\RouteConfig.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\App_Start\\RouteConfig.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/App_Start/RouteConfig.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\App_Start\\WebApiConfig.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\App_Start\\WebApiConfig.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/App_Start/WebApiConfig.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\HomeController.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\HomeController.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Controllers/HomeController.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\ImageController.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\ImageController.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Controllers/ImageController.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\WinrtController.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\WinrtController.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Controllers/WinrtController.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Global.asax.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Global.asax.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Global.asax.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Models\\Profile.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Models\\Profile.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Models/Profile.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Models\\WebManifestIcon.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Models\\WebManifestIcon.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Models/WebManifestIcon.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\App_Start\\RouteConfig.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\App_Start\\RouteConfig.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/App_Start/RouteConfig.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\App_Start\\WebApiConfig.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\App_Start\\WebApiConfig.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/App_Start/WebApiConfig.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\ImageController.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\ImageController.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Controllers/ImageController.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Global.asax.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Global.asax.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Global.asax.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\App_Start\\RouteConfig.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\App_Start\\RouteConfig.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/App_Start/RouteConfig.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Global.asax.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Global.asax.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Global.asax.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0001: ASP.NET Core projects should not reference ASP.NET namespaces",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0001",
+              "fullDescription": {
+                "text": "Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Global.asax.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0001",
+          "message": {
+            "text": "Complete: Diagnostic UA0001 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Global.asax.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Global.asax.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0002: Types should be upgraded",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0002",
+              "fullDescription": {
+                "text": "Diagnostic UA0002 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\HomeController.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0002",
+          "message": {
+            "text": "Complete: Diagnostic UA0002 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\HomeController.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Controllers/HomeController.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0002: Types should be upgraded",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0002",
+              "fullDescription": {
+                "text": "Diagnostic UA0002 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\ImageController.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0002",
+          "message": {
+            "text": "Complete: Diagnostic UA0002 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\ImageController.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Controllers/ImageController.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0002: Types should be upgraded",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0002",
+              "fullDescription": {
+                "text": "Diagnostic UA0002 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\WinrtController.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0002",
+          "message": {
+            "text": "Complete: Diagnostic UA0002 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\WinrtController.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Controllers/WinrtController.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0005: Do not use HttpContext.Current",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0005",
+              "fullDescription": {
+                "text": "Diagnostic UA0005 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\ImageController.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0005",
+          "message": {
+            "text": "Complete: Diagnostic UA0005 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\ImageController.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Controllers/ImageController.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0005: Do not use HttpContext.Current",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0005",
+              "fullDescription": {
+                "text": "Diagnostic UA0005 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\ImageController.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0005",
+          "message": {
+            "text": "Complete: Diagnostic UA0005 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\ImageController.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Controllers/ImageController.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0005: Do not use HttpContext.Current",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0005",
+              "fullDescription": {
+                "text": "Diagnostic UA0005 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\ImageController.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0005",
+          "message": {
+            "text": "Complete: Diagnostic UA0005 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\ImageController.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Controllers/ImageController.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    },
+    {
+      "tool": {
+        "driver": {
+          "name": "Apply fix for UA0005: Do not use HttpContext.Current",
+          "semanticVersion": "",
+          "informationUri": "https://github.com/dotnet/upgrade-assistant#usage",
+          "rules": [
+            {
+              "id": "UA0005",
+              "fullDescription": {
+                "text": "Diagnostic UA0005 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\ImageController.cs"
+              },
+              "helpUri": "about:blank"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "UA0005",
+          "message": {
+            "text": "Complete: Diagnostic UA0005 fixed in C:\\Users\\gkhmyznikov\\Develop\\GitHub\\pwabuilder-Image-Generator\\AppImageGenerator\\Controllers\\ImageController.cs"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/gkhmyznikov/Develop/GitHub/pwabuilder-Image-Generator/AppImageGenerator/Controllers/ImageController.cs"
+                },
+                "region": {}
+              }
+            }
+          ]
+        }
+      ],
+      "columnKind": "utf16CodeUnits"
+    }
+  ]
+}

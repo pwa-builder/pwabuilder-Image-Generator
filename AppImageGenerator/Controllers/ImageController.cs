@@ -1,49 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.Results;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
-using Svg;
-using Svg.Transforms;
 using WWA.WebUI.Models;
 
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
-using SkiaSharp;
-using Svg.Skia;
-using SKSvg = Svg.Skia.SKSvg;
-
-using System.Windows;
-using Microsoft.SqlServer.Server;
-using System.Windows.Interop;
-using ShimSkiaSharp;
-using SKImage = SkiaSharp.SKImage;
-using SKSizeI = SkiaSharp.SKSizeI;
-using System.Runtime.InteropServices.ComTypes;
-using SixLabors.ImageSharp.Formats;
-using Size = SixLabors.ImageSharp.Size;
-using System.Text.RegularExpressions;
 using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.Formats.Bmp;
 using SixLabors.ImageSharp.Formats.Tiff;
-using System.IO.Compression;
+using Size = SixLabors.ImageSharp.Size;
+
+using SkiaSharp;
+using SKSvg = Svg.Skia.SKSvg;
+using SKImage = SkiaSharp.SKImage;
+using SKSizeI = SkiaSharp.SKSizeI;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Json;
+using System.Web.Http;
 
 namespace WWA.WebUI.Controllers
 {
-    public class ImageController : ApiController
+    public class ImageController : ControllerBase
     {
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public ImageController (IWebHostEnvironment webHostEnvironment)
+        {
+            _webHostEnvironment = webHostEnvironment;
+        }
         public HttpResponseMessage Get(string id)
         {
             HttpResponseMessage httpResponseMessage;
@@ -53,22 +51,25 @@ namespace WWA.WebUI.Controllers
                 string zipFilePath = CreateFilePathFromId(new Guid(id));
                 if (string.IsNullOrEmpty(zipFilePath))
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, string.Format("Can't find {0}", id));
+                    var response = new HttpResponseMessage(HttpStatusCode.NotFound);
+                    response.ReasonPhrase = string.Format("Can't find {0}", id);
+                    return response;
                 }
 
-                httpResponseMessage = Request.CreateResponse();
-                httpResponseMessage.Content = new ByteArrayContent(File.ReadAllBytes(zipFilePath));
+                httpResponseMessage = new HttpResponseMessage();
+                httpResponseMessage.Content = new ByteArrayContent(System.IO.File.ReadAllBytes(zipFilePath));
                 httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 httpResponseMessage.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
                 {
                     FileName = "AppImages.zip"
                 };
 
-                File.Delete(zipFilePath);
+                System.IO.File.Delete(zipFilePath);
             }
             catch (Exception ex)
             {
-                httpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+                httpResponseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                httpResponseMessage.ReasonPhrase = ex.ToString();
                 return httpResponseMessage;
             }
 
@@ -86,22 +87,32 @@ namespace WWA.WebUI.Controllers
         /// <returns></returns>
         public async Task<HttpResponseMessage> Post()
         {
-            var root = HttpContext.Current.Server.MapPath("~/App_Data");
-            var provider = new MultipartFormDataStreamProvider(root);
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            // string contentRootPath = _webHostEnvironment.ContentRootPath;
+            var uploads = Path.Combine(webRootPath, "~/App_Data");
             var zipId = Guid.NewGuid();
 
             try
             {
                 // Read the arguments.
-                await Request.Content.ReadAsMultipartAsync(provider);
-                using (var args = ImageGenerationModel.FromFormData(provider.FormData, provider.FileData))
+                // await Request.Content.ReadAsMultipartAsync(provider);
+                /*         var options = new FormOptions();
+                         var boundary = MultipartRequestHelper.GetBoundary(
+                         MediaTypeHeaderValue.Parse(Request.ContentType),
+                         options.MultipartBoundaryLengthLimit);
+                                     var reader = new MultipartReader(boundary, HttpContext.Request.Body);
+
+                         var section = await reader.ReadNextSectionAsync();
+                         section.for*/
+
+                using (var args = ImageGenerationModel.FromFormData(HttpContext.Request.Form, HttpContext.Request.Form.Files))
                 {
                     // Punt if we have invalid arguments.
                     if (!string.IsNullOrEmpty(args.ErrorMessage))
                     {
-                        var request = Request.CreateErrorResponse(HttpStatusCode.BadRequest, args.ErrorMessage);
-                        request.ReasonPhrase = args.ErrorMessage;
-                        return request;
+                        var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.BadRequest);
+                        httpResponseMessage.ReasonPhrase = args.ErrorMessage;
+                        return httpResponseMessage;
                     }
 
                     var profiles = GetProfilesFromPlatforms(args.Platforms);
@@ -138,17 +149,24 @@ namespace WWA.WebUI.Controllers
             }
             catch (OutOfMemoryException ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, ex);
+                var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.UnsupportedMediaType);
+                httpResponseMessage.ReasonPhrase = ex.ToString();
+                return httpResponseMessage;
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+                var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                httpResponseMessage.ReasonPhrase = ex.ToString();
+                return httpResponseMessage;
             }
 
             // Send back a route to download the zip file.
-            var url = Url.Route("DefaultApi", new { controller = "image", id = zipId.ToString() });
+            var url = Url.RouteUrl("DefaultApi", new { controller = "image", id = zipId.ToString() });
             var uri = new Uri(url, UriKind.Relative);
-            var responseMessage = Request.CreateResponse(HttpStatusCode.Created, new ImageResponse { Uri = uri });
+            /*var responseMessage = Request.CreateResponse(HttpStatusCode.Created, new ImageResponse { Uri = uri });*/
+            var responseMessage = new HttpResponseMessage(HttpStatusCode.Created);
+            /*            this.StatusCode(int.Parse(HttpStatusCode.Created.ToString()), new ImageResponse { Uri = uri });*/
+            responseMessage.Content = new StringContent(JsonConvert.SerializeObject(new ImageResponse { Uri = uri }));
             responseMessage.Headers.Location = uri;
             responseMessage.Headers.Add("X-Zip-Id", zipId.ToString());
             return responseMessage;
@@ -173,18 +191,20 @@ namespace WWA.WebUI.Controllers
             return postResponse;
         }
 
-        public async Task<HttpResponseMessage> Base64()
+        public Task<HttpResponseMessage> Base64()
         {
-            var root = HttpContext.Current.Server.MapPath("~/App_Data");
+        /*    var root = HttpContextHelper.Current.Server.MapPath("~/App_Data");
             var provider = new MultipartFormDataStreamProvider(root);
 
             // Grab the args.
-            await Request.Content.ReadAsMultipartAsync(provider);
-            using (var args = ImageGenerationModel.FromFormData(provider.FormData, provider.FileData))
+            await Request.Content.ReadAsMultipartAsync(provider);*/
+            using (var args = ImageGenerationModel.FromFormData(HttpContext.Request.Form, HttpContext.Request.Form.Files))
             {
                 if (!string.IsNullOrEmpty(args.ErrorMessage))
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, args.ErrorMessage);
+                    var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.BadRequest);
+                    httpResponseMessage.ReasonPhrase = args.ErrorMessage;
+                    return Task.FromResult(httpResponseMessage);
                 }
 
                 var imgs = GetProfilesFromPlatforms(args.Platforms)
@@ -195,10 +215,10 @@ namespace WWA.WebUI.Controllers
                         Src = CreateBase64Image(args, profile),
                         Type = string.IsNullOrEmpty(profile.Format) ? "image/png" : profile.Format
                     });
-                return new HttpResponseMessage(HttpStatusCode.OK)
+                return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
                 {
                     Content = new StringContent(JsonConvert.SerializeObject(imgs))
-                };
+                });
             }
         }
 
@@ -214,7 +234,9 @@ namespace WWA.WebUI.Controllers
         private IEnumerable<string> GetConfig(string platformId)
         {
             List<string> config = new List<string>();
-            string root = HttpContext.Current.Server.MapPath("~/App_Data");
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            var root = Path.Combine(webRootPath, "~/App_Data");
+
             string filePath = Path.Combine(root, platformId + "Images.json");
             config.Add(ReadStringFromConfigFile(filePath));
             return config;
@@ -250,7 +272,9 @@ namespace WWA.WebUI.Controllers
 
         private string CreateFilePathFromId(Guid id)
         {
-            string root = HttpContext.Current.Server.MapPath("~/App_Data");
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            var root = Path.Combine(webRootPath, "~/App_Data");
+      /*      string root = HttpContextHelper.Current.Server.MapPath("~/App_Data");*/
             string zipFilePath = Path.Combine(root, id + ".zip");
             return zipFilePath;
         }

@@ -1,4 +1,5 @@
-﻿using SourceManager;
+﻿using Microsoft.AspNetCore.Mvc;
+using SourceManager;
 using SourceManager.Helpers;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using System.Web.Mvc;
 
 namespace RenoService.Controllers
 {
-    public class WinrtController : ApiController
+    public class WinrtController : ControllerBase
     {
 
         private async Task<List<string>> SourceList()
@@ -33,7 +30,7 @@ namespace RenoService.Controllers
         //https://raw.githubusercontent.com/JimGaleForce/Windows-universal-js-samples/master/win10/tile.js
 
         // GET api/values
-        [System.Web.Mvc.Route("api/source")]
+        [System.Web.Http.Route("api/source")]
         public async Task<SourceData> Get()
         {
             var list = await SourceList();
@@ -63,11 +60,11 @@ namespace RenoService.Controllers
                 sourceSet.Source.Hash = hash.ToString();
 
 
-                if (!File.Exists(sourcePath + newName))
+                if (!System.IO.File.Exists(sourcePath + newName))
                 {
                     try
                     {
-                        File.WriteAllText(sourcePath + newName, sourceSet.Code);
+                        System.IO.File.WriteAllText(sourcePath + newName, sourceSet.Code);
                     }
                     catch (Exception e)
                     {
@@ -110,7 +107,7 @@ namespace RenoService.Controllers
 
         private Random random = new Random();
 
-        [System.Web.Mvc.HttpPost]
+        [System.Web.Http.HttpPost]
         // POST api/values
         public async Task<HttpResponseMessage> Generate([FromBody] RenoData renoData)
         {
@@ -141,10 +138,10 @@ namespace RenoService.Controllers
                 var period = name.IndexOf(".");
                 var newName = name.Substring(0, period) + "-" + hash + name.Substring(period);
 
-                if (File.Exists(sourcePath + newName) && !File.Exists(newPath + "\\" + newName))
+                if (System.IO.File.Exists(sourcePath + newName) && !System.IO.File.Exists(newPath + "\\" + newName))
                 {
                     //copy to directory
-                    File.Copy(sourcePath + newName, newPath + "\\" + newName);
+                    System.IO.File.Copy(sourcePath + newName, newPath + "\\" + newName);
                     files.Add(newName);
 
                     var catItem = catalog.FirstOrDefault(c => c.Source.Url == item.url);
@@ -159,7 +156,7 @@ namespace RenoService.Controllers
             if (copied)
             {
                 files.Add("winmain.js");
-                File.WriteAllBytes(newPath + "\\winmain.js", Encoding.ASCII.GetBytes(doc.GetDocumentation()));
+                System.IO.File.WriteAllBytes(newPath + "\\winmain.js", Encoding.ASCII.GetBytes(doc.GetDocumentation()));
 
                 var sb = new StringBuilder();
                 sb.Append("<html>\n<head>\n</head>\n<body>\n");
@@ -170,7 +167,7 @@ namespace RenoService.Controllers
 
                 sb.Append("</body>\n</html>");
 
-                File.WriteAllBytes(newPath + "\\include.html", Encoding.ASCII.GetBytes(sb.ToString()));
+                System.IO.File.WriteAllBytes(newPath + "\\include.html", Encoding.ASCII.GetBytes(sb.ToString()));
 
                 ZipFile.CreateFromDirectory(newPath, newPath + ".zip");
 
