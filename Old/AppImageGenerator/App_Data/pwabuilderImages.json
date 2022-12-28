@@ -1,0 +1,156 @@
+[
+  {
+    "width": 44,
+    "height": 44,
+    "name": "Square44x44Logo.scale-100.png",
+    "desc": "Square44x44Logo.scale-100.png",
+    "folder": "windows10/"
+  },
+  {
+    "width": 48,
+    "height": 48,
+    "name": "LockScreenLogo.scale-200.png",
+    "desc": "LockScreenLogo.scale-200.png",
+    "folder": "windows10/"
+  },
+  {
+    "width": 1240,
+    "height": 600,
+    "name": "SplashScreen.scale-200.png",
+    "desc": "SplashScreen.scale-200.png",
+    "folder": "windows10/"
+  },
+  {
+    "width": 300,
+    "height": 300,
+    "name": "Square150x150Logo.scale-200.png",
+    "desc": "Square150x150Logo.scale-200.png",
+    "folder": "windows10/"
+  },
+  {
+    "width": 150,
+    "height": 150,
+    "name": "Square150x150Logo.scale-100.png",
+    "desc": "Square150x150Logo.scale-100.png",
+    "folder": "windows10/"
+  },
+  {
+    "width": 88,
+    "height": 88,
+    "name": "Square44x44Logo.scale-200.png",
+    "desc": "Square44x44Logo.scale-200.png",
+    "folder": "windows10/"
+  },
+  {
+    "width": 24,
+    "height": 24,
+    "name": "Square44x44Logo.targetsize-24_altform-unplated.png",
+    "desc": "Square44x44Logo.targetsize-24_altform-unplated.png",
+    "folder": "windows10/"
+  },
+  {
+    "width": 50,
+    "height": 50,
+    "name": "StoreLogo.png",
+    "desc": "StoreLogo.png",
+    "folder": "windows10/"
+  },
+  {
+    "width": 620,
+    "height": 300,
+    "name": "Wide310x150Logo.scale-200.png",
+    "desc": "Wide310x150Logo.scale-200.png",
+    "folder": "windows10/"
+  },
+  {
+    "width": 192,
+    "height": 192,
+    "name": "android-launchericon-192-192",
+    "desc": "android-launchericon-192-192",
+    "folder": "android/"
+  },
+  {
+    "width": 144,
+    "height": 144,
+    "name": "android-launchericon-144-144",
+    "desc": "android-launchericon-144-144",
+    "folder": "android/"
+  },
+  {
+    "width": 96,
+    "height": 96,
+    "name": "android-launchericon-96-96",
+    "desc": "android-launchericon-96-96",
+    "folder": "android/"
+  },
+  {
+    "width": 72,
+    "height": 72,
+    "name": "android-launchericon-72-72",
+    "desc": "android-launchericon-72-72",
+    "folder": "android/"
+  },
+  {
+    "width": 48,
+    "height": 48,
+    "name": "android-launchericon-48-48",
+    "desc": "android-launchericon-48-48",
+    "folder": "android/"
+  },
+  {
+    "width": 36,
+    "height": 36,
+    "name": "android-launchericon-36-36",
+    "desc": "android-launchericon-36-36",
+    "folder": "android/"
+  },
+  {
+    "width": 1024,
+    "height": 1024,
+    "name": "ios-appicon-1024-1024",
+    "desc": "ios-appicon-1024-1024",
+    "folder": "ios/"
+  },
+  {
+    "width": 180,
+    "height": 180,
+    "name": "ios-appicon-180-180",
+    "desc": "ios-appicon-180-180",
+    "folder": "ios/"
+  },
+  {
+    "width": 152,
+    "height": 152,
+    "name": "ios-appicon-152-152",
+    "desc": "ios-appicon-152-152",
+    "folder": "ios/"
+  },
+  {
+    "width": 120,
+    "height": 120,
+    "name": "ios-appicon-120-120",
+    "desc": "ios-appicon-120-120",
+    "folder": "ios/"
+  },
+  {
+    "width": 76,
+    "height": 76,
+    "name": "ios-appicon-76-76",
+    "desc": "ios-appicon-76-76",
+    "folder": "ios/"
+  },
+  {
+    "width": 192,
+    "height": 192,
+    "name": "msteams-192-192",
+    "desc": "msteams-192-192",
+    "folder": "msteams/"
+  },
+  {
+    "width": 32,
+    "height": 32,
+    "name": "msteams-silhouette-32-32",
+    "desc": "msteams-silhouette-32-32",
+    "folder": "msteams/"
+  }
+]
