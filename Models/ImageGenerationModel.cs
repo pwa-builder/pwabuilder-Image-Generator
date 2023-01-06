@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Primitives;
+﻿using System.Globalization;
+using Microsoft.Extensions.Primitives;
 using SixLabors.ImageSharp;
 
 namespace AppImageGenerator.Models
@@ -73,12 +74,12 @@ namespace AppImageGenerator.Models
             form.TryGetValue("padding", out paddings);
             var hasPadding = paddings.Count > 0 ? true : false;
 
-            double.TryParse(paddings.First(), out var padding);
+            double.TryParse(paddings.First()?.Replace(',', '.'), NumberStyles.Number, CultureInfo.InvariantCulture, out var padding);
 
             if (!hasPadding || padding < 0 || padding > 1.0)
             {
                 // No padding? Default to 0.3
-                padding = 0.3;
+                padding = 0;
             }
 
             // Validate the color.

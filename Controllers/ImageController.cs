@@ -128,7 +128,7 @@ namespace AppImageGenerator.Controllers
                             var iconStream = iconEntry.Open();
                             await stream.CopyToAsync(iconStream);
                             iconStream.Close();
-                            stream.Flush();
+                            stream.Close();
         
                             iconObject.icons.Add(new IconObject(profile.Folder + profile.Name + "." + fmt, profile.Width + "x" + profile.Height));
                         }
@@ -364,12 +364,14 @@ namespace AppImageGenerator.Controllers
             }
         }
 
-        private static MemoryStream ResizeImage(Image image, int newWidth, int newHeight, IImageEncoder imageEncoder, double paddingProp = 0.3, Color? bg = null)
+        private static MemoryStream ResizeImage(Image inputImage, int newWidth, int newHeight, IImageEncoder imageEncoder, double paddingProp = 0.3, Color? bg = null)
         {
             int adjustWidth;
             int adjustedHeight;
             int paddingW;
             int paddingH;
+            Image image = inputImage.Clone(x => { });
+
             if (paddingProp > 0)
             {
                 paddingW = (int)(paddingProp * newWidth * 0.5);
@@ -379,7 +381,7 @@ namespace AppImageGenerator.Controllers
             }
             else
             {
-                paddingW = paddingH = 0;
+                // paddingW = paddingH = 0;
                 adjustWidth = newWidth;
                 adjustedHeight = newHeight;
             }
@@ -431,7 +433,7 @@ namespace AppImageGenerator.Controllers
         public IFormFile fileName { get; set; }
         
         public string platform { get; set; } /* "android" | "chrome "| "firefox" | "ios" | "msteams" | "windows10" | "windows11" */
-        public double padding { get; set; }
+        public string padding { get; set; }
 
         public string color { get; set; }
     }
