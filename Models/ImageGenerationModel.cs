@@ -14,7 +14,7 @@ namespace AppImageGenerator.Models
         public IFormFile? BaseImageData { get; set; }
         public Image? BaseImage { get; set; }
         public string? ErrorMessage { get; set; }
-        public string? SvgFileName { get; set; }
+        public IFormFile? SvgFormData { get; set; }
 
         public static ImageGenerationModel FromFormData(IFormCollection form, IFormFileCollection files)
         {
@@ -29,11 +29,11 @@ namespace AppImageGenerator.Models
             }
 
             // Get the image, or SVG file name if it's an SVG image.
-            var svgFileName = default(string);
+            var svgFormData = default(IFormFile);
             var baseImage = default(Image);
-            if (baseImageData.Headers.ContentType.Contains("svg") == true)
+            if (baseImageData.Headers.ContentType.ToString().Contains("svg") == true)
             {
-                svgFileName = baseImageData.FileName;
+                svgFormData = baseImageData;
             }
             else
             {
@@ -42,8 +42,10 @@ namespace AppImageGenerator.Models
                 FileStream? fs = null;
                 try
                 {
-                  /*  fs = new FileStream(baseImageData.FileName, FileMode.Open, FileAccess.Read);*/
-                    baseImage = Image.Load(baseImageData.OpenReadStream());
+                    /*  fs = new FileStream(baseImageData.FileName, FileMode.Open, FileAccess.Read);*/
+                    var rs = baseImageData.OpenReadStream();
+                    baseImage = Image.Load(rs);
+                    rs.Close();
                 }
                 catch (Exception)
                 {
@@ -109,7 +111,7 @@ namespace AppImageGenerator.Models
             {
                 BaseImageData = baseImageData,
                 BaseImage = baseImage,
-                SvgFileName = svgFileName,
+                SvgFormData = svgFormData,
                 BackgroundColor = color,
                 Padding = padding,
                 Platforms = platforms

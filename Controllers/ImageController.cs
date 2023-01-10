@@ -21,6 +21,7 @@ using SKSvg = Svg.Skia.SKSvg;
 using SKImage = SkiaSharp.SKImage;
 using SKSizeI = SkiaSharp.SKSizeI;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace AppImageGenerator.Controllers
 {
@@ -187,7 +188,7 @@ namespace AppImageGenerator.Controllers
                 }
             }
 
-            return new NotFoundResult();
+            return new StatusCodeResult((int)postResponse.StatusCode);
         }
 
         [HttpPost(Name = "GenerateImagesFromBase64")]
@@ -306,9 +307,9 @@ namespace AppImageGenerator.Controllers
 
             var imageEncoder = getEncoderFromType(profile.Format);
 
-            if (model.SvgFileName != null)
+            if (model.SvgFormData != null)
             {
-                return RenderSvgToStream(model.SvgFileName, profile.Width, profile.Height, imageEncoder, padding, model.BackgroundColor);
+                return RenderSvgToStream(model.SvgFormData, profile.Width, profile.Height, imageEncoder, padding, model.BackgroundColor);
             }
             else
             {
@@ -327,11 +328,12 @@ namespace AppImageGenerator.Controllers
         }
 
 
-        public static MemoryStream RenderSvgToStream(string filePath, int width, int height, IImageEncoder imageEncoder, double? padding, Color? backgroundColor = null)
+        public static MemoryStream RenderSvgToStream(IFormFile inputSvg, int width, int height, IImageEncoder imageEncoder, double? padding, Color? backgroundColor = null)
         {
             using (var svg = new SKSvg( ))
             {
-                if (svg.Load(filePath) != null)
+                var svgStream = inputSvg.OpenReadStream();
+                if (svg.Load(svgStream) != null)
                 {
                     using (SKImage image = SKImage.FromPicture(svg.Picture, new SKSizeI((int)(Convert.ToDouble(width) - padding * 2), (int)(Convert.ToDouble(height) - padding * 2))))
                     {
