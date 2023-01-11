@@ -1,32 +1,26 @@
 ﻿using System.IO.Compression;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
 using AppImageGenerator.Models;
 
-using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.Formats.Bmp;
 using SixLabors.ImageSharp.Formats.Tiff;
-using Size = SixLabors.ImageSharp.Size;
 
-using SkiaSharp;
-using SKSvg = Svg.Skia.SKSvg;
-using SKImage = SkiaSharp.SKImage;
-using SKSizeI = SkiaSharp.SKSizeI;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http.HttpResults;
+
+using System.Net.Http.Headers;
 
 namespace AppImageGenerator.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("api/")]
+    
     public class ImageController : ControllerBase
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -36,7 +30,7 @@ namespace AppImageGenerator.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        [HttpGet(Name = "GetZipById")]
+        [HttpGet("downloadImagesZipById")]
         public ActionResult Get(string id)
         {
             HttpResponseMessage httpResponseMessage;
@@ -82,7 +76,7 @@ namespace AppImageGenerator.Controllers
         /// - color: a hex color value to use as the background color of the generated images. If null, a best guess -- the color of pixel (0,0) -- will be used.
         /// </summary>
         /// <returns></returns>
-        [HttpPost(Name = "GenerateImagesFromImg")]
+        [HttpPost("generateImagesZip")]
         public async Task<HttpResponseMessage> Post([FromForm] ImageFormData Form)
         {
          /*   string webRootPath = _webHostEnvironment.WebRootPath;
@@ -122,7 +116,6 @@ namespace AppImageGenerator.Controllers
                         foreach (var profile in profiles)
                         {
                             var stream = CreateImageStream(args, profile);
-                            stream.Position = 0;
                             imageStreams.Add(stream);
                             var fmt = string.IsNullOrEmpty(profile.Format) ? "png" : profile.Format;
                             var iconEntry = zip.CreateEntry(profile.Name + "." + fmt, CompressionLevel.Fastest);
@@ -172,7 +165,7 @@ namespace AppImageGenerator.Controllers
         }
 
         // Same as Post, but additionally downloads the file
-        [HttpPost(Name = "GenerateImagesFromImgAndDownload")]
+        [HttpPost("generateAndDownloadImagesZip")]
         public async Task<ActionResult> Download([FromForm] ImageFormData Form)
         {
             var postResponse = await Post(Form);
@@ -191,8 +184,9 @@ namespace AppImageGenerator.Controllers
             return new StatusCodeResult((int)postResponse.StatusCode);
         }
 
-        [HttpPost(Name = "GenerateImagesFromBase64")]
-        public Task<HttpResponseMessage> Base64()
+        
+        [HttpPost("generateBase64Image")]
+        public async Task<ActionResult> Base64([FromForm] ImageFormData Form)
         {
         /*    var root = HttpContextHelper.Current.Server.MapPath("~/App_Data");
             var provider = new MultipartFormDataStreamProvider(root);
@@ -201,12 +195,12 @@ namespace AppImageGenerator.Controllers
             await Request.Content.ReadAsMultipartAsync(provider);*/
             using (var args = ImageGenerationModel.FromFormData(HttpContext.Request.Form, HttpContext.Request.Form.Files))
             {
-                if (!string.IsNullOrEmpty(args.ErrorMessage))
+           /*     if (!string.IsNullOrEmpty(args.ErrorMessage))
                 {
                     var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.BadRequest);
                     httpResponseMessage.ReasonPhrase = args.ErrorMessage;
-                    return Task.FromResult(httpResponseMessage);
-                }
+                    return httpResponseMessage;
+                }*/
 
                 var imgs = GetProfilesFromPlatforms(args.Platforms)
                     .Select(profile => new WebManifestIcon
@@ -216,10 +210,18 @@ namespace AppImageGenerator.Controllers
                         Src = CreateBase64Image(args, profile),
                         Type = string.IsNullOrEmpty(profile.Format) ? "image/png" : profile.Format
                     });
-                return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    Content = new StringContent(JsonConvert.SerializeObject(imgs))
-                });
+                /*var response = new HttpResponseMessage(HttpStatusCode.OK);
+                var json = JsonConvert.SerializeObject(imgs);
+                
+                response.Content = new StringContent(JsonConvert.SerializeObject(imgs), MediaTypeHeaderValue.Parse("application/json"));
+                await HttpContext.Response.WriteAsJsonAsync(imgs);
+                ;*/
+                //response.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                await HttpResponseJsonExtensions.WriteAsJsonAsync(HttpContext.Response, imgs);
+                HttpContext.Response.StatusCode = 200;
+                HttpContext.Response.ContentType = "application/json";
+                return new ContentResult();
+               /* return HttpContext.Response;*/
             }
         }
 
@@ -309,11 +311,11 @@ namespace AppImageGenerator.Controllers
 
             if (model.SvgFormData != null)
             {
-                return RenderSvgToStream(model.SvgFormData, profile.Width, profile.Height, imageEncoder, padding, model.BackgroundColor);
+                return ImageGenerationModel.ProcessSvgToStream(model.SvgFormData, profile.Width, profile.Height, imageEncoder, padding, model.BackgroundColor);
             }
             else
             {
-                return ResizeImage(model.BaseImage, profile.Width, profile.Height, imageEncoder, padding, model.BackgroundColor);
+                return  ImageGenerationModel.ProcessImageToStream(model.BaseImage, profile.Width, profile.Height, imageEncoder, padding, model.BackgroundColor);
             }
         }
 
@@ -325,85 +327,6 @@ namespace AppImageGenerator.Controllers
                 var base64 = Convert.ToBase64String(imgStream.ToArray());
                 return $"data:{formatOrPng};base64,{base64}";
             }
-        }
-
-
-        public static MemoryStream RenderSvgToStream(IFormFile inputSvg, int width, int height, IImageEncoder imageEncoder, double? padding, Color? backgroundColor = null)
-        {
-            using (var svg = new SKSvg( ))
-            {
-                var svgStream = inputSvg.OpenReadStream();
-                if (svg.Load(svgStream) != null)
-                {
-                    using (SKImage image = SKImage.FromPicture(svg.Picture, new SKSizeI((int)(Convert.ToDouble(width) - padding * 2), (int)(Convert.ToDouble(height) - padding * 2))))
-                    {
-                        var stream = new MemoryStream();
-
-                        // Save the image to the stream in the specified format
-                        using (SKData data = image.Encode(SKEncodedImageFormat.Png, 100))
-                        {
-                            data.SaveTo(stream);
-                        }
-
-                        // Reset the stream position to the beginning
-                        stream.Position = 0;
-
-                        Image image2 = Image.Load(stream);
-                        image2.Mutate(x => x.Pad(width, height));
-
-                        if (backgroundColor != null)
-                            image2.Mutate(x => x.BackgroundColor((Color)backgroundColor));
-
-                        stream.Position = 0;
-                        image2.Save(stream, imageEncoder);
-
-
-                        return stream;
-                    }
-                }
-                else
-                    return null;
-            }
-        }
-
-        private static MemoryStream ResizeImage(Image inputImage, int newWidth, int newHeight, IImageEncoder imageEncoder, double paddingProp = 0.3, Color? bg = null)
-        {
-            int adjustWidth;
-            int adjustedHeight;
-            int paddingW;
-            int paddingH;
-            Image image = inputImage.Clone(x => { });
-
-            if (paddingProp > 0)
-            {
-                paddingW = (int)(paddingProp * newWidth * 0.5);
-                adjustWidth = newWidth - paddingW;
-                paddingH = (int)(paddingProp * newHeight * 0.5);
-                adjustedHeight = newHeight - paddingH;
-            }
-            else
-            {
-                // paddingW = paddingH = 0;
-                adjustWidth = newWidth;
-                adjustedHeight = newHeight;
-            }
-
-            image.Mutate(x => x.Resize(adjustWidth, adjustedHeight, KnownResamplers.Lanczos3));
-
-            if (paddingProp > 0)
-                image.Mutate(x => x.Resize(
-                    new ResizeOptions
-                    {
-                        Size = new Size(newWidth, newHeight),
-                        Mode = ResizeMode.BoxPad,
-                        PadColor = bg ?? Color.Transparent
-                    }));
-
-            var memoryStream = new MemoryStream();
-            image.Save(memoryStream, imageEncoder);
-     
-
-            return memoryStream;
         }
     }
 
