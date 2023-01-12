@@ -15,6 +15,7 @@ using SixLabors.ImageSharp.Formats.Tiff;
 using Microsoft.AspNetCore.Mvc;
 
 using System.Net.Http.Headers;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AppImageGenerator.Controllers
 {
@@ -30,7 +31,7 @@ namespace AppImageGenerator.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        [HttpGet("downloadImagesZipById")]
+        [HttpGet("downloadImagesZipById", Name = "downloadImagesZipById")]
         public ActionResult Get(string id)
         {
             HttpResponseMessage httpResponseMessage;
@@ -153,7 +154,7 @@ namespace AppImageGenerator.Controllers
             }
 
             // Send back a route to download the zip file.
-            var url = Url.RouteUrl("GetZipById", new { controller = "image", action = "get", id = zipId.ToString() });
+            var url = Url.RouteUrl("downloadImagesZipById", new { id = zipId.ToString() });
             var uri = new Uri(url, UriKind.Relative);
             /*var responseMessage = Request.CreateResponse(HttpStatusCode.Created, new ImageResponse { Uri = uri });*/
             var responseMessage = new HttpResponseMessage(HttpStatusCode.Created);
@@ -186,7 +187,7 @@ namespace AppImageGenerator.Controllers
 
         
         [HttpPost("generateBase64Image")]
-        public async Task<ActionResult> Base64([FromForm] ImageFormData Form)
+        public JsonResult Base64([FromForm] ImageFormData Form)
         {
         /*    var root = HttpContextHelper.Current.Server.MapPath("~/App_Data");
             var provider = new MultipartFormDataStreamProvider(root);
@@ -210,18 +211,23 @@ namespace AppImageGenerator.Controllers
                         Src = CreateBase64Image(args, profile),
                         Type = string.IsNullOrEmpty(profile.Format) ? "image/png" : profile.Format
                     });
-                /*var response = new HttpResponseMessage(HttpStatusCode.OK);
-                var json = JsonConvert.SerializeObject(imgs);
-                
-                response.Content = new StringContent(JsonConvert.SerializeObject(imgs), MediaTypeHeaderValue.Parse("application/json"));
-                await HttpContext.Response.WriteAsJsonAsync(imgs);
-                ;*/
+                var response = new JsonResult(JsonConvert.SerializeObject(imgs));
+                return response;
+                //var response = new HttpResponseMessage(HttpStatusCode.Created);
+                //var json = new JsonResponse { Json = JsonConvert.SerializeObject(imgs) };
+                //response.Content = new StringContent(json.Json, System.Text.Encoding.UTF8, MediaTypeHeaderValue.Parse("application/json"));
+                /*         */
+
+                //response.Content = new StringContent(JsonConvert.SerializeObject(imgs), MediaTypeHeaderValue.Parse("application/json"));
+                //await HttpContext.Response.WriteAsJsonAsync(imgs);
+                ;
                 //response.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                await HttpResponseJsonExtensions.WriteAsJsonAsync(HttpContext.Response, imgs);
-                HttpContext.Response.StatusCode = 200;
-                HttpContext.Response.ContentType = "application/json";
-                return new ContentResult();
-               /* return HttpContext.Response;*/
+                /*    await HttpResponseJsonExtensions.WriteAsJsonAsync(HttpContext.Response, imgs);
+                    HttpContext.Response.StatusCode = 200;
+                    HttpContext.Response.ContentType = "application/json";
+                    return new ContentResult();*/
+                /* return HttpContext.Response;*/
+                //return response;
             }
         }
 
@@ -333,6 +339,12 @@ namespace AppImageGenerator.Controllers
     public class ImageResponse
     {
         public Uri Uri { get; set; }
+    }
+
+
+    public class JsonResponse
+    {
+        public string Json { get; set; }
     }
 
     public class IconObject
