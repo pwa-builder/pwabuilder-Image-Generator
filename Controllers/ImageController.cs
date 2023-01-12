@@ -187,21 +187,17 @@ namespace AppImageGenerator.Controllers
 
         
         [HttpPost("generateBase64Image")]
-        public JsonResult Base64([FromForm] ImageFormData Form)
+        public Task<ObjectResult> Base64([FromForm] ImageFormData Form)
         {
-        /*    var root = HttpContextHelper.Current.Server.MapPath("~/App_Data");
-            var provider = new MultipartFormDataStreamProvider(root);
 
-            // Grab the args.
-            await Request.Content.ReadAsMultipartAsync(provider);*/
             using (var args = ImageGenerationModel.FromFormData(HttpContext.Request.Form, HttpContext.Request.Form.Files))
             {
-           /*     if (!string.IsNullOrEmpty(args.ErrorMessage))
+                if (!string.IsNullOrEmpty(args.ErrorMessage))
                 {
-                    var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.BadRequest);
-                    httpResponseMessage.ReasonPhrase = args.ErrorMessage;
-                    return httpResponseMessage;
-                }*/
+                    var error = new ObjectResult(args.ErrorMessage);
+                    error.StatusCode = (int?)HttpStatusCode.BadRequest;
+                    return Task.FromResult(error);
+                }
 
                 var imgs = GetProfilesFromPlatforms(args.Platforms)
                     .Select(profile => new WebManifestIcon
@@ -211,23 +207,9 @@ namespace AppImageGenerator.Controllers
                         Src = CreateBase64Image(args, profile),
                         Type = string.IsNullOrEmpty(profile.Format) ? "image/png" : profile.Format
                     });
-                var response = new JsonResult(JsonConvert.SerializeObject(imgs));
-                return response;
-                //var response = new HttpResponseMessage(HttpStatusCode.Created);
-                //var json = new JsonResponse { Json = JsonConvert.SerializeObject(imgs) };
-                //response.Content = new StringContent(json.Json, System.Text.Encoding.UTF8, MediaTypeHeaderValue.Parse("application/json"));
-                /*         */
 
-                //response.Content = new StringContent(JsonConvert.SerializeObject(imgs), MediaTypeHeaderValue.Parse("application/json"));
-                //await HttpContext.Response.WriteAsJsonAsync(imgs);
-                ;
-                //response.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                /*    await HttpResponseJsonExtensions.WriteAsJsonAsync(HttpContext.Response, imgs);
-                    HttpContext.Response.StatusCode = 200;
-                    HttpContext.Response.ContentType = "application/json";
-                    return new ContentResult();*/
-                /* return HttpContext.Response;*/
-                //return response;
+                var response = new ObjectResult(JsonConvert.SerializeObject(imgs));
+                return Task.FromResult(response);
             }
         }
 
@@ -319,10 +301,12 @@ namespace AppImageGenerator.Controllers
             {
                 return ImageGenerationModel.ProcessSvgToStream(model.SvgFormData, profile.Width, profile.Height, imageEncoder, padding, model.BackgroundColor);
             }
-            else
+            else if (model.BaseImage != null)
             {
                 return  ImageGenerationModel.ProcessImageToStream(model.BaseImage, profile.Width, profile.Height, imageEncoder, padding, model.BackgroundColor);
             }
+
+            return null;
         }
 
         private static string CreateBase64Image(ImageGenerationModel model, Profile profile)
