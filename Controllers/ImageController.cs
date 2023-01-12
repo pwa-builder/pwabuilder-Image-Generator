@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using System.Net.Http.Headers;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net.Http;
 
 namespace AppImageGenerator.Controllers
 {
@@ -31,10 +32,9 @@ namespace AppImageGenerator.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        [HttpGet("downloadImagesZipById", Name = "downloadImagesZipById")]
-        public ActionResult Get(string id)
+        [HttpGet("getImagesZipById", Name = "getImagesZipById")]
+        public async Task<ActionResult> Get(string id)
         {
-            HttpResponseMessage httpResponseMessage;
             try
             {
                 // Create path from the id and return the file...
@@ -45,15 +45,7 @@ namespace AppImageGenerator.Controllers
                     return new NotFoundResult();
                 }
 
-       /*         httpResponseMessage = new HttpResponseMessage();
-                httpResponseMessage.Content = new ByteArrayContent(System.IO.File.ReadAllBytes(zipFilePath));
-                httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-                httpResponseMessage.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-                {
-                    FileName = "AppImages.zip"
-                };*/
-
-                var archive = File(System.IO.File.ReadAllBytes(zipFilePath), "application/octet-stream", fileDownloadName: "AppImages.zip");
+                var archive = File(await System.IO.File.ReadAllBytesAsync(zipFilePath), "application/octet-stream", fileDownloadName: "AppImages.zip");
 
                 System.IO.File.Delete(zipFilePath);
 
@@ -61,10 +53,7 @@ namespace AppImageGenerator.Controllers
             }
             catch (Exception ex)
             {
-              /*  httpResponseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError);
-                httpResponseMessage.ReasonPhrase = ex.ToString();*/
-                // TODO: fix this
-                return new NotFoundResult();
+                return new ObjectResult(ex.ToString()) { StatusCode = (int?)HttpStatusCode.InternalServerError };
             }
         }
 
@@ -78,34 +67,18 @@ namespace AppImageGenerator.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("generateImagesZip")]
-        public async Task<HttpResponseMessage> Post([FromForm] ImageFormData Form)
+        public async Task<ActionResult> Post([FromForm] ImageFormData Form)
         {
-         /*   string webRootPath = _webHostEnvironment.WebRootPath;
-            // string contentRootPath = _webHostEnvironment.ContentRootPath;
-            var uploads = Path.Combine(webRootPath, "~/App_Data");*/
             var zipId = Guid.NewGuid();
 
             try
             {
-                // Read the arguments.
-                // await Request.Content.ReadAsMultipartAsync(provider);
-                /*         var options = new FormOptions();
-                         var boundary = MultipartRequestHelper.GetBoundary(
-                         MediaTypeHeaderValue.Parse(Request.ContentType),
-                         options.MultipartBoundaryLengthLimit);
-                                     var reader = new MultipartReader(boundary, HttpContext.Request.Body);
-
-                         var section = await reader.ReadNextSectionAsync();
-                         section.for*/
-
                 using (var args = ImageGenerationModel.FromFormData(HttpContext.Request.Form, HttpContext.Request.Form.Files))
                 {
                     // Punt if we have invalid arguments.
                     if (!string.IsNullOrEmpty(args.ErrorMessage))
                     {
-                        var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.BadRequest);
-                        httpResponseMessage.ReasonPhrase = args.ErrorMessage;
-                        return httpResponseMessage;
+                        return new ObjectResult(args.ErrorMessage) { StatusCode = (int?)HttpStatusCode.BadRequest };
                     }
 
                     var profiles = GetProfilesFromPlatforms(args.Platforms);
@@ -142,61 +115,54 @@ namespace AppImageGenerator.Controllers
             }
             catch (OutOfMemoryException ex)
             {
-                var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.UnsupportedMediaType);
-                httpResponseMessage.ReasonPhrase = ex.ToString().Replace("\n", " ").Replace("\r", " ");
-                return httpResponseMessage;
+                return new ObjectResult(ex.ToString()) { StatusCode = (int?)HttpStatusCode.UnsupportedMediaType };
             }
             catch (Exception ex)
             {
-                var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError);
-                httpResponseMessage.ReasonPhrase = ex.ToString().Replace("\n", " ").Replace("\r", " ");
-                return httpResponseMessage;
+                return new ObjectResult(ex.ToString()) { StatusCode = (int?)HttpStatusCode.InternalServerError };
             }
 
             // Send back a route to download the zip file.
-            var url = Url.RouteUrl("downloadImagesZipById", new { id = zipId.ToString() });
-            var uri = new Uri(url, UriKind.Relative);
-            /*var responseMessage = Request.CreateResponse(HttpStatusCode.Created, new ImageResponse { Uri = uri });*/
-            var responseMessage = new HttpResponseMessage(HttpStatusCode.Created);
-            /*            this.StatusCode(int.Parse(HttpStatusCode.Created.ToString()), new ImageResponse { Uri = uri });*/
-            responseMessage.Content = new StringContent(JsonConvert.SerializeObject(new ImageResponse { Uri = uri }));
-            responseMessage.Headers.Location = uri;
-            responseMessage.Headers.Add("X-Zip-Id", zipId.ToString());
-            return responseMessage;
+            var url = Url.RouteUrl("getImagesZipById", new { id = zipId.ToString() });
+            //var uri = new Uri(url, UriKind.Relative);
+            //var responseMessage = new HttpResponseMessage(HttpStatusCode.Created);
+            ////responseMessage.Content = new StringContent(JsonConvert.SerializeObject(new ImageResponse { Uri = uri }));
+            //responseMessage.Headers.Location = uri;
+            //responseMessage.Headers.Add("X-Zip-Id", zipId.ToString());
+
+            return new RedirectResult(url);
         }
 
         // Same as Post, but additionally downloads the file
-        [HttpPost("generateAndDownloadImagesZip")]
-        public async Task<ActionResult> Download([FromForm] ImageFormData Form)
-        {
-            var postResponse = await Post(Form);
-            if (postResponse.StatusCode == HttpStatusCode.Created)
-            {
-                if (postResponse.Headers.TryGetValues("X-Zip-Id", out var vals))
-                {
-                    var zipId = vals.FirstOrDefault();
-                    if (zipId != null)
-                    {
-                        return Get(zipId);
-                    }
-                }
-            }
+        //[HttpPost("generateAndDownloadImagesZip")]
+        //public async Task<ActionResult> Download([FromForm] ImageFormData Form)
+        //{
+        //    var postResponse = await Post(Form);
+        //    if (postResponse.StatusCode == HttpStatusCode.Created)
+        //    {
+        //        if (postResponse.Headers.TryGetValues("X-Zip-Id", out var vals))
+        //        {
+        //            var zipId = vals.FirstOrDefault();
+        //            if (zipId != null)
+        //            {
+        //                return Get(zipId);
+        //            }
+        //        }
+        //    }
 
-            return new StatusCodeResult((int)postResponse.StatusCode);
-        }
+        //    return new StatusCodeResult((int)postResponse.StatusCode);
+        //}
 
         
         [HttpPost("generateBase64Image")]
-        public Task<ObjectResult> Base64([FromForm] ImageFormData Form)
+        public async Task<ActionResult> Base64([FromForm] ImageFormData Form)
         {
 
             using (var args = ImageGenerationModel.FromFormData(HttpContext.Request.Form, HttpContext.Request.Form.Files))
             {
                 if (!string.IsNullOrEmpty(args.ErrorMessage))
                 {
-                    var error = new ObjectResult(args.ErrorMessage);
-                    error.StatusCode = (int?)HttpStatusCode.BadRequest;
-                    return Task.FromResult(error);
+                    return new ObjectResult(args.ErrorMessage) { StatusCode = (int?)HttpStatusCode.BadRequest };
                 }
 
                 var imgs = GetProfilesFromPlatforms(args.Platforms)
@@ -209,7 +175,7 @@ namespace AppImageGenerator.Controllers
                     });
 
                 var response = new ObjectResult(JsonConvert.SerializeObject(imgs));
-                return Task.FromResult(response);
+                return response;
             }
         }
 
