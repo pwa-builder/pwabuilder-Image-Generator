@@ -156,7 +156,7 @@ namespace AppImageGenerator.Controllers
         //}
 
         
-        [HttpPost("generateBase64Image")]
+        [HttpPost("generateBase64Images")]
         public async Task<ActionResult> Base64([FromForm] ImageFormData Form)
         {
 

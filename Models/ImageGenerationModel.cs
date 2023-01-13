@@ -85,7 +85,6 @@ namespace AppImageGenerator.Models
 
             if (!hasPadding || padding < 0 || padding > 1.0)
             {
-                // No padding? Default to 0.3
                 padding = 0;
             }
 
@@ -101,7 +100,8 @@ namespace AppImageGenerator.Models
                 try
                 {
                     if (!Color.TryParse(colorStr, out color))
-                        Color.TryParseHex(colorStr, out color);
+                        if (!Color.TryParseHex(colorStr, out color))
+                            throw new ArgumentException("Parsing color unsucessful");
                 }
                 catch
                 {
