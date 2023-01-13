@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Net.Http;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace AppImageGenerator.Controllers
 {
@@ -317,11 +319,18 @@ namespace AppImageGenerator.Controllers
 
     public class ImageFormData
     {
+        [Required]
         public IFormFile fileName { get; set; }
-        
-        public string platform { get; set; } /* "android" | "chrome "| "firefox" | "ios" | "msteams" | "windows10" | "windows11" */
-        public string padding { get; set; }
 
-        public string color { get; set; }
+        [Required]
+        [DefaultValue(Platform.android)]
+        public Platform platform { get; set; } /* "android" | "chrome "| "firefox" | "ios" | "msteams" | "windows10" | "windows11" */
+        public string? padding { get; set; }
+
+        public string? color { get; set; }
     }
+
+    public enum Platform {
+        android,
+        chrome, firefox, ios, msteams, windows10, windows11 }
 }
