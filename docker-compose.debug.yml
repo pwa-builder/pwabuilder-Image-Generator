@@ -9,7 +9,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - 7120:7120
+      - 80:7120
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:
