@@ -154,7 +154,7 @@ namespace AppImageGenerator.Models
                     var imageMin = Math.Min(adjustWidth, adjustedHeight);
                     float scale = imageMin / svgMax;
                     var scaleMatrix = SKMatrix.CreateScale(scale, scale);
-                    SKImage SkiaImage = SKImage.FromPicture(svg.Picture, new SKSizeI(adjustWidth, adjustedHeight), scaleMatrix);
+                    SKImage SkiaImage = SKImage.FromPicture(svg.Picture, new SKSizeI(imageMin, imageMin), scaleMatrix);
 
                     // Save the image to the stream in the specified format
                     var outputImage = new MemoryStream();
@@ -198,7 +198,7 @@ namespace AppImageGenerator.Models
             }
         }
 
-        public static MemoryStream ProcessImageToStream(Image inputImage, int newWidth, int newHeight, IImageEncoder imageEncoder, double paddingProp = 0.3, Color? backgroundColor = null)
+        public static MemoryStream ProcessImageToStream(Image inputImage, int newWidth, int newHeight, IImageEncoder imageEncoder, double paddingProp = 0, Color? backgroundColor = null)
         {
             int adjustWidth;
             int adjustedHeight;
@@ -220,7 +220,7 @@ namespace AppImageGenerator.Models
                 adjustedHeight = newHeight;
             }
 
-            processedImage.Mutate(x => x.Resize(adjustWidth, adjustedHeight, KnownResamplers.Lanczos3));
+            processedImage.Mutate(x => x.Resize(Math.Min(adjustWidth, adjustedHeight), Math.Min(adjustWidth, adjustedHeight), KnownResamplers.Lanczos3));
 
             if (backgroundColor != null)
                 processedImage.Mutate(x => x.BackgroundColor((Color)backgroundColor));
