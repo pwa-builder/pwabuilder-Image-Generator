@@ -138,5 +138,19 @@
     "name": "ios-appicon-76-76",
     "desc": "ios-appicon-76-76",
     "folder": "ios/"
+  },
+  {
+    "width": 192,
+    "height": 192,
+    "name": "msteams-192-192",
+    "desc": "msteams-192-192",
+    "folder": "msteams/"
+  },
+  {
+    "width": 32,
+    "height": 32,
+    "name": "msteams-silhouette-32-32",
+    "desc": "msteams-silhouette-32-32",
+    "folder": "msteams/"
   }
 ]

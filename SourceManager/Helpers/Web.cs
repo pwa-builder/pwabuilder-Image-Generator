@@ -14,6 +14,8 @@ namespace SourceManager.Helpers
 
     public static class Web
     {
+        private static readonly HttpClient client = new HttpClient();
+
         public static async Task<string> Get(string url)
         {
             var uri = new Uri(url);
@@ -22,12 +24,9 @@ namespace SourceManager.Helpers
 
             string result;
 
-            using (var client = new HttpClient())
+            using (var response = await client.GetAsync(uri, cts.Token))
             {
-                using (var response = await client.GetAsync(uri, cts.Token))
-                {
-                    result = await response.Content.ReadAsStringAsync();
-                }
+                result = await response.Content.ReadAsStringAsync();
             }
 
             return result;

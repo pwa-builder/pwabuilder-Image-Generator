@@ -4,35 +4,40 @@
     "height": 71,
     "name": "SmallTile.scale-100",
     "desc": "SmallTile.scale-100",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 89,
     "height": 89,
     "name": "SmallTile.scale-125",
     "desc": "SmallTile.scale-125",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 107,
     "height": 107,
     "name": "SmallTile.scale-150",
     "desc": "SmallTile.scale-150",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 142,
     "height": 142,
     "name": "SmallTile.scale-200",
     "desc": "SmallTile.scale-200",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 284,
     "height": 284,
     "name": "SmallTile.scale-400",
     "desc": "SmallTile.scale-400",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
 
   {
@@ -40,35 +45,40 @@
     "height": 150,
     "name": "Square150x150Logo.scale-100",
     "desc": "Square150x150Logo.scale-100",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 188,
     "height": 188,
     "name": "Square150x150Logo.scale-125",
     "desc": "Square150x150Logo.scale-125",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 225,
     "height": 225,
     "name": "Square150x150Logo.scale-150",
     "desc": "Square150x150Logo.scale-150",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 300,
     "height": 300,
     "name": "Square150x150Logo.scale-200",
     "desc": "Square150x150Logo.scale-200",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 600,
     "height": 600,
     "name": "Square150x150Logo.scale-400",
     "desc": "Square150x150Logo.scale-400",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
 
   {
@@ -76,35 +86,40 @@
     "height": 150,
     "name": "Wide310x150Logo.scale-100",
     "desc": "Wide310x150Logo.scale-100",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 388,
     "height": 188,
     "name": "Wide310x150Logo.scale-125",
     "desc": "Wide310x150Logo.scale-125",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 465,
     "height": 225,
     "name": "Wide310x150Logo.scale-150",
     "desc": "Wide310x150Logo.scale-150",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 620,
     "height": 300,
     "name": "Wide310x150Logo.scale-200",
     "desc": "Wide310x150Logo.scale-200",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 1240,
     "height": 600,
     "name": "Wide310x150Logo.scale-400",
     "desc": "Wide310x150Logo.scale-400",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
 
   {
@@ -112,35 +127,40 @@
     "height": 310,
     "name": "LargeTile.scale-100",
     "desc": "LargeTile.scale-100",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 388,
     "height": 388,
     "name": "LargeTile.scale-125",
     "desc": "LargeTile.scale-125",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 465,
     "height": 465,
     "name": "LargeTile.scale-150",
     "desc": "LargeTile.scale-150",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 620,
     "height": 620,
     "name": "LargeTile.scale-200",
     "desc": "LargeTile.scale-200",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 1240,
     "height": 1240,
     "name": "LargeTile.scale-400",
     "desc": "LargeTile.scale-400",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
 
   {
@@ -148,35 +168,40 @@
     "height": 44,
     "name": "Square44x44Logo.scale-100",
     "desc": "Square44x44Logo.scale-100",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 55,
     "height": 55,
     "name": "Square44x44Logo.scale-125",
     "desc": "Square44x44Logo.scale-125",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 66,
     "height": 66,
     "name": "Square44x44Logo.scale-150",
     "desc": "Square44x44Logo.scale-150",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 88,
     "height": 88,
     "name": "Square44x44Logo.scale-200",
     "desc": "Square44x44Logo.scale-200",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 176,
     "height": 176,
     "name": "Square44x44Logo.scale-400",
     "desc": "Square44x44Logo.scale-400",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
 
   {
@@ -184,35 +209,40 @@
     "height": 50,
     "name": "StoreLogo.scale-100",
     "desc": "StoreLogo.scale-100",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 63,
     "height": 63,
     "name": "StoreLogo.scale-125",
     "desc": "StoreLogo.scale-125",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 75,
     "height": 75,
     "name": "StoreLogo.scale-150",
     "desc": "StoreLogo.scale-150",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 100,
     "height": 100,
     "name": "StoreLogo.scale-200",
     "desc": "StoreLogo.scale-200",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 200,
     "height": 200,
     "name": "StoreLogo.scale-400",
     "desc": "StoreLogo.scale-400",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
 
   {
@@ -220,35 +250,40 @@
     "height": 300,
     "name": "SplashScreen.scale-100",
     "desc": "SplashScreen.scale-100",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 775,
     "height": 375,
     "name": "SplashScreen.scale-125",
     "desc": "SplashScreen.scale-125",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 930,
     "height": 450,
     "name": "SplashScreen.scale-150",
     "desc": "SplashScreen.scale-150",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 1240,
     "height": 600,
     "name": "SplashScreen.scale-200",
     "desc": "SplashScreen.scale-200",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
   {
     "width": 2480,
     "height": 1200,
     "name": "SplashScreen.scale-400",
     "desc": "SplashScreen.scale-400",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.3
   },
 
   {
@@ -256,105 +291,120 @@
     "height": 16,
     "name": "Square44x44Logo.targetsize-16",
     "desc": "Square44x44Logo.targetsize-16",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 20,
     "height": 20,
     "name": "Square44x44Logo.targetsize-20",
     "desc": "Square44x44Logo.targetsize-20",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 24,
     "height": 24,
     "name": "Square44x44Logo.targetsize-24",
     "desc": "Square44x44Logo.targetsize-24",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 30,
     "height": 30,
     "name": "Square44x44Logo.targetsize-30",
     "desc": "Square44x44Logo.targetsize-30",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 32,
     "height": 32,
     "name": "Square44x44Logo.targetsize-32",
     "desc": "Square44x44Logo.targetsize-32",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 36,
     "height": 36,
     "name": "Square44x44Logo.targetsize-36",
     "desc": "Square44x44Logo.targetsize-36",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 40,
     "height": 40,
     "name": "Square44x44Logo.targetsize-40",
     "desc": "Square44x44Logo.targetsize-40",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 44,
     "height": 44,
     "name": "Square44x44Logo.targetsize-44",
     "desc": "Square44x44Logo.targetsize-44",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 48,
     "height": 48,
     "name": "Square44x44Logo.targetsize-48",
     "desc": "Square44x44Logo.targetsize-48",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 60,
     "height": 60,
     "name": "Square44x44Logo.targetsize-60",
     "desc": "Square44x44Logo.targetsize-60",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 64,
     "height": 64,
     "name": "Square44x44Logo.targetsize-64",
     "desc": "Square44x44Logo.targetsize-64",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 72,
     "height": 72,
     "name": "Square44x44Logo.targetsize-72",
     "desc": "Square44x44Logo.targetsize-72",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 80,
     "height": 80,
     "name": "Square44x44Logo.targetsize-80",
     "desc": "Square44x44Logo.targetsize-80",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 96,
     "height": 96,
     "name": "Square44x44Logo.targetsize-96",
     "desc": "Square44x44Logo.targetsize-96",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 256,
     "height": 256,
     "name": "Square44x44Logo.targetsize-256",
     "desc": "Square44x44Logo.targetsize-256",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
 
   {
@@ -362,105 +412,120 @@
     "height": 16,
     "name": "Square44x44Logo.altform-unplated_targetsize-16",
     "desc": "Square44x44Logo.altform-unplated_targetsize-16",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 20,
     "height": 20,
     "name": "Square44x44Logo.altform-unplated_targetsize-20",
     "desc": "Square44x44Logo.altform-unplated_targetsize-20",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 24,
     "height": 24,
     "name": "Square44x44Logo.altform-unplated_targetsize-24",
     "desc": "Square44x44Logo.altform-unplated_targetsize-24",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 30,
     "height": 30,
     "name": "Square44x44Logo.altform-unplated_targetsize-30",
     "desc": "Square44x44Logo.altform-unplated_targetsize-30",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 32,
     "height": 32,
     "name": "Square44x44Logo.altform-unplated_targetsize-32",
     "desc": "Square44x44Logo.altform-unplated_targetsize-32",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 36,
     "height": 36,
     "name": "Square44x44Logo.altform-unplated_targetsize-36",
     "desc": "Square44x44Logo.altform-unplated_targetsize-36",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 40,
     "height": 40,
     "name": "Square44x44Logo.altform-unplated_targetsize-40",
     "desc": "Square44x44Logo.altform-unplated_targetsize-40",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 44,
     "height": 44,
     "name": "Square44x44Logo.altform-unplated_targetsize-44",
     "desc": "Square44x44Logo.altform-unplated_targetsize-44",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 48,
     "height": 48,
     "name": "Square44x44Logo.altform-unplated_targetsize-48",
     "desc": "Square44x44Logo.altform-unplated_targetsize-48",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 60,
     "height": 60,
     "name": "Square44x44Logo.altform-unplated_targetsize-60",
     "desc": "Square44x44Logo.altform-unplated_targetsize-60",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 64,
     "height": 64,
     "name": "Square44x44Logo.altform-unplated_targetsize-64",
     "desc": "Square44x44Logo.altform-unplated_targetsize-64",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 72,
     "height": 72,
     "name": "Square44x44Logo.altform-unplated_targetsize-72",
     "desc": "Square44x44Logo.altform-unplated_targetsize-72",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 80,
     "height": 80,
     "name": "Square44x44Logo.altform-unplated_targetsize-80",
     "desc": "Square44x44Logo.altform-unplated_targetsize-80",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 96,
     "height": 96,
     "name": "Square44x44Logo.altform-unplated_targetsize-96",
     "desc": "Square44x44Logo.altform-unplated_targetsize-96",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 256,
     "height": 256,
     "name": "Square44x44Logo.altform-unplated_targetsize-256",
     "desc": "Square44x44Logo.altform-unplated_targetsize-256",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
 
   {
@@ -468,104 +533,119 @@
     "height": 16,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-16",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-16",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 20,
     "height": 20,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-20",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-20",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 24,
     "height": 24,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-24",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-24",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 30,
     "height": 30,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-30",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-30",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 32,
     "height": 32,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-32",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-32",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 36,
     "height": 36,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-36",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-36",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 40,
     "height": 40,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-40",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-40",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 44,
     "height": 44,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-44",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-44",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 48,
     "height": 48,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-48",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-48",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 60,
     "height": 60,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-60",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-60",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 64,
     "height": 64,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-64",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-64",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 72,
     "height": 72,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-72",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-72",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 80,
     "height": 80,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-80",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-80",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 96,
     "height": 96,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-96",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-96",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   },
   {
     "width": 256,
     "height": 256,
     "name": "Square44x44Logo.altform-lightunplated_targetsize-256",
     "desc": "Square44x44Logo.altform-lightunplated_targetsize-256",
-    "folder": "windows10/"
+    "folder": "windows11/",
+    "padding": 0.0
   }
 ]
