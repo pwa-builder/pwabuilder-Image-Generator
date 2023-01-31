@@ -218,17 +218,17 @@ namespace AppImageGenerator.Controllers
                     {
                         if (profiles == null)
                         {
-                            profiles = JsonSerializer.Deserialize<List<Profile>>(cfg);
+                            profiles = JsonSerializer.Deserialize<List<Profile>>(cfg)!;
                         }
                         else
                         {
-                            profiles.AddRange(JsonSerializer.Deserialize<List<Profile>>(cfg));
+                            profiles.AddRange(JsonSerializer.Deserialize<List<Profile>>(cfg)!);
                         }
                     }
                 }
             }
 
-            return profiles;
+            return profiles!;
         }
 
         private string CreateFilePathFromId(Guid id)
