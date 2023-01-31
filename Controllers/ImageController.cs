@@ -26,6 +26,12 @@ public class ImageController : ControllerBase
 {
     private readonly IWebHostEnvironment _webHostEnvironment;
 
+    private const string FileDownloadName = "AppImages.zip";
+    private const string FileDownloadType = "application/octet-stream";
+    private const string FileIconsJsonName = "icons.json";
+    private const string PlatformNameCommonPart = "Images.json";
+    private const string AppDataFolderName = "App_Data";
+
     public ImageController (IWebHostEnvironment webHostEnvironment)
     {
         _webHostEnvironment = webHostEnvironment;
@@ -44,7 +50,7 @@ public class ImageController : ControllerBase
                 return new NotFoundResult();
             }
 
-            var archive = File(await System.IO.File.ReadAllBytesAsync(zipFilePath), "application/octet-stream", fileDownloadName: "AppImages.zip");
+            var archive = File(await System.IO.File.ReadAllBytesAsync(zipFilePath), FileDownloadType, fileDownloadName: FileDownloadName);
 
             System.IO.File.Delete(zipFilePath);
 
@@ -103,7 +109,7 @@ public class ImageController : ControllerBase
                     var options = new JsonSerializerOptions { WriteIndented = true };
                     var iconStr = JsonSerializer.Serialize(iconObject, options);
 
-                    using (StreamWriter writer = new StreamWriter(zip.CreateEntry("icons.json", CompressionLevel.Optimal).Open()))
+                    using (StreamWriter writer = new StreamWriter(zip.CreateEntry(FileIconsJsonName, CompressionLevel.Optimal).Open()))
                     {
                         writer.Write(iconStr);
                     }
@@ -172,9 +178,9 @@ public class ImageController : ControllerBase
     {
         List<string> config = new List<string>();
         string webRootPath = _webHostEnvironment.WebRootPath ?? _webHostEnvironment.ContentRootPath;
-        var root = Path.Combine(webRootPath, "App_Data");
+        var root = Path.Combine(webRootPath, AppDataFolderName);
 
-        string filePath = Path.Combine(root, platformId + "Images.json");
+        string filePath = Path.Combine(root, platformId + PlatformNameCommonPart);
         config.Add(ReadStringFromConfigFile(filePath));
         return config;
     }
@@ -213,7 +219,7 @@ public class ImageController : ControllerBase
     private string CreateFilePathFromId(Guid id)
     {
         string webRootPath = _webHostEnvironment.WebRootPath ?? _webHostEnvironment.ContentRootPath;
-        var root = Path.Combine(webRootPath, "App_Data");
+        var root = Path.Combine(webRootPath, AppDataFolderName);
   /*      string root = HttpContextHelper.Current.Server.MapPath("~/App_Data");*/
         string zipFilePath = Path.Combine(root, id + ".zip");
         return zipFilePath;
