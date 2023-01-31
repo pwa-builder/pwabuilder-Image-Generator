@@ -1,7 +1,7 @@
 ﻿using System.IO.Compression;
 using System.Net;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 using AppImageGenerator.Models;
 
@@ -14,9 +14,6 @@ using SixLabors.ImageSharp.Formats.Tiff;
 
 using Microsoft.AspNetCore.Mvc;
 
-using System.Net.Http.Headers;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Net.Http;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -103,7 +100,8 @@ namespace AppImageGenerator.Controllers
                             iconObject.icons.Add(new IconObject(profile.Folder + profile.Name + "." + fmt, profile.Width + "x" + profile.Height));
                         }
 
-                        var iconStr = JsonConvert.SerializeObject(iconObject, Formatting.Indented);
+                        var options = new JsonSerializerOptions { WriteIndented = true };
+                        var iconStr = JsonSerializer.Serialize(iconObject, options);
 
                         using (StreamWriter writer = new StreamWriter(zip.CreateEntry("icons.json", CompressionLevel.Optimal).Open()))
                         {
@@ -176,7 +174,8 @@ namespace AppImageGenerator.Controllers
                         Type = string.IsNullOrEmpty(profile.Format) ? "image/png" : profile.Format
                     });
 
-                var response = new ObjectResult(JsonConvert.SerializeObject(imgs));
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                var response = new ObjectResult(JsonSerializer.Serialize(imgs, options));
                 return response;
             }
         }
@@ -215,13 +214,16 @@ namespace AppImageGenerator.Controllers
 
                 foreach (var cfg in config)
                 {
-                    if (profiles == null)
+                    if (cfg != null)
                     {
-                        profiles = JsonConvert.DeserializeObject<List<Profile>>(cfg);
-                    }
-                    else
-                    {
-                        profiles.AddRange(JsonConvert.DeserializeObject<List<Profile>>(cfg));
+                        if (profiles == null)
+                        {
+                            profiles = JsonSerializer.Deserialize<List<Profile>>(cfg);
+                        }
+                        else
+                        {
+                            profiles.AddRange(JsonSerializer.Deserialize<List<Profile>>(cfg));
+                        }
                     }
                 }
             }

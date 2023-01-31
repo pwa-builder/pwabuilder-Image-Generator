@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace AppImageGenerator.Models
 {
@@ -7,13 +7,13 @@ namespace AppImageGenerator.Models
     /// </summary>
     public class WebManifestIcon
     {
-        [JsonProperty("src")]
+        [JsonPropertyName("src")]
         public string? Src { get; set; }
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string? Type { get; set; }
-        [JsonProperty("sizes")]
+        [JsonPropertyName("sizes")]
         public string? Sizes { get; set; }
-        [JsonProperty("purpose")]
+        [JsonPropertyName("purpose")]
         public string? Purpose { get; set; } // "any" | "maskable" | "monochrome";
 
         public bool IsSquare()

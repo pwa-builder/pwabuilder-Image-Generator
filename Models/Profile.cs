@@ -2,30 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace AppImageGenerator.Models
 {
     public class Profile
     {
-        [DataMember(Name = "width")]
+        [JsonPropertyName("width")]
         public int Width { get; set; }
 
-        [DataMember(Name = "height")]
+        [JsonPropertyName("height")]
         public int Height { get; set; }
 
-        [DataMember(Name = "name")]
+        [JsonPropertyName("name")]
         public string? Name { get; set; }
 
-        [DataMember(Name = "desc")]
+        [JsonPropertyName("desc")]
         public string? Desc { get; set; }
 
-        [DataMember(Name = "folder")]
+        [JsonPropertyName("folder")]
         public string? Folder { get; set; }
 
-        [DataMember(Name = "format")]
+        [JsonPropertyName("format")]
         public string? Format { get; set; }
 
-        [DataMember(Name = "padding")]
+        [JsonPropertyName("padding")]
         public double? Padding { get; set; }
     }
 }
