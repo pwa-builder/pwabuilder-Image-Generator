@@ -31,13 +31,14 @@ public class ImageController : ControllerBase
     private const string FileIconsJsonName = "icons.json";
     private const string PlatformNameCommonPart = "Images.json";
     private const string AppDataFolderName = "App_Data";
+    private const string GetImagesZipById = "getImagesZipById";
 
     public ImageController (IWebHostEnvironment webHostEnvironment)
     {
         _webHostEnvironment = webHostEnvironment;
     }
 
-    [HttpGet("getImagesZipById", Name = "getImagesZipById")]
+    [HttpGet(GetImagesZipById, Name = GetImagesZipById)]
     public async Task<ActionResult> Get(string id)
     {
         try
@@ -129,7 +130,7 @@ public class ImageController : ControllerBase
         }
 
         // Send back a route to download the zip file.
-        var url = Url.RouteUrl("getImagesZipById", new { id = zipId.ToString() });
+        var url = Url.RouteUrl(GetImagesZipById, new { id = zipId.ToString() });
         //var uri = new Uri(url, UriKind.Relative);
         //var responseMessage = new HttpResponseMessage(HttpStatusCode.Created);
         ////responseMessage.Content = new StringContent(JsonConvert.SerializeObject(new ImageResponse { Uri = uri }));
@@ -229,15 +230,17 @@ public class ImageController : ControllerBase
     {
         if (!string.IsNullOrEmpty(type))
         {
-            if (new Regex(type).IsMatch("png"))
+            string ImageType = type.ToLower();
+
+            if (ImageType.EndsWith("png"))
                 return new PngEncoder();
-            if (new Regex(type).IsMatch("jpeg") || new Regex(type).IsMatch("jpg"))
+            if (ImageType.EndsWith("jpeg")|| ImageType.EndsWith("jpg"))
                 return new JpegEncoder();
-            if (new Regex(type).IsMatch("webp"))
+            if (ImageType.EndsWith("webp"))
                 return new WebpEncoder();
-            if (new Regex(type).IsMatch("bmp"))
+            if (ImageType.EndsWith("bmp"))
                 return new BmpEncoder();
-            if (new Regex(type).IsMatch("tiff"))
+            if (ImageType.EndsWith("tiff"))
                 return new TiffEncoder();
         }
 
