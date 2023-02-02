@@ -42,31 +42,12 @@ namespace AppImageGenerator.Models
             }
             else
             {
-                //baseImage = Image.FromFile(baseImageData.LocalFileName);
-
-                FileStream? fs = null;
-                try
-                {
-                    /*  fs = new FileStream(baseImageData.FileName, FileMode.Open, FileAccess.Read);*/
-                    var rs = baseImageData.OpenReadStream();
-                    baseImage = Image.Load(rs);
-                    rs.Close();
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-                finally
-                {
-                    fs?.Close();
-                }
-                
+                using var rs = baseImageData.OpenReadStream();
+                baseImage = Image.Load(rs);               
             }
 
             // Validate platforms.
-            StringValues platforms;
-            form.TryGetValue("platform", out platforms);
+            form.TryGetValue("platform", out var platforms);
 
             if (platforms.Count <= 0)
             {
@@ -77,11 +58,14 @@ namespace AppImageGenerator.Models
             }
 
             // Validate the padding.
-            StringValues paddings;
-            form.TryGetValue("padding", out paddings);
+            form.TryGetValue("padding", out var paddings);
             var hasPadding = paddings.Count > 0 ? true : false;
+            double padding = 0;
 
-            double.TryParse(paddings.First()?.Replace(',', '.'), NumberStyles.Number, CultureInfo.InvariantCulture, out var padding);
+            if (hasPadding)
+            {
+                double.TryParse(paddings.First()?.Replace(',', '.'), NumberStyles.Number, CultureInfo.InvariantCulture, out padding);
+            }
 
             if (!hasPadding || padding < 0 || padding > 1.0)
             {
@@ -89,8 +73,7 @@ namespace AppImageGenerator.Models
             }
 
             // Validate the color.
-            StringValues colorStrings;
-            form.TryGetValue("color", out colorStrings);
+            form.TryGetValue("color", out var colorStrings);
 
             var colorStr = colorStrings.First();
             var color = Color.FromRgba(0, 0, 0, 0);
@@ -99,9 +82,10 @@ namespace AppImageGenerator.Models
             {
                 try
                 {
-                    if (!Color.TryParse(colorStr, out color))
-                        if (!Color.TryParseHex(colorStr, out color))
-                            throw new ArgumentException("Parsing color unsucessful");
+                    if (!Color.TryParse(colorStr, out color) && !Color.TryParseHex(colorStr, out color))
+                    {
+                        throw new ArgumentException("Parsing color unsucessful");
+                    }
                 }
                 catch
                 {
@@ -123,11 +107,11 @@ namespace AppImageGenerator.Models
             };
         }
 
-        public static MemoryStream ProcessSvgToStream(IFormFile inputSvg, int newWidth, int newHeight, IImageEncoder imageEncoder, double? paddingProp, Color? backgroundColor = null)
+        public static MemoryStream? ProcessSvgToStream(IFormFile inputSvg, int newWidth, int newHeight, IImageEncoder imageEncoder, double? paddingProp, Color? backgroundColor = null)
         {
             using (var svg = new SKSvg())
             {
-                var svgStream = inputSvg.OpenReadStream();
+                using var svgStream = inputSvg.OpenReadStream();
                 if (svg.Load(svgStream) != null && svg.Picture != null)
                 {
                     int adjustWidth;
@@ -152,9 +136,9 @@ namespace AppImageGenerator.Models
                     // Conver and scale SVG to Image
                     var svgMax = Math.Max(svg.Picture.CullRect.Height, svg.Picture.CullRect.Width);
                     var imageMin = Math.Min(adjustWidth, adjustedHeight);
-                    float scale = imageMin / svgMax;
+                    var scale = imageMin / svgMax;
                     var scaleMatrix = SKMatrix.CreateScale(scale, scale);
-                    SKImage SkiaImage = SKImage.FromPicture(svg.Picture, new SKSizeI(imageMin, imageMin), scaleMatrix);
+                    var SkiaImage = SKImage.FromPicture(svg.Picture, new SKSizeI(imageMin, imageMin), scaleMatrix);
 
                     // Save the image to the stream in the specified format
                     var outputImage = new MemoryStream();
@@ -169,8 +153,11 @@ namespace AppImageGenerator.Models
                     outputImage.Position = 0;
 
                     if (backgroundColor != null)
+                    {
                         processedImage.Mutate(x => x.BackgroundColor((Color)backgroundColor));
+                    }
                     if (paddingProp > 0)
+                    {
                         processedImage.Mutate(x => x.Resize(
                             new ResizeOptions
                             {
@@ -178,20 +165,17 @@ namespace AppImageGenerator.Models
                                 Mode = ResizeMode.BoxPad,
                                 PadColor = backgroundColor ?? Color.Transparent
                             }));
+                    }
 
 
                     processedImage.Save(outputImage, imageEncoder);
                     outputImage.Position = 0;
-
-                    svgStream.Close();
 
                     return outputImage;
 
                 }
                 else
                 {
-                    svgStream.Close();
-
                     return null;
                 }
 
@@ -204,7 +188,7 @@ namespace AppImageGenerator.Models
             int adjustedHeight;
             int paddingW;
             int paddingH;
-            Image processedImage = inputImage.Clone(x => { });
+            var processedImage = inputImage.Clone(x => { });
 
             if (paddingProp > 0)
             {
@@ -223,9 +207,12 @@ namespace AppImageGenerator.Models
             processedImage.Mutate(x => x.Resize(Math.Min(adjustWidth, adjustedHeight), Math.Min(adjustWidth, adjustedHeight), KnownResamplers.Lanczos3));
 
             if (backgroundColor != null)
+            {
                 processedImage.Mutate(x => x.BackgroundColor((Color)backgroundColor));
+            }
 
             if (paddingProp > 0)
+            {
                 processedImage.Mutate(x => x.Resize(
                     new ResizeOptions
                     {
@@ -233,6 +220,7 @@ namespace AppImageGenerator.Models
                         Mode = ResizeMode.BoxPad,
                         PadColor = backgroundColor ?? Color.Transparent
                     }));
+            }
 
             var outputImage = new MemoryStream();
             processedImage.Save(outputImage, imageEncoder);
@@ -262,7 +250,7 @@ namespace AppImageGenerator.Models
                     BaseImage.Dispose();
                 }
 
-                if (BaseImageData != null && !string.IsNullOrEmpty(BaseImageData.FileName))
+                if (!string.IsNullOrEmpty(BaseImageData?.FileName))
                 {
                     File.Delete(BaseImageData.FileName);
                 }

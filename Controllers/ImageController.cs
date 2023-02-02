@@ -21,10 +21,10 @@ namespace AppImageGenerator.Controllers;
 
 [ApiController]
 [Route("api/")]
-
 public class ImageController : ControllerBase
 {
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly ILogger _logger;
 
     private const string FileDownloadName = "AppImages.zip";
     private const string FileDownloadType = "application/octet-stream";
@@ -33,8 +33,9 @@ public class ImageController : ControllerBase
     private const string AppDataFolderName = "App_Data";
     private const string GetImagesZipById = "getImagesZipById";
 
-    public ImageController (IWebHostEnvironment webHostEnvironment)
+    public ImageController (IWebHostEnvironment webHostEnvironment, ILogger<ImageController> logger)
     {
+        _logger = logger;
         _webHostEnvironment = webHostEnvironment;
     }
 
@@ -44,10 +45,9 @@ public class ImageController : ControllerBase
         try
         {
             // Create path from the id and return the file...
-            string zipFilePath = CreateFilePathFromId(new Guid(id));
+            var zipFilePath = CreateFilePathFromId(new Guid(id));
             if (string.IsNullOrEmpty(zipFilePath))
             {
-                var response = new NotFoundResult();
                 return new NotFoundResult();
             }
 
@@ -59,7 +59,8 @@ public class ImageController : ControllerBase
         }
         catch (Exception ex)
         {
-            return new ObjectResult(ex.ToString()) { StatusCode = (int?)HttpStatusCode.InternalServerError };
+            _logger.LogError(ex, "{GetImagesZipById}: Couldn't get generated zip due to exception", GetImagesZipById);
+            return StatusCode((int)HttpStatusCode.InternalServerError, ex.ToString());
         }
     }
 
@@ -79,23 +80,28 @@ public class ImageController : ControllerBase
 
         try
         {
-            using (var args = ImageGenerationModel.FromFormData(HttpContext.Request.Form, HttpContext.Request.Form.Files))
+            using var args = ImageGenerationModel.FromFormData(HttpContext.Request.Form, HttpContext.Request.Form.Files);
+            
+            // Punt if we have invalid arguments.
+            if (!string.IsNullOrEmpty(args.ErrorMessage))
             {
-                // Punt if we have invalid arguments.
-                if (!string.IsNullOrEmpty(args.ErrorMessage))
-                {
-                    return new ObjectResult(args.ErrorMessage) { StatusCode = (int?)HttpStatusCode.BadRequest };
-                }
+                return new ObjectResult(args.ErrorMessage) { StatusCode = (int?)HttpStatusCode.BadRequest };
+            }
 
-                var profiles = GetProfilesFromPlatforms(args.Platforms);
-                var imageStreams = new List<Stream>(profiles.Count);
+            var profiles = GetProfilesFromPlatforms(args.Platforms);
+            if (profiles == null)
+                throw new Exception(string.Format("No platforms found in config: {PLATFORMS}", args.Platforms != null? args.Platforms : "no param"));
 
-                using (var zip = ZipFile.Open(CreateFilePathFromId(zipId), ZipArchiveMode.Create))
+            var imageStreams = new List<Stream>(profiles.Count);
+
+            using (var zip = ZipFile.Open(CreateFilePathFromId(zipId), ZipArchiveMode.Create))
+            {
+                var iconObject = new IconRootObject();
+                foreach (var profile in profiles)
                 {
-                    var iconObject = new IconRootObject();
-                    foreach (var profile in profiles)
+                    var stream = CreateImageStream(args, profile);
+                    if (stream != null)
                     {
-                        var stream = CreateImageStream(args, profile);
                         imageStreams.Add(stream);
                         var fmt = string.IsNullOrEmpty(profile.Format) ? "png" : profile.Format;
                         var iconEntry = zip.CreateEntry(profile.Name + "." + fmt, CompressionLevel.Fastest);
@@ -103,55 +109,63 @@ public class ImageController : ControllerBase
                         await stream.CopyToAsync(iconStream);
                         iconStream.Close();
                         stream.Close();
-    
+
                         iconObject.Icons.Add(new IconObject(profile.Folder + profile.Name + "." + fmt, profile.Width + "x" + profile.Height));
                     }
-
-                    var options = new JsonSerializerOptions { WriteIndented = true };
-                    var iconStr = JsonSerializer.Serialize(iconObject, options);
-
-                    using (StreamWriter writer = new StreamWriter(zip.CreateEntry(FileIconsJsonName, CompressionLevel.Optimal).Open()))
-                    {
-                        writer.Write(iconStr);
-                    }
-
-                    string zipFilePath = CreateFilePathFromId(zipId);
-                    imageStreams.ForEach(s => s.Dispose());
                 }
+
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                var iconStr = JsonSerializer.Serialize(iconObject, options);
+
+                using (StreamWriter writer = new(zip.CreateEntry(FileIconsJsonName, CompressionLevel.Optimal).Open()))
+                {
+                    writer.Write(iconStr);
+                }
+
+                var zipFilePath = CreateFilePathFromId(zipId);
+                imageStreams.ForEach(s => s.Dispose());
             }
+
+            // Send back a route to download the zip file.
+            var url = Url.RouteUrl(GetImagesZipById, new { id = zipId.ToString() });
+
+            if (url == null)
+                throw new Exception(string.Format("Couldn't generate RouteUrl for ID: {ID}", zipId.ToString()));
+
+            _logger.LogInformation("generateImagesZip: {PLATFORMS}",
+              args.Platforms != null ? args.Platforms : "no param");
+
+            return new RedirectResult(url);
+
         }
         catch (OutOfMemoryException ex)
         {
-            return new ObjectResult(ex.ToString()) { StatusCode = (int?)HttpStatusCode.UnsupportedMediaType };
+            _logger.LogError(ex, "generateImagesZip: Couldn't generate images due to exception");
+            return StatusCode((int)HttpStatusCode.UnsupportedMediaType, ex.ToString());
         }
         catch (Exception ex)
         {
-            return new ObjectResult(ex.ToString()) { StatusCode = (int?)HttpStatusCode.InternalServerError };
+            _logger.LogError(ex, "generateImagesZip: Couldn't generate images due to exception");
+            return StatusCode((int)HttpStatusCode.InternalServerError, ex.ToString());
         }
-
-        // Send back a route to download the zip file.
-        var url = Url.RouteUrl(GetImagesZipById, new { id = zipId.ToString() });
-        //var uri = new Uri(url, UriKind.Relative);
-        //var responseMessage = new HttpResponseMessage(HttpStatusCode.Created);
-        ////responseMessage.Content = new StringContent(JsonConvert.SerializeObject(new ImageResponse { Uri = uri }));
-        //responseMessage.Headers.Location = uri;
-        //responseMessage.Headers.Add("X-Zip-Id", zipId.ToString());
-
-        return new RedirectResult(url);
     }
     
     [HttpPost("generateBase64Images")]
-    public async Task<ActionResult> Base64([FromForm] ImageFormData Form)
+    public ActionResult Base64([FromForm] ImageFormData Form)
     {
-
-        using (var args = ImageGenerationModel.FromFormData(HttpContext.Request.Form, HttpContext.Request.Form.Files))
+        try
         {
+            using var args = ImageGenerationModel.FromFormData(HttpContext.Request.Form, HttpContext.Request.Form.Files);
             if (!string.IsNullOrEmpty(args.ErrorMessage))
             {
                 return new ObjectResult(args.ErrorMessage) { StatusCode = (int?)HttpStatusCode.BadRequest };
             }
 
-            var imgs = GetProfilesFromPlatforms(args.Platforms)
+            var profiles = GetProfilesFromPlatforms(args.Platforms);
+            if (profiles == null)
+                throw new Exception(string.Format("No platforms found in config: {PLATFORMS}", args.Platforms != null ? args.Platforms : "no param"));
+
+            var imgs = profiles
                 .Select(profile => new WebManifestIcon
                 {
                     Purpose = "any",
@@ -162,7 +176,16 @@ public class ImageController : ControllerBase
 
             var options = new JsonSerializerOptions { WriteIndented = true };
             var response = new ObjectResult(JsonSerializer.Serialize(imgs, options));
+
+            _logger.LogInformation("generateBase64Images: {PLATFORMS}",
+              args.Platforms != null ? args.Platforms : "no param");
+
             return response;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "generateBase64Images: Couldn't generate images due to exception");
+            return StatusCode((int)HttpStatusCode.InternalServerError, ex.ToString());
         }
     }
 
@@ -177,56 +200,63 @@ public class ImageController : ControllerBase
 
     private IEnumerable<string> GetConfig(string platformId)
     {
-        List<string> config = new List<string>();
-        string webRootPath = _webHostEnvironment.WebRootPath ?? _webHostEnvironment.ContentRootPath;
+        var config = new List<string>();
+        var webRootPath = _webHostEnvironment.WebRootPath ?? _webHostEnvironment.ContentRootPath;
         var root = Path.Combine(webRootPath, AppDataFolderName);
 
-        string filePath = Path.Combine(root, platformId + PlatformNameCommonPart);
+        var filePath = Path.Combine(root, platformId + PlatformNameCommonPart);
         config.Add(ReadStringFromConfigFile(filePath));
         return config;
     }
 
-    private IReadOnlyList<Profile> GetProfilesFromPlatforms(IEnumerable<string> platforms)
+    private IReadOnlyList<Profile>? GetProfilesFromPlatforms(IEnumerable<string>? platforms)
     {
-        List<Profile> profiles = null;
-        foreach (var platform in platforms)
+        List<Profile>? profiles = null;
+        if (platforms != null)
         {
-            // Get the platform and profiles
-            var config = GetConfig(platform);
-            if (config.Count() < 1)
+            foreach (var platform in platforms)
             {
-                throw new HttpRequestException(HttpStatusCode.BadRequest.ToString());
-            }
-
-            foreach (var cfg in config)
-            {
-                if (cfg != null)
+                // Get the platform and profiles
+                var config = GetConfig(platform);
+                if (config.Count() < 1)
                 {
-                    if (profiles == null)
+                    throw new HttpRequestException(HttpStatusCode.BadRequest.ToString());
+                }
+
+                foreach (var cfg in config)
+                {
+                    if (cfg != null)
                     {
-                        profiles = JsonSerializer.Deserialize<List<Profile>>(cfg)!;
-                    }
-                    else
-                    {
-                        profiles.AddRange(JsonSerializer.Deserialize<List<Profile>>(cfg)!);
+                        var profile = JsonSerializer.Deserialize<List<Profile>>(cfg);
+                        if (profile != null)
+                        {
+                            //profiles == null ? profiles = profile : profiles.AddRange(profile);
+                            if (profiles == null)
+                            {
+                                profiles = profile;
+                            }
+                            else
+                            {
+                                profiles.AddRange(profile);
+                            }
+                        }
                     }
                 }
             }
         }
 
-        return profiles!;
+        return profiles;
     }
 
     private string CreateFilePathFromId(Guid id)
     {
-        string webRootPath = _webHostEnvironment.WebRootPath ?? _webHostEnvironment.ContentRootPath;
+        var webRootPath = _webHostEnvironment.WebRootPath ?? _webHostEnvironment.ContentRootPath;
         var root = Path.Combine(webRootPath, AppDataFolderName);
-  /*      string root = HttpContextHelper.Current.Server.MapPath("~/App_Data");*/
-        string zipFilePath = Path.Combine(root, id + ".zip");
+        var zipFilePath = Path.Combine(root, id + ".zip");
         return zipFilePath;
     }
 
-    private static IImageEncoder getEncoderFromType(string? type)
+    private static IImageEncoder GetEncoderFromType(string? type)
     {
         if (!string.IsNullOrEmpty(type))
         {
@@ -247,13 +277,13 @@ public class ImageController : ControllerBase
         return new PngEncoder();
     }
 
-    private static MemoryStream CreateImageStream(ImageGenerationModel model, Profile profile)
+    private static MemoryStream? CreateImageStream(ImageGenerationModel model, Profile profile)
     {
         // We the individual image has padding specified, used that.
         // Otherwise, use the general padding passed into the model.
         var padding = profile.Padding ?? model.Padding;
 
-        var imageEncoder = getEncoderFromType(profile.Format);
+        var imageEncoder = GetEncoderFromType(profile.Format);
 
         if (model.SvgFormData != null)
         {
@@ -267,14 +297,17 @@ public class ImageController : ControllerBase
         return null;
     }
 
-    private static string CreateBase64Image(ImageGenerationModel model, Profile profile)
+    private static string? CreateBase64Image(ImageGenerationModel model, Profile profile)
     {
         var formatOrPng = string.IsNullOrEmpty(profile.Format) ? "image/png" : profile.Format;
         using (var imgStream = CreateImageStream(model, profile))
-        {
-            var base64 = Convert.ToBase64String(imgStream.ToArray());
-            return $"data:{formatOrPng};base64,{base64}";
+        {   if (imgStream != null)
+            {
+                var base64 = Convert.ToBase64String(imgStream.ToArray());
+                return $"data:{formatOrPng};base64,{base64}";
+            }
         }
+        return null;
     }
 }
 
