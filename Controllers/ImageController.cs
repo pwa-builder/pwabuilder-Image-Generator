@@ -16,6 +16,9 @@ using Microsoft.AspNetCore.Mvc;
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using ExCSS;
+using System.Net.Http;
+using System.Text.Json.Serialization;
 
 namespace AppImageGenerator.Controllers;
 
@@ -104,7 +107,7 @@ public class ImageController : ControllerBase
                     {
                         imageStreams.Add(stream);
                         var fmt = string.IsNullOrEmpty(profile.Format) ? "png" : profile.Format;
-                        var iconEntry = zip.CreateEntry(profile.Name + "." + fmt, CompressionLevel.Fastest);
+                        var iconEntry = zip.CreateEntry(profile.Folder + profile.Name + "." + fmt, CompressionLevel.Fastest);
                         var iconStream = iconEntry.Open();
                         await stream.CopyToAsync(iconStream);
                         iconStream.Close();
@@ -149,7 +152,31 @@ public class ImageController : ControllerBase
             return StatusCode((int)HttpStatusCode.InternalServerError, ex.ToString());
         }
     }
-    
+
+    // Legacy wrapper for new generateImagesZip method
+    [Obsolete]
+    [HttpPost("image")]
+    public async Task<ActionResult> LegacyGetGeneratedImagesZip([FromForm] ImageFormData Form)
+    {
+        var postResponse = await Post(Form);
+        if (postResponse is RedirectResult redirectResult)
+        {
+            var responseMessage = new HttpResponseMessage(HttpStatusCode.Redirect);
+            responseMessage.Content = new StringContent(JsonSerializer.Serialize(new ImageResponse { Uri = redirectResult.Url }));
+
+            return new ObjectResult(new ImageResponse { Uri = redirectResult.Url });
+        }
+        else
+        {
+            if (postResponse is ObjectResult redirectFail)
+            {
+                if (postResponse.GetType().GetProperty("Value") != null && postResponse.GetType().GetProperty("StatusCode") != null)
+                return StatusCode((int)redirectFail.StatusCode!, redirectFail.Value!.ToString());
+            }
+        }
+        return StatusCode((int)HttpStatusCode.BadRequest);
+    }
+
     [HttpPost("generateBase64Images")]
     public ActionResult Base64([FromForm] ImageFormData Form)
     {
@@ -345,3 +372,10 @@ public class ImageFormData
 public enum Platform {
     android,
     chrome, firefox, ios, msteams, windows10, windows11 }
+
+// Legacy
+public class ImageResponse
+{
+    [JsonPropertyName("Uri")]
+    public string? Uri { get; set; }
+}
