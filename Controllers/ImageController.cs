@@ -19,6 +19,7 @@ using System.ComponentModel.DataAnnotations;
 using ExCSS;
 using System.Net.Http;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Logging;
 
 namespace AppImageGenerator.Controllers;
 
@@ -34,7 +35,8 @@ public class ImageController : ControllerBase
     private const string FileIconsJsonName = "icons.json";
     private const string PlatformNameCommonPart = "Images.json";
     private const string AppDataFolderName = "App_Data";
-    private const string GetImagesZipById = "getImagesZipById";
+    private const string GetZipById = "getIconsZipById";
+    private const string GenerateIconsZip = "generateIconsZip";
 
     public ImageController (IWebHostEnvironment webHostEnvironment, ILogger<ImageController> logger)
     {
@@ -42,7 +44,7 @@ public class ImageController : ControllerBase
         _webHostEnvironment = webHostEnvironment;
     }
 
-    [HttpGet(GetImagesZipById, Name = GetImagesZipById)]
+    [HttpGet(GetZipById, Name = GetZipById)]
     public async Task<ActionResult> Get(string id)
     {
         try
@@ -62,7 +64,7 @@ public class ImageController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "{GetImagesZipById}: Couldn't get generated zip due to exception", GetImagesZipById);
+            _logger.LogError(ex, string.Format("{{GetZipById}}: Couldn't get generated zip due to exception", GetZipById));
             return StatusCode((int)HttpStatusCode.InternalServerError, ex.ToString());
         }
     }
@@ -76,7 +78,7 @@ public class ImageController : ControllerBase
     /// - color: a hex color value to use as the background color of the generated images. If null, a best guess -- the color of pixel (0,0) -- will be used.
     /// </summary>
     /// <returns></returns>
-    [HttpPost("generateImagesZip")]
+    [HttpPost(GenerateIconsZip)]
     public async Task<ActionResult> Post([FromForm] ImageFormData Form)
     {
         var zipId = Guid.NewGuid();
@@ -93,7 +95,7 @@ public class ImageController : ControllerBase
 
             var profiles = GetProfilesFromPlatforms(args.Platforms);
             if (profiles == null)
-                throw new Exception(string.Format("No platforms found in config: {PLATFORMS}", args.Platforms != null? args.Platforms : "no param"));
+                throw new Exception(string.Format("No platforms found in config: {{PLATFORMS}}", args.Platforms != null? args.Platforms : "no param"));
 
             var imageStreams = new List<Stream>(profiles.Count);
 
@@ -130,30 +132,30 @@ public class ImageController : ControllerBase
             }
 
             // Send back a route to download the zip file.
-            var url = Url.RouteUrl(GetImagesZipById, new { id = zipId.ToString() });
+            var url = Url.RouteUrl(GetZipById, new { id = zipId.ToString() });
 
             if (url == null)
-                throw new Exception(string.Format("Couldn't generate RouteUrl for ID: {ID}", zipId.ToString()));
+                throw new Exception(string.Format("Couldn't generate RouteUrl for ID: {{ID}}", zipId.ToString()));
 
-            _logger.LogInformation("generateImagesZip: {PLATFORMS}",
-              args.Platforms != null ? args.Platforms : "no param");
+            _logger.LogInformation(string.Format("{{GenerateIconsZip}}: icons generated for platforms: {{PLATFORMS}}", GenerateIconsZip,
+              args.Platforms != null ? args.Platforms : "no param"));
 
             return new RedirectResult(url);
 
         }
         catch (OutOfMemoryException ex)
         {
-            _logger.LogError(ex, "generateImagesZip: Couldn't generate images due to exception");
+            _logger.LogError(ex, string.Format("{{GenerateIconsZip}}: Couldn't generate images due to exception" , GenerateIconsZip));
             return StatusCode((int)HttpStatusCode.UnsupportedMediaType, ex.ToString());
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "generateImagesZip: Couldn't generate images due to exception");
+            _logger.LogError(ex, string.Format("{{GenerateIconsZip}}: Couldn't generate images due to exception", GenerateIconsZip));
             return StatusCode((int)HttpStatusCode.InternalServerError, ex.ToString());
         }
     }
 
-    // Legacy wrapper for new generateImagesZip method
+    // Legacy wrapper for new generateIconsZip method
     [Obsolete]
     [HttpPost("image")]
     public async Task<ActionResult> LegacyGetGeneratedImagesZip([FromForm] ImageFormData Form)
@@ -164,6 +166,9 @@ public class ImageController : ControllerBase
             var responseMessage = new HttpResponseMessage(HttpStatusCode.Redirect);
             responseMessage.Content = new StringContent(JsonSerializer.Serialize(new ImageResponse { Uri = redirectResult.Url }));
 
+            HttpContext.Request.Form.TryGetValue("platform", out var platforms);
+            _logger.LogInformation(string.Format("legacyGenerateIconsZip: icons generated for platforms: {{PLATFORMS}}", platforms.ToString()));
+
             return new ObjectResult(new ImageResponse { Uri = redirectResult.Url });
         }
         else
@@ -171,13 +176,18 @@ public class ImageController : ControllerBase
             if (postResponse is ObjectResult redirectFail)
             {
                 if (postResponse.GetType().GetProperty("Value") != null && postResponse.GetType().GetProperty("StatusCode") != null)
-                return StatusCode((int)redirectFail.StatusCode!, redirectFail.Value!.ToString());
+                {
+                    _logger.LogError(redirectFail.Value?.ToString(), "legacyGenerateIconsZip: Couldn't generate images due to exception");
+                    return StatusCode((int)redirectFail.StatusCode!, redirectFail.Value!.ToString());
+                }
+                
             }
         }
+        _logger.LogError(null, "legacyGenerateIconsZip: Couldn't generate images due to exception");
         return StatusCode((int)HttpStatusCode.BadRequest);
     }
 
-    [HttpPost("generateBase64Images")]
+    [HttpPost("generateBase64Icons")]
     public ActionResult Base64([FromForm] ImageFormData Form)
     {
         try
@@ -190,7 +200,7 @@ public class ImageController : ControllerBase
 
             var profiles = GetProfilesFromPlatforms(args.Platforms);
             if (profiles == null)
-                throw new Exception(string.Format("No platforms found in config: {PLATFORMS}", args.Platforms != null ? args.Platforms : "no param"));
+                throw new Exception(string.Format("No platforms found in config: {{PLATFORMS}}", args.Platforms != null ? args.Platforms : "no param"));
 
             var imgs = profiles
                 .Select(profile => new WebManifestIcon
@@ -204,14 +214,14 @@ public class ImageController : ControllerBase
             var options = new JsonSerializerOptions { WriteIndented = true };
             var response = new ObjectResult(JsonSerializer.Serialize(imgs, options));
 
-            _logger.LogInformation("generateBase64Images: {PLATFORMS}",
-              args.Platforms != null ? args.Platforms : "no param");
+            _logger.LogInformation(string.Format("generateBase64Icons: icons generated for platforms: {{PLATFORMS}}",
+              args.Platforms != null ? args.Platforms : "no param"));
 
             return response;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "generateBase64Images: Couldn't generate images due to exception");
+            _logger.LogError(ex, "generateBase64Icons: Couldn't generate images due to exception");
             return StatusCode((int)HttpStatusCode.InternalServerError, ex.ToString());
         }
     }
