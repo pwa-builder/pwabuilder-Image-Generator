@@ -119,7 +119,7 @@ public class ImageController : ControllerBase
                     }
                 }
 
-                var options = new JsonSerializerOptions { WriteIndented = true };
+                var options = new JsonSerializerOptions { WriteIndented = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
                 var iconStr = JsonSerializer.Serialize(iconObject, options);
 
                 using (StreamWriter writer = new(zip.CreateEntry(FileIconsJsonName, CompressionLevel.Optimal).Open()))
