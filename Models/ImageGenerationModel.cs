@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using Microsoft.Extensions.Primitives;
 
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
@@ -186,25 +185,25 @@ namespace AppImageGenerator.Models
         {
             int adjustWidth;
             int adjustedHeight;
-            int paddingW;
-            int paddingH;
             var processedImage = inputImage.Clone(x => { });
 
             if (paddingProp > 0)
             {
-                paddingW = (int)(paddingProp * newWidth * 0.5);
-                adjustWidth = newWidth - paddingW;
-                paddingH = (int)(paddingProp * newHeight * 0.5);
-                adjustedHeight = newHeight - paddingH;
+                adjustWidth = newWidth - (int)(paddingProp * newWidth * 0.5);
+                adjustedHeight = newHeight - (int)(paddingProp * newHeight * 0.5);
             }
             else
             {
-                // paddingW = paddingH = 0;
                 adjustWidth = newWidth;
                 adjustedHeight = newHeight;
             }
 
-            processedImage.Mutate(x => x.Resize(Math.Min(adjustWidth, adjustedHeight), Math.Min(adjustWidth, adjustedHeight), KnownResamplers.Lanczos3));
+            processedImage.Mutate(x => x.Resize(new ResizeOptions
+            {
+                Size = new Size(adjustWidth, adjustedHeight),
+                Mode = ResizeMode.Pad,
+                Sampler = KnownResamplers.Lanczos3
+            }));
 
             if (backgroundColor != null)
             {
@@ -219,7 +218,8 @@ namespace AppImageGenerator.Models
                         Size = new Size(newWidth, newHeight),
                         Mode = ResizeMode.BoxPad,
                         PadColor = backgroundColor ?? Color.Transparent
-                    }));
+                    })
+                );
             }
 
             var outputImage = new MemoryStream();
