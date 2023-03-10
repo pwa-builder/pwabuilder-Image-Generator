@@ -118,7 +118,7 @@ namespace AppImageGenerator.Models
                     int paddingW;
                     int paddingH;
 
-                    if (paddingProp > 0) 
+                    if (paddingProp > 0)
                     {
                         paddingW = (int)(paddingProp * newWidth * 0.5);
                         adjustWidth = newWidth - paddingW;
@@ -132,12 +132,18 @@ namespace AppImageGenerator.Models
                         adjustedHeight = newHeight;
                     }
 
-                    // Conver and scale SVG to Image
-                    var svgMax = Math.Max(svg.Picture.CullRect.Height, svg.Picture.CullRect.Width);
+                    // Translate, scale and convert SVG to Image
+                    var svgWidth = svg.Picture.CullRect.Width;
+                    var svgHeight = svg.Picture.CullRect.Height;
+                    var svgMax = Math.Max(svgWidth, svgHeight);
                     var imageMin = Math.Min(adjustWidth, adjustedHeight);
                     var scale = imageMin / svgMax;
-                    var scaleMatrix = SKMatrix.CreateScale(scale, scale);
-                    var SkiaImage = SKImage.FromPicture(svg.Picture, new SKSizeI(imageMin, imageMin), scaleMatrix);
+                    var scaleMatrix = SKMatrix.CreateIdentity();
+                    SKMatrix.Concat(ref scaleMatrix,
+                                    SKMatrix.CreateTranslation(adjustWidth / 2 - svgWidth * scale / 2, adjustedHeight/2 - svgHeight * scale / 2),
+                                    SKMatrix.CreateScale(scale, scale));
+
+                    var SkiaImage = SKImage.FromPicture(svg.Picture, new SKSizeI(adjustWidth, adjustedHeight), scaleMatrix);
 
                     // Save the image to the stream in the specified format
                     var outputImage = new MemoryStream();
