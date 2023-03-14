@@ -1,6 +1,5 @@
 ﻿using System.IO.Compression;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Text.Json;
 
 using AppImageGenerator.Models;
@@ -16,10 +15,9 @@ using Microsoft.AspNetCore.Mvc;
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using ExCSS;
-using System.Net.Http;
 using System.Text.Json.Serialization;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace AppImageGenerator.Controllers;
 
@@ -158,9 +156,38 @@ public class ImageController : ControllerBase
     // Legacy wrapper for new generateIconsZip method
     [Obsolete]
     [HttpPost("image")]
-    public async Task<ActionResult> LegacyGetGeneratedImagesZip([FromForm] ImageFormData Form)
+    public async Task<ActionResult> LegacyGetGeneratedImagesZip([FromForm] MultipartFormDataContent Form)
     {
-        var postResponse = await Post(Form);
+        var formData = new ImageFormData();
+
+        // Convert from MultipartFormDataContent to ImageFormData
+        if (Request.Form.Files.Count > 0)
+        {
+            formData.FileName = Request.Form.Files[0];
+        }
+        if (Request.Form.TryGetValue("Platform", out var platformValue))
+        {
+            if (Enum.TryParse<Platform>(platformValue, out var platform))
+            {
+                formData.Platform = platform;
+            }
+        }
+        if (Request.Form.TryGetValue("Padding", out var padding))
+        {
+            formData.Padding = padding;
+        }
+        if (Request.Form.TryGetValue("Color", out var color))
+        {
+            formData.Color = color;
+        }
+
+        if (formData.FileName == null)
+        {
+            _logger.LogError(null, "legacyGenerateIconsZip: Couldn't generate images due to bad FormData");
+            return StatusCode((int)HttpStatusCode.BadRequest);
+        }
+
+        var postResponse = await Post(formData);
         if (postResponse is RedirectResult redirectResult)
         {
             var responseMessage = new HttpResponseMessage(HttpStatusCode.Redirect);
@@ -180,7 +207,7 @@ public class ImageController : ControllerBase
                     _logger.LogError(redirectFail.Value?.ToString(), "legacyGenerateIconsZip: Couldn't generate images due to exception");
                     return StatusCode((int)redirectFail.StatusCode!, redirectFail.Value!.ToString());
                 }
-                
+
             }
         }
         _logger.LogError(null, "legacyGenerateIconsZip: Couldn't generate images due to exception");
