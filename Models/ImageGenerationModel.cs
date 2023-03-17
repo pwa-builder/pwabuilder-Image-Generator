@@ -48,7 +48,7 @@ namespace AppImageGenerator.Models
             // Validate platforms.
             form.TryGetValue("platform", out var platforms);
 
-            if (platforms.Count <= 0)
+            if (platforms.Count < 1)
             {
                 return new ImageGenerationModel
                 {
