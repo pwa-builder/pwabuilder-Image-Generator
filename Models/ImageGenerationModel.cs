@@ -140,7 +140,8 @@ namespace AppImageGenerator.Models
                     var scale = imageMin / svgMax;
                     var scaleMatrix = SKMatrix.CreateIdentity();
                     SKMatrix.Concat(ref scaleMatrix,
-                                    SKMatrix.CreateTranslation(adjustWidth / 2 - svgWidth * scale / 2, adjustedHeight/2 - svgHeight * scale / 2),
+                                    SKMatrix.CreateTranslation((adjustWidth - svgWidth * scale) / 2 , (adjustedHeight - svgHeight * scale) / 2),
+
                                     SKMatrix.CreateScale(scale, scale));
 
                     var SkiaImage = SKImage.FromPicture(svg.Picture, new SKSizeI(adjustWidth, adjustedHeight), scaleMatrix);
