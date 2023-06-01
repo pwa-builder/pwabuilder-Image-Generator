@@ -3,7 +3,7 @@ Please use our [main repository for any issues/bugs/features suggestion](https:/
 # App Image Generator
 A web tool that generates images for various app platforms. Used by PWABuilder.com.
 
-See a version of the website at [http://appimagegenerator-prod.azurewebsites.net/](http://appimagegenerator-prod.azurewebsites.net/).
+See a version of the website at [http://appimagegenerator-prod.azurewebsites.net](http://appimagegenerator-prod.azurewebsites.net/swagger/index.html).
 
 Written in C# and .NET 7.0.0
 

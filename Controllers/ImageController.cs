@@ -141,15 +141,15 @@ public class ImageController : ControllerBase
             return new RedirectResult(url);
 
         }
-        catch (OutOfMemoryException ex)
-        {
-            _logger.LogError(ex, string.Format("{{GenerateIconsZip}}: Couldn't generate images due to exception" , GenerateIconsZip));
-            return StatusCode((int)HttpStatusCode.UnsupportedMediaType, ex.ToString());
-        }
+        //catch (OutOfMemoryException ex)
+        //{
+        //    _logger.LogError(ex, string.Format("{{GenerateIconsZip}}: Couldn't generate images due to exception" , GenerateIconsZip));
+        //    return StatusCode((int)HttpStatusCode.UnsupportedMediaType, ex.ToString());
+        //}
         catch (Exception ex)
         {
             _logger.LogError(ex, string.Format("{{GenerateIconsZip}}: Couldn't generate images due to exception", GenerateIconsZip));
-            return StatusCode((int)HttpStatusCode.InternalServerError, ex.ToString());
+            return StatusCode((int)HttpStatusCode.UnsupportedMediaType, ex.ToString());
         }
     }
 
