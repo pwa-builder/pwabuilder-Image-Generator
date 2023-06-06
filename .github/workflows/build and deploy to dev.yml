@@ -1,13 +1,15 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - appimagegenerator-prod
+name: Build and deploy appimagegenerator-prod to dev slot
 
 on:
   push:
     branches:
-      - debug
-  workflow_dispatch:
+      - dev
+  pull_request:
+    branches:
+      - dev
 
 jobs:
   build:
