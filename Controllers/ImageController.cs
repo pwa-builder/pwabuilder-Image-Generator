@@ -62,8 +62,16 @@ public class ImageController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, string.Format("{{GetZipById}}: Couldn't get generated zip due to exception", GetZipById));
-            return StatusCode((int)HttpStatusCode.InternalServerError, ex.ToString());
+            if (ex.Message.StartsWith("Could not find file"))
+            {
+                _logger.LogError(ex, string.Format("{{GetZipById}}: Couldn't find file", GetZipById));
+                return StatusCode((int)HttpStatusCode.NotFound, ex.ToString());
+            }
+            else {
+                _logger.LogError(ex, string.Format("{{GetZipById}}: Couldn't get generated zip due to exception", GetZipById));
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.ToString());
+            }
+            
         }
     }
 

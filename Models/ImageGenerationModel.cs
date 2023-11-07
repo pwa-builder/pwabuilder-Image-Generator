@@ -1,8 +1,6 @@
 ﻿using System.Globalization;
 
-using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp.Processing;
 using SkiaSharp;
 using SKSvg = Svg.Skia.SKSvg;
 
