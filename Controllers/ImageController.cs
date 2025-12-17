@@ -60,18 +60,16 @@ public class ImageController : ControllerBase
 
             return archive;
         }
+        catch (FileNotFoundException ex)
+        {
+            _logger.LogError(ex, "File not found for ID: {Id}", id);
+            return NotFound(new { error = "Requested file not found" });
+        }
         catch (Exception ex)
         {
-            if (ex.Message.StartsWith("Could not find file"))
-            {
-                _logger.LogError(ex, string.Format("{{GetZipById}}: Couldn't find file", GetZipById));
-                return StatusCode((int)HttpStatusCode.NotFound, ex.ToString());
-            }
-            else {
-                _logger.LogError(ex, string.Format("{{GetZipById}}: Couldn't get generated zip due to exception", GetZipById));
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.ToString());
-            }
-            
+            _logger.LogError(ex, "Error retrieving zip file for ID: {Id}", id);
+            return StatusCode((int)HttpStatusCode.InternalServerError, 
+                new { error = "Unable to process request" });
         }
     }
 
@@ -96,12 +94,16 @@ public class ImageController : ControllerBase
             // Punt if we have invalid arguments.
             if (!string.IsNullOrEmpty(args.ErrorMessage))
             {
-                return new ObjectResult(args.ErrorMessage) { StatusCode = (int?)HttpStatusCode.BadRequest };
+                return BadRequest(new { error = args.ErrorMessage });
             }
 
             var profiles = GetProfilesFromPlatforms(args.Platforms);
             if (profiles == null)
-                throw new Exception(string.Format("No platforms found in config: {{PLATFORMS}}", args.Platforms != null? args.Platforms : "no param"));
+            {
+                _logger.LogError("No platforms found in config for platforms: {Platforms}", 
+                    args.Platforms != null ? string.Join(", ", args.Platforms) : "no param");
+                return BadRequest(new { error = "Invalid platform specified" });
+            }
 
             var imageStreams = new List<Stream>(profiles.Count);
 
@@ -141,23 +143,33 @@ public class ImageController : ControllerBase
             var url = Url.RouteUrl(GetZipById, new { id = zipId.ToString() });
 
             if (url == null)
-                throw new Exception(string.Format("Couldn't generate RouteUrl for ID: {{ID}}", zipId.ToString()));
+            {
+                _logger.LogError("Couldn't generate RouteUrl for ID: {Id}", zipId.ToString());
+                return StatusCode((int)HttpStatusCode.InternalServerError, 
+                    new { error = "Unable to generate download link" });
+            }
 
-            _logger.LogInformation(string.Format("{{GenerateIconsZip}}: icons generated for platforms: {{PLATFORMS}}", GenerateIconsZip,
-              args.Platforms != null ? args.Platforms : "no param"));
+            _logger.LogInformation("Icons generated for platforms: {Platforms}", 
+                args.Platforms != null ? string.Join(", ", args.Platforms) : "no param");
 
             return new RedirectResult(url);
-
         }
-        //catch (OutOfMemoryException ex)
-        //{
-        //    _logger.LogError(ex, string.Format("{{GenerateIconsZip}}: Couldn't generate images due to exception" , GenerateIconsZip));
-        //    return StatusCode((int)HttpStatusCode.UnsupportedMediaType, ex.ToString());
-        //}
+        catch (ArgumentException ex)
+        {
+            _logger.LogError(ex, "Invalid arguments provided for image generation");
+            return BadRequest(new { error = "Invalid input parameters" });
+        }
+        catch (IOException ex)
+        {
+            _logger.LogError(ex, "File system error during image generation");
+            return StatusCode((int)HttpStatusCode.InternalServerError, 
+                new { error = "File processing error" });
+        }
         catch (Exception ex)
         {
-            _logger.LogError(ex, string.Format("{{GenerateIconsZip}}: Couldn't generate images due to exception", GenerateIconsZip));
-            return StatusCode((int)HttpStatusCode.UnsupportedMediaType, ex.ToString());
+            _logger.LogError(ex, "Unexpected error during image generation");
+            return StatusCode((int)HttpStatusCode.InternalServerError, 
+                new { error = "Unable to process image generation request" });
         }
     }
 
@@ -191,8 +203,8 @@ public class ImageController : ControllerBase
 
         if (formData.FileName == null)
         {
-            _logger.LogError(null, "legacyGenerateIconsZip: Couldn't generate images due to bad FormData");
-            return StatusCode((int)HttpStatusCode.BadRequest);
+            _logger.LogError("Bad FormData provided to legacy endpoint");
+            return BadRequest(new { error = "Invalid form data" });
         }
 
         var postResponse = await Post(formData);
@@ -202,24 +214,19 @@ public class ImageController : ControllerBase
             responseMessage.Content = new StringContent(JsonSerializer.Serialize(new ImageResponse { Uri = redirectResult.Url }));
 
             HttpContext.Request.Form.TryGetValue("platform", out var platforms);
-            _logger.LogInformation(string.Format("legacyGenerateIconsZip: icons generated for platforms: {{PLATFORMS}}", platforms.ToString()));
+            _logger.LogInformation("Legacy: icons generated for platforms: {Platforms}", platforms.ToString());
 
             return new ObjectResult(new ImageResponse { Uri = redirectResult.Url });
         }
-        else
+        else if (postResponse is ObjectResult objectResult)
         {
-            if (postResponse is ObjectResult redirectFail)
-            {
-                if (postResponse.GetType().GetProperty("Value") != null && postResponse.GetType().GetProperty("StatusCode") != null)
-                {
-                    _logger.LogError(redirectFail.Value?.ToString(), "legacyGenerateIconsZip: Couldn't generate images due to exception");
-                    return StatusCode((int)redirectFail.StatusCode!, redirectFail.Value!.ToString());
-                }
-
-            }
+            _logger.LogError("Legacy endpoint failed with status: {StatusCode}", objectResult.StatusCode);
+            return StatusCode(objectResult.StatusCode ?? (int)HttpStatusCode.BadRequest, 
+                new { error = "Unable to process legacy request" });
         }
-        _logger.LogError(null, "legacyGenerateIconsZip: Couldn't generate images due to exception");
-        return StatusCode((int)HttpStatusCode.BadRequest);
+        
+        _logger.LogError("Legacy endpoint failed with unknown error");
+        return BadRequest(new { error = "Unable to process request" });
     }
 
     [HttpPost("generateBase64Icons")]
@@ -230,12 +237,16 @@ public class ImageController : ControllerBase
             using var args = ImageGenerationModel.FromFormData(HttpContext.Request.Form, HttpContext.Request.Form.Files);
             if (!string.IsNullOrEmpty(args.ErrorMessage))
             {
-                return new ObjectResult(args.ErrorMessage) { StatusCode = (int?)HttpStatusCode.BadRequest };
+                return BadRequest(new { error = args.ErrorMessage });
             }
 
             var profiles = GetProfilesFromPlatforms(args.Platforms);
             if (profiles == null)
-                throw new Exception(string.Format("No platforms found in config: {{PLATFORMS}}", args.Platforms != null ? args.Platforms : "no param"));
+            {
+                _logger.LogError("No platforms found in config for platforms: {Platforms}", 
+                    args.Platforms != null ? string.Join(", ", args.Platforms) : "no param");
+                return BadRequest(new { error = "Invalid platform specified" });
+            }
 
             var imgs = profiles
                 .Select(profile => new WebManifestIcon
@@ -249,15 +260,21 @@ public class ImageController : ControllerBase
             var options = new JsonSerializerOptions { WriteIndented = true };
             var response = new ObjectResult(JsonSerializer.Serialize(imgs, options));
 
-            _logger.LogInformation(string.Format("generateBase64Icons: icons generated for platforms: {{PLATFORMS}}",
-              args.Platforms != null ? args.Platforms : "no param"));
+            _logger.LogInformation("Base64 icons generated for platforms: {Platforms}",
+                args.Platforms != null ? string.Join(", ", args.Platforms) : "no param");
 
             return response;
         }
+        catch (ArgumentException ex)
+        {
+            _logger.LogError(ex, "Invalid arguments for base64 image generation");
+            return BadRequest(new { error = "Invalid input parameters" });
+        }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "generateBase64Icons: Couldn't generate images due to exception");
-            return StatusCode((int)HttpStatusCode.InternalServerError, ex.ToString());
+            _logger.LogError(ex, "Error generating base64 images");
+            return StatusCode((int)HttpStatusCode.InternalServerError, 
+                new { error = "Unable to generate base64 images" });
         }
     }
 

@@ -28,6 +28,40 @@ builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
 
 var app = builder.Build();
 
+// Configure error handling - don't show detailed errors in production
+if (!app.Environment.IsDevelopment())
+{
+    // The default HSTS value is 30 days. You may want to change this for production scenarios.
+    app.UseHsts();
+}
+
+// Add custom error handling middleware for API endpoints
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next();
+    }
+    catch (Exception ex)
+    {
+        var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Unhandled exception occurred");
+
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "application/json";
+
+        var errorResponse = new
+        {
+            error = "An internal server error occurred",
+            message = app.Environment.IsDevelopment() 
+                ? ex.Message 
+                : "Please contact support if the problem persists"
+        };
+
+        await context.Response.WriteAsync(JsonSerializer.Serialize(errorResponse));
+    }
+});
+
 // app.UseHttpsRedirection();
 
 app.UseAuthorization();
