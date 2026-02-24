@@ -1,3 +1,7 @@
+# Archived
+
+This repo has been archived, as the code has been migrated to the [main PWABuilder repo](https://github.com/pwa-builder/PWABuilder/blob/fbc7ea4953d68cb2c8a5a73380a19588e6965040/apps/pwabuilder/Controllers/ImagesController.cs#L83)
+
 Please use our [main repository for any issues/bugs/features suggestion](https://github.com/pwa-builder/PWABuilder/issues/new/choose).
 
 # App Image Generator
